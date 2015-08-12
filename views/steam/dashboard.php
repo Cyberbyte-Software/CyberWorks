@@ -5,7 +5,10 @@
         </h1>
     </div>
 </div>
-<?php if (isset($message)) echo '<div class="alert alert-info" role="alert">' . $message . '</div>'; ?>
+<?php if (isset($message)) {
+    echo '<div class="alert alert-info" role="alert">' . $message . '</div>';
+}
+?>
 
 <div class="row mt mb">
   <div class="col-md-12">
@@ -18,12 +21,12 @@
 			  <div class="task-content">
 				  <ul id="sortable" class="task-list ui-sortable">
 <?php
-	$sql = "SELECT `sid`,`dbid`,`type`,`name` FROM `servers`;";
-	$result_of_query = $db_connection->query($sql);
+    $sql = "SELECT `sid`,`dbid`,`type`,`name` FROM `servers`;";
+    $result_of_query = $db_connection->query($sql);
 
-	if ($result_of_query->num_rows >= 1) {
-		while ($row = mysqli_fetch_assoc($result_of_query)) {
-			if ($row['type'] == 'life'){ ?>
+    if ($result_of_query->num_rows >= 1) {
+        while ($row = mysqli_fetch_assoc($result_of_query)) {
+            if ($row['type'] == 'life'){ ?>
 						<li class="list-primary">
 							<i class=" fa fa-ellipsis-v"></i>
 							<div class="task-title">
@@ -38,7 +41,7 @@
 								</div>
 							</div>
 						</li>
-			<?php }elseif ($row['type'] == 'waste'){ ?>
+			<?php }elseif ($row['type'] == 'waste') { ?>
 						<li class="list-danger">
 							<i class=" fa fa-ellipsis-v"></i>
 							<div class="task-title">
@@ -53,10 +56,10 @@
 							</div>
 						</li>
 <?php
-			}
-		}
-		echo '</select>';
-	}
+            }
+        }
+        echo '</select>';
+    }
 ?>
 				  </ul>
 			  </div>

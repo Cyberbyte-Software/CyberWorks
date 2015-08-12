@@ -1,11 +1,11 @@
 <?php
-if (isset($_POST['server_name']) && isset($_POST['server_type']) && isset($_POST['server_dbid']) && isset($_POST['server_SQ']) ) {
+if (isset($_POST['server_name']) && isset($_POST['server_type']) && isset($_POST['server_dbid']) && isset($_POST['server_SQ'])) {
     if (formtoken::validateToken($_POST)) {
         $dbid = $_POST['server_dbid'];
         if ($dbid == 'none') {
             $server_type = 'life';
 
-            $sql = "INSERT INTO `db` (`type`, `sql_host`, `sql_user`, `sql_pass`, `sql_name`) VALUES ('" . $server_type . "', '" . $settings['db']['host'] . "', '" . $settings['db']['user'] . "', '" .  $settings['db']['pass'] . "', '" . $settings['db']['name'] . "');";
+            $sql = "INSERT INTO `db` (`type`, `sql_host`, `sql_user`, `sql_pass`, `sql_name`) VALUES ('" . $server_type . "', '" . $settings['db']['host'] . "', '" . $settings['db']['user'] . "', '" . $settings['db']['pass'] . "', '" . $settings['db']['name'] . "');";
             $result_of_query = $db_connection->query($sql);
 
             $sql = "SELECT `dbid` FROM `db` WHERE `sql_name` = '" . $SQL_name . "';";
@@ -36,8 +36,10 @@ if (isset($_POST['server_name']) && isset($_POST['server_type']) && isset($_POST
 
         $result_of_query = $db_connection->query($sql);
         message("Added New Server!");
-    } else message($lang['expired']);
-}
+    } else {
+        message($lang['expired']);
+    }
+    }
 ?>
 <div id="login-page">
     <div class="col-lg-10 container">
@@ -49,7 +51,8 @@ if (isset($_POST['server_name']) && isset($_POST['server_type']) && isset($_POST
             <div class="form-group">
                 <label for="server_name">Server Name: </label>
                 <input placeholder="Server Name" id="server_name" class=" form-control login_input" type="text" name="server_name"
-                    <?php if (isset($_POST['server_name'])) echo 'value="' . $_POST['server_name'] . '"' ?>
+                    <?php if (isset($_POST['server_name'])) {
+    echo 'value="' . $_POST['server_name'] . '"' ?>
                        autocorrect="off" required>
                 </div>
                 <div class="form-group">
@@ -89,6 +92,7 @@ if (isset($_POST['server_name']) && isset($_POST['server_type']) && isset($_POST
                             </div>
                             <?php
                 $sql = "SELECT `dbid`,`sql_name` FROM `db`;";
+}
                 $result_of_query = $db_connection->query($sql);
                 if ($result_of_query->num_rows >= 1) {
                     echo '<div class="form-group"><label for="server_dbid">Database: </label>';

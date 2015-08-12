@@ -25,6 +25,9 @@ use xPaw\SourceQuery\Exception\SocketException;
 		 */
 		private $Buffer;
 		
+		/**
+		 * @param SourceQueryBuffer $Buffer
+		 */
 		public function __construct( $Buffer )
 		{
 			$this->Buffer = $Buffer;
@@ -40,6 +43,12 @@ use xPaw\SourceQuery\Exception\SocketException;
 			}
 		}
 		
+		/**
+		 * @param string $Ip
+		 * @param integer $Port
+		 * @param integer $Timeout
+		 * @param integer $Engine
+		 */
 		public function Open( $Ip, $Port, $Timeout, $Engine )
 		{
 			$this->Timeout = $Timeout;
@@ -80,11 +89,11 @@ use xPaw\SourceQuery\Exception\SocketException;
 			
 			$Header = $this->Buffer->GetLong( );
 			
-			if( $Header === -1 ) // Single packet
+			if ($Header === -1) // Single packet
 			{
 				 // We don't have to do anything
 			}
-			else if( $Header === -2 ) // Split packet
+			else if ($Header === -2) // Split packet
 			{
 				$Packets      = Array( );
 				$IsCompressed = false;
@@ -94,7 +103,7 @@ use xPaw\SourceQuery\Exception\SocketException;
 				{
 					$RequestID = $this->Buffer->GetLong( );
 					
-					switch( $this->Engine )
+					switch ($this->Engine)
 					{
 						case SourceQuery :: GOLDSOURCE:
 						{
@@ -106,17 +115,16 @@ use xPaw\SourceQuery\Exception\SocketException;
 						}
 						case SourceQuery :: SOURCE:
 						{
-							$IsCompressed         = ( $RequestID & 0x80000000 ) !== 0;
+							$IsCompressed         = ($RequestID & 0x80000000) !== 0;
 							$PacketCount          = $this->Buffer->GetByte( );
 							$PacketNumber         = $this->Buffer->GetByte( ) + 1;
 							
-							if( $IsCompressed )
+							if ($IsCompressed)
 							{
 								$this->Buffer->GetLong( ); // Split size
 								
 								$PacketChecksum = $this->Buffer->GetUnsignedLong( );
-							}
-							else
+							} else
 							{
 								$this->Buffer->GetShort( ); // Split size
 							}
@@ -151,13 +159,15 @@ use xPaw\SourceQuery\Exception\SocketException;
 				}
 				
 				$this->Buffer->Set( SubStr( $Buffer, 4 ) );
-			}
-			else
+			} else
 			{
 				throw new InvalidPacketException( 'Socket read: Raw packet header mismatch. (0x' . DecHex( $Header ) . ')', InvalidPacketException::PACKET_HEADER_MISMATCH);
 			}
 		}
 		
+		/**
+		 * @param integer $Length
+		 */
 		private function Sherlock( $Length )
 		{
 			$Data = FRead( $this->Socket, $Length );

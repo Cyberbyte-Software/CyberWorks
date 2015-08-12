@@ -1,9 +1,9 @@
 <?php
 require_once("gfunctions.php");
 /**
- * Class login
- * handles the user's login and logout process
- */
+     * Class login
+     * handles the user's login and logout process
+     */
 class Login
 {
     /**
@@ -44,7 +44,9 @@ class Login
     public function doLogout()
     {
         // delete the session of the user
-        if (isset($_SESSION['user_name'])) logAction($_SESSION['user_name'], 'Logged Out', 1);
+        if (isset($_SESSION['user_name'])) {
+            logAction($_SESSION['user_name'], 'Logged Out', 1);
+        }
         $_SESSION = array();
         //session_destroy();
         SessionManager:: regenerateSession();
@@ -67,8 +69,11 @@ class Login
             $this->errors[] = "Password field was empty.";
         } elseif (!empty($_POST['user_name']) && !empty($_POST['user_password'])) {
 
-            if (isset($settings['db']['port'])) $this->db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']), decrypt($settings['db']['port']));
-            else $this->db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']));
+            if (isset($settings['db']['port'])) {
+                $this->db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']), decrypt($settings['db']['port']));
+            } else {
+                $this->db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']));
+            }
 
             // change character set to utf8 and check it
             if (!$this->db_connection->set_charset("utf8")) {
@@ -105,15 +110,17 @@ class Login
                                 if ($verify->version > floatval($settings['version'])) $_SESSION['update'] = true;
                                 $_SESSION['2factor'] = 0;
                                 if (!empty($result_row->twoFactor)) {
-                                  if ($settings['2factor']) $_SESSION['2factor'] = 1; else {
+                                    if ($settings['2factor']) $_SESSION['2factor'] = 1; else {
                                     $sql = "UPDATE `users` SET `backup`=NULL,`twoFactor`=NULL WHERE `userid` = '".$result_row->user_id."';";
                                     $this->db_connection->query($sql);
                                     $this->errors[] = $lang['2factorForceRevoke'];
-                                  }
+                                    }
                                 }
 
                                 if (isset($_COOKIE['token']) && !empty($result_row->token)) {
-                                    if (decrypt($result_row->token) == $_COOKIE['token']) $_SESSION['2factor'] = 2;
+                                    if (decrypt($result_row->token) == $_COOKIE['token']) {
+                                        $_SESSION['2factor'] = 2;
+                                    }
                                 }
                                 $_SESSION['sudo'] = time();
                                 $_SESSION['message'] = $verify;
@@ -123,7 +130,7 @@ class Login
                                 $_SESSION['user_email'] = $result_row->user_email;
                                 $_SESSION['playerid'] = $result_row->playerid;
                                 $_SESSION['user_id'] = $result_row->user_id;
-    							$_SESSION['permissions'] = json_decode($result_row->permissions,true);
+                                $_SESSION['permissions'] = json_decode($result_row->permissions,true);
                                 if(isset($result_row->items))$_SESSION['items'] = $result_row->items; else $_SESSION['items'] = $settings['items'];
                                 if(isset($_POST['lang'])) {
                                     setcookie('lang', $_POST['lang'], time() + (3600 * 24 * 30));
@@ -135,7 +142,11 @@ class Login
                                 multiDB();
                                 logAction($_SESSION['user_name'], 'Successful Login (' . $_SERVER['REMOTE_ADDR'] . ')', 2);
                             } else {
-                                if (isset($verify->message)) $this->errors[] = $verify->message; else $this->errors[] = "Verifcation Failed";
+                                if (isset($verify->message)) {
+                                    $this->errors[] = $verify->message;
+                                } else {
+                                    $this->errors[] = "Verifcation Failed";
+                                }
                             }
                         } else {
                             $this->errors[] = "User is banned.";

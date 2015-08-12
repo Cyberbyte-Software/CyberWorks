@@ -26,9 +26,13 @@ if (isset($_POST['db_host'])) {
 
             file_put_contents('config/settings.php', '<?php return ' . var_export($settings, true) . ';');
             var_dump($settings['allowLang']);
-        } else logAction($_SESSION['user_name'], $lang['failedUpdate'] . ' ' . $lang['server'] . ' ' . $lang['settings'], 3);
-    } else message($lang['expired']);
-}
+        } else {
+            logAction($_SESSION['user_name'], $lang['failedUpdate'] . ' ' . $lang['server'] . ' ' . $lang['settings'], 3);
+        }
+    } else {
+        message($lang['expired']);
+    }
+    }
 
 ?>
 
@@ -61,10 +65,10 @@ if (isset($_POST['db_host'])) {
     <div class='form-group'><label for="language"><?php echo $lang['language'] ?>: </label>
         <select name="language" id="language" class="form-control">
             <?php
-            foreach($settings['installedLanguage'] as $language) {
-                echo '<option value = "'.$language[1].'" ';
+            foreach ($settings['installedLanguage'] as $language) {
+                echo '<option value = "' . $language[1] . '" ';
                 if ($settings['language'] == $language[1]) echo 'selected';
-                echo '> '.$language[0].'</option>';
+                echo '> ' . $language[0] . '</option>';
             } ?>
         </select></div>
 
@@ -111,7 +115,7 @@ if (isset($_POST['db_host'])) {
         <option value="true"<?php echo select(true, $settings['notifications']) . '>' . $lang['yes'] ?></option>
         <option value="false"<?php echo select(false, $settings['notifications']) . '>' . $lang['no'] ?></option>
     </select></div>
-    <?php echo "<div class='form-group'><label for='refresh'>" . $lang['refresh'] .": </label><input class='form-control' id='refresh' type='number' name='refresh' value='" . $settings['refresh'] . "'></div>"; ?>
+    <?php echo "<div class='form-group'><label for='refresh'>" . $lang['refresh'] . ": </label><input class='form-control' id='refresh' type='number' name='refresh' value='" . $settings['refresh'] . "'></div>"; ?>
 </div>
 <div class="col-md-6">
     <h3>Altis Life</h3>
@@ -163,10 +167,10 @@ if (isset($_POST['db_host'])) {
     <span class='input-group-btn'><button style='margin-top: 23px;' class='btn btn-default reveal' type='button'><i class='fa fa-eye-slash'></i></button></span></div>
 
     <?php
-    if (!isset($pluginSettings)) echo '<h3>'. $lang['plugin'] .' '. $lang['settings'] .'</h3>';
+    if (!isset($pluginSettings)) echo '<h3>' . $lang['plugin'] . ' ' . $lang['settings'] . '</h3>';
     foreach ($settings['plugins'] as &$plugin) {
-        if (file_exists("plugins/". $plugin. "/settings.php")){
-            include("plugins/". $plugin."/settings.php");
+        if (file_exists("plugins/" . $plugin . "/settings.php")) {
+            include("plugins/" . $plugin . "/settings.php");
         }
     }
     ?>

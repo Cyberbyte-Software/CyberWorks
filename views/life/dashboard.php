@@ -1,7 +1,7 @@
 <?php
 $db_link = serverConnect();
 
-if($_SESSION['user_level'] >= 2) {
+if ($_SESSION['user_level'] >= 2) {
 ?>
 
 <div class="row">
@@ -11,7 +11,7 @@ if($_SESSION['user_level'] >= 2) {
         </h1>
     </div>
 </div>
-<?php if (isset($_SESSION['update'])) echo '<div class="alert alert-info" role="alert">' . $land['updateMessage'] . ' ('. $_SESSION['message']->version .')</div>'; ?>
+<?php if (isset($_SESSION['update'])) echo '<div class="alert alert-info" role="alert">' . $land['updateMessage'] . ' (' . $_SESSION['message']->version . ')</div>'; ?>
 <div class="row">
     <div class="col-lg-4">
         <div class="content-panel">
