@@ -22,22 +22,22 @@ function decrypt($text, $salt)
 }
 
 if (isset($_POST['user_name'])) {
-    $last = str_replace(strrchr($_SERVER['REQUEST_URI'], '/'), '', $_SERVER['REQUEST_URI']).'/';
-    $settings['url'] = 'http://'.$_SERVER['HTTP_HOST'].$last;
-    $base = substr($last,1);
-    $settings['base'] = substr_count($settings['url'],"/")-2;
+    $last = str_replace(strrchr($_SERVER['REQUEST_URI'], '/'), '', $_SERVER['REQUEST_URI']) . '/';
+    $settings['url'] = 'http://' . $_SERVER['HTTP_HOST'] . $last;
+    $base = substr($last, 1);
+    $settings['base'] = substr_count($settings['url'], "/") - 2;
     
     $hta = 'RewriteEngine On\n
-RewriteBase '.$base.'\n
+RewriteBase '.$base . '\n
 RewriteCond %{REQUEST_FILENAME} !-f\n
-RewriteRule . '.$base.'index.php [L]\n';
+RewriteRule . '.$base . 'index.php [L]\n';
 
     $htaccess = fopen(".htaccess", "w") or die("Unable to make .htaccess");
     fwrite($htaccess, $hta);
     fclose($htaccess);
 
-    if (isset($_POST['user_pid'])) $verify = str_replace (" ","%20",'http://cyberbyte.org.uk/hooks/cyberworks/getid.php?url='.$settings['url'].'&name='.$_POST['community_name'].'&pid='.$_POST['user_pid']);
-    else $verify = str_replace (" ","%20",'http://cyberbyte.org.uk/hooks/cyberworks/getid.php?url='.$settings['url'].'&name='.$_POST['community_name']);
+    if (isset($_POST['user_pid'])) $verify = str_replace(" ", "%20", 'http://cyberbyte.org.uk/hooks/cyberworks/getid.php?url=' . $settings['url'] . '&name=' . $_POST['community_name'] . '&pid=' . $_POST['user_pid']);
+    else $verify = str_replace(" ", "%20", 'http://cyberbyte.org.uk/hooks/cyberworks/getid.php?url=' . $settings['url'] . '&name=' . $_POST['community_name']);
     $verify = json_decode(file_get_contents($verify));
 
     if (isset($verify->id)) {
@@ -63,11 +63,13 @@ RewriteRule . '.$base.'index.php [L]\n';
         }
 
         $server_SQL_host = $_POST['server_SQL_host'];
-        if(strpos($server_SQL_host,":")) {
+        if (strpos($server_SQL_host, ":")) {
             $SQL_ip = explode(":", $server_SQL_host);
             $settings['db']['host'] = encrypt($SQL_ip['0'], $settings['key']);
             $settings['db']['port'] = encrypt($SQL_ip['1'], $settings['key']);
-        } else $settings['db']['host'] = encrypt($server_SQL_host, $settings['key']);
+        } else {
+            $settings['db']['host'] = encrypt($server_SQL_host, $settings['key']);
+        }
 
         $server_SQL_user = $_POST['server_SQL_user'];
         $server_SQL_pass = $_POST['server_SQL_pass'];
@@ -118,9 +120,9 @@ RewriteRule . '.$base.'index.php [L]\n';
         array_push($settings['installedLanguage'], $lang);
 
         $settings['names'] = array('', 'Dave', 'Sam', 'Joe', 'Kerry', 'Connie', 'Jess');
-    	$settings['ranks'] = array('Banned','Player','Member','Moderator','Server Admin','Super Admin');
+        $settings['ranks'] = array('Banned','Player','Member','Moderator','Server Admin','Super Admin');
 
-    	$permissions = include 'config/permissions.php';
+        $permissions = include 'config/permissions.php';
         $userPerms = json_encode($permissions['5']);
 
         $link = mysqli_connect($server_SQL_host,$server_SQL_user,$server_SQL_pass,$server_SQL_name);
@@ -134,19 +136,29 @@ RewriteRule . '.$base.'index.php [L]\n';
         mysqli_query($link, "USE `" . $server_SQL_name . "`;") or die('LINK: ' . mysqli_error($link));
 
         $query = mysqli_query($link, "SHOW TABLES LIKE 'users'") or die('TEST 1: ' . mysqli_error($link));
-        if (mysqli_num_rows($query) == 1) mysqli_query($link, "DROP TABLE `users`") or die('DROP 1: ' . mysqli_error($link));
+        if (mysqli_num_rows($query) == 1) {
+            mysqli_query($link, "DROP TABLE `users`") or die('DROP 1: ' . mysqli_error($link));
+        }
 
         $query = mysqli_query($link, "SHOW TABLES LIKE 'notes'") or die('TEST 2: ' . mysqli_error($link));
-        if (mysqli_num_rows($query) == 1) mysqli_query($link, "DROP TABLE `notes`") or die('DROP 2: ' . mysqli_error($link));
+        if (mysqli_num_rows($query) == 1) {
+            mysqli_query($link, "DROP TABLE `notes`") or die('DROP 2: ' . mysqli_error($link));
+        }
 
         $query = mysqli_query($link, "SHOW TABLES LIKE 'db'") or die('TEST 3: ' . mysqli_error($link));
-        if (mysqli_num_rows($query) == 1) mysqli_query($link, "DROP TABLE `db`") or die('DROP 3: ' . mysqli_error($link));
+        if (mysqli_num_rows($query) == 1) {
+            mysqli_query($link, "DROP TABLE `db`") or die('DROP 3: ' . mysqli_error($link));
+        }
 
         $query = mysqli_query($link, "SHOW TABLES LIKE 'servers'") or die('TEST 4: ' . mysqli_error($link));
-        if (mysqli_num_rows($query) == 1) mysqli_query($link, "DROP TABLE `servers`") or die('DROP 4: ' . mysqli_error($link));
+        if (mysqli_num_rows($query) == 1) {
+            mysqli_query($link, "DROP TABLE `servers`") or die('DROP 4: ' . mysqli_error($link));
+        }
 
         $query = mysqli_query($link, "SHOW TABLES LIKE 'logs'") or die('TEST 5: ' . mysqli_error($link));
-        if (mysqli_num_rows($query) == 1) mysqli_query($link, "DROP TABLE `logs`") or die('DROP 5: ' . mysqli_error($link));
+        if (mysqli_num_rows($query) == 1) {
+            mysqli_query($link, "DROP TABLE `logs`") or die('DROP 5: ' . mysqli_error($link));
+        }
 
         mysqli_query($link, "CREATE TABLE IF NOT EXISTS `users` (
       `user_id` int(11) NOT NULL primary key,
@@ -168,9 +180,9 @@ RewriteRule . '.$base.'index.php [L]\n';
             mysqli_query($link, "INSERT INTO `users` (`user_id`, `user_name`, `user_password_hash`, `user_email`, `playerid`, `user_level`, `permissions`,
 
 `user_profile`) VALUES
-        (1, '" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "', '" . $user_pid . "', 5, '".$userPerms."', '" . $user_pic . "');") or die('2: '. mysqli_error($link));
+        (1, '" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "', '" . $user_pid . "', 5, '" . $userPerms . "', '" . $user_pic . "');") or die('2: ' . mysqli_error($link));
         } else { mysqli_query($link, "INSERT INTO `users` (`user_id`, `user_name`, `user_password_hash`, `user_email`, `user_level`, `permissions`, `user_profile`) VALUES
-        (1, '" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "', 5, '".$userPerms."', '" . $user_pic . "');") or die('2: ' . mysqli_error($link));        }
+        (1, '" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "', 5, '" . $userPerms . "', '" . $user_pic . "');") or die('2: ' . mysqli_error($link)); }
 
         mysqli_query($link, "ALTER TABLE `users`
         MODIFY `user_id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing user_id of each user, unique index',AUTO_INCREMENT=2;") or die('3: ' . mysqli_error($link));
@@ -217,11 +229,12 @@ RewriteRule . '.$base.'index.php [L]\n';
         ('" . $server_name . "', '1', '" . $server_type . "', '" . $server_use_SQ . "', '" . $server_PORT . "', '" . $server_IP . "', '" . $server_RCON . "');") or die
 
 ('8: ' . mysqli_error($link));
-        } else
-            mysqli_query($link, "INSERT INTO `servers` (`name`, `dbid`, `type`, `use_sq`) VALUES
+        } else {
+                    mysqli_query($link, "INSERT INTO `servers` (`name`, `dbid`, `type`, `use_sq`) VALUES
         ('" . $server_name . "', '1', '" . $server_type . "', '" . $server_use_SQ . "');") or die('8: ' . mysqli_error($link));
+        }
 
-    	mysqli_query($link, "CREATE TABLE IF NOT EXISTS `logs` (
+        mysqli_query($link, "CREATE TABLE IF NOT EXISTS `logs` (
         `logid` int(11) NOT NULL AUTO_INCREMENT,
         `date_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         `user` varchar(64) DEFAULT NULL,
@@ -288,31 +301,35 @@ RewriteRule . '.$base.'index.php [L]\n';
                             <br>
                             <label for="community_name">Community Name: </label>
                             <input placeholder="Community Name" id="community_name"
-                                   class="form-control login_input" type="text" name="community_name" <?php if(isset($_POST['community_name'])) echo 'value="'.$_POST['community_name'].'"'?>>
+                                   class="form-control login_input" type="text" name="community_name" <?php if (isset($_POST['community_name'])) echo 'value="' . $_POST['community_name'] . '"'?>>
                             <br><h4>User Setup</h4>
                             <label for="user_name">Username: </label>
                             <input placeholder="Username" id="user_name"
-                                   class="form-control login_input" type="text" name="user_name" <?php if(isset($_POST['user_name'])) echo 'value="'.$_POST['user_name'].'"'?>>
+                                   class="form-control login_input" type="text" name="user_name" <?php if (isset($_POST['user_name'])) echo 'value="' . $_POST['user_name'] . '"'?>>
 
                             <label for="user_email">Email: </label>
                             <input placeholder="Email" id="user_email" class="form-control login_input"
-                                   type="email" name="user_email" required <?php if(isset($_POST['user_email'])) echo 'value="'.$_POST['user_email'].'"'?>>
+                                   type="email" name="user_email" required <?php if (isset($_POST['user_email'])) echo 'value="' . $_POST['user_email'] . '"'?>>
 
                             <label for="user_password">Password: </label>
                             <input placeholder="Password" id="user_password"
                                    class="form-control login_input" type="password" name="user_password"
-                                   autocomplete="off" required <?php if(isset($_POST['user_password'])) echo 'value="'.$_POST['user_password'].'"'?>>
+                                   autocomplete="off" required <?php if (isset($_POST['user_password'])) echo 'value="' . $_POST['user_password'] . '"'?>>
 
                             <label for="user_pid">Player ID: </label>
                             <input placeholder="Player ID" id="user_pid"
-                                   class="form-control login_input" type="number" name="user_pid" <?php if(isset($_POST['user_pid'])) echo 'value="'.$_POST['user_pid'].'"'?>>
+                                   class="form-control login_input" type="number" name="user_pid" <?php if (isset($_POST['user_pid'])) echo 'value="' . $_POST['user_pid'] . '"'?>>
                             <label for="user_pic">Picture: </label>
 
                             <select id='user_pic' name='user_pic' class=" form-control login_input">
                             <?php
-                            for ($icon = 1; $icon < 7; $icon++) {
+                            for ($icon = 1;
+}
+$icon < 7; $icon++) {
                                 echo '<option value="' . $icon . '"';
-                                if (isset($_POST['user_pic'])) if ($icon == $_POST['user_pic']) echo ' selected';
+                                if (isset($_POST['user_pic'])) {
+                                    if ($icon == $_POST['user_pic']) echo ' selected';
+                                }
                                 echo '>' . $icon . '</option>';
                             } ?>
                             </select>
@@ -328,29 +345,29 @@ RewriteRule . '.$base.'index.php [L]\n';
                             <label for="server_SQL_host">SQL Host: </label>
                             <input placeholder="SQL Host" id="server_SQL_host"
                                    class="form-control login_input" type="text" name="server_SQL_host"
-                                <?php if(isset($_POST['server_SQL_host'])) echo 'value="'.$_POST['server_SQL_host'].'"'?>>
+                                <?php if (isset($_POST['server_SQL_host'])) echo 'value="' . $_POST['server_SQL_host'] . '"'?>>
 
                             <label for="server_SQL_user">SQL User: </label>
                             <input placeholder="SQL User" id="server_SQL_user"
                                    class="form-control login_input" type="text" name="server_SQL_user"
-                                <?php if(isset($_POST['server_SQL_user'])) echo 'value="'.$_POST['server_SQL_user'].'"'?>>
+                                <?php if (isset($_POST['server_SQL_user'])) echo 'value="' . $_POST['server_SQL_user'] . '"'?>>
 
                             <label for="server_SQL_pass">SQL Password: </label>
                             <input placeholder="SQL Password" id="server_SQL_pass"
                                    class="form-control login_input" type="password" name="server_SQL_pass"
-                                <?php if(isset($_POST['server_SQL_pass'])) echo 'value="'.$_POST['server_SQL_pass'].'"'?>>
+                                <?php if (isset($_POST['server_SQL_pass'])) echo 'value="' . $_POST['server_SQL_pass'] . '"'?>>
 
                             <label for="server_SQL_name">SQL Database: </label>
                             <input placeholder="SQL Database Name" id="server_SQL_name"
                                    class="form-control login_input" type="text" name="server_SQL_name"
-                                <?php if(isset($_POST['server_SQL_name'])) echo 'value="'.$_POST['server_SQL_name'].'"'?>>
+                                <?php if (isset($_POST['server_SQL_name'])) echo 'value="' . $_POST['server_SQL_name'] . '"'?>>
                             <br><br>
 
                             <h4>Server Setup</h4>
                             <label for="server_name">Server name: </label>
                             <input placeholder="Server name" id="server_name"
                                    class="form-control login_input" type="text" name="server_name"
-                                <?php if(isset($_POST['server_name'])) echo 'value="'.$_POST['server_name'].'"'?>>
+                                <?php if (isset($_POST['server_name'])) echo 'value="' . $_POST['server_name'] . '"'?>>
 
                             <label for="server_type">Server type: </label>
                             <select id="server_name" class=" form-control login_input" name="server_type">
@@ -367,17 +384,17 @@ RewriteRule . '.$base.'index.php [L]\n';
                             <label for="server_port">Server Query Port: </label>
                             <input placeholder="Server Query Port" id="server_port"
                                    class="form-control login_input" type="text" name="server_port"
-                                <?php if(isset($_POST['server_port'])) echo 'value="'.$_POST['server_port'].'"'?>>
+                                <?php if (isset($_POST['server_port'])) echo 'value="' . $_POST['server_port'] . '"'?>>
 
                             <label for="server_IP">Server Query IP: </label>
                             <input placeholder="Server Query IP (Default: 2302)" id="server_IP"
                                    class="form-control login_input" type="text" name="server_IP"
-                                <?php if(isset($_POST['server_IP'])) echo 'value="'.$_POST['server_IP'].'"'?>>
+                                <?php if (isset($_POST['server_IP'])) echo 'value="' . $_POST['server_IP'] . '"'?>>
 
                             <label for="server_SQL_pass">RCON Password: </label>
                             <input placeholder="RCON Password" id="server_SQL_pass"
                                    class="form-control login_input" type="password" name="server_RCON_pass"
-                                <?php if(isset($_POST['server_SQL_pass'])) echo 'value="'.$_POST['server_SQL_pass'].'"'?>>
+                                <?php if (isset($_POST['server_SQL_pass'])) echo 'value="' . $_POST['server_SQL_pass'] . '"'?>>
                             <br>
                             <input class="btn btn-lg btn-primary" style="float:right;" type="submit" name="setup"
                                    value="Setup">

@@ -1,3 +1,3 @@
 <?php
 
-echo "<h1>".$err."</h1>";
+echo "<h1>" . $err . "</h1>";

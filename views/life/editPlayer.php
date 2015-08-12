@@ -30,7 +30,7 @@ if (isset($_POST["editType"])) {
                 $civ_gear_value = $_POST["civ_inv_value"];
                 $update = "UPDATE `players` SET civ_gear = '" . $civ_gear_value . "' WHERE `uid` = '" . $uID . "' ";
                 $result_of_query = $db_link->query($update);
-                logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid,$db_link) . '(' . $player->playerid . ') ' . $lang['civ'] . ' ' . $lang['inventory'], 1);
+                logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['civ'] . ' ' . $lang['inventory'], 1);
                 message($lang['edited'] . ' ' . $lang['civ'] . ' ' . $lang['inventory']);
                 break;
 
@@ -38,7 +38,7 @@ if (isset($_POST["editType"])) {
                 $cop_gear_value = $_POST["cop_inv_value"];
                 $update = "UPDATE `players` SET cop_gear = '" . $cop_gear_value . "' WHERE `uid` = '" . $uID . "' ";
                 $result_of_query = $db_link->query($update);
-                logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid,$db_link) . '(' . $player->playerid . ') ' . $lang['cop'] . ' ' . $lang['inventory'], 1);
+                logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['cop'] . ' ' . $lang['inventory'], 1);
                 message($lang['edited'] . ' ' . $lang['cop'] . ' ' . $lang['inventory']);
                 break;
 
@@ -46,34 +46,34 @@ if (isset($_POST["editType"])) {
                 $med_gear_value = $_POST["med_inv_value"];
                 $update = "UPDATE `players` SET med_gear = '" . $med_gear_value . "' WHERE `uid` = '" . $uID . "' ";
                 $result_of_query = $db_link->query($update);
-                logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid,$db_link) . '(' . $player->playerid . ') ' . $lang['medic'] . ' ' . $lang['inventory'], 1);
+                logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['medic'] . ' ' . $lang['inventory'], 1);
                 message($lang['edited'] . ' ' . $lang['medic'] . ' ' . $lang['inventory']);
                 break;
 
             case "player_edit":
                 if ($_SESSION['user_level'] >= 4) {
-                    $coplevel = clean(intval($_POST["player_coplvl"]),'int');
-                    $mediclevel = clean(intval($_POST["player_medlvl"]),'int');
-                    $donatorlvl = clean(intval($_POST["player_donlvl"]),'int');
-                    $adminlevel = clean(intval($_POST["player_adminlvl"]),'int');
-                    $cash = clean(intval($_POST["player_cash"]),'int');
-                    $bankacc = clean(intval($_POST["player_bank"]),'int');
-                    $arrested = clean(intval($_POST["player_arrest"]),'int');
-                    $blacklist = clean(intval($_POST["player_blacklist"]),'int');
+                    $coplevel = clean(intval($_POST["player_coplvl"]), 'int');
+                    $mediclevel = clean(intval($_POST["player_medlvl"]), 'int');
+                    $donatorlvl = clean(intval($_POST["player_donlvl"]), 'int');
+                    $adminlevel = clean(intval($_POST["player_adminlvl"]), 'int');
+                    $cash = clean(intval($_POST["player_cash"]), 'int');
+                    $bankacc = clean(intval($_POST["player_bank"]), 'int');
+                    $arrested = clean(intval($_POST["player_arrest"]), 'int');
+                    $blacklist = clean(intval($_POST["player_blacklist"]), 'int');
 
-                    if ($coplevel <> $player->coplevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid,$db_link) . "(" . $player->playerid . ") " . $lang['cop'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $row['coplevel'] . ") " . $lang['to'] . " (" . $coplevel . ")", 2);
-                    if ($mediclevel <> $player->mediclevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid,$db_link) . "(" . $player->playerid . ") " . $lang['medic'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $row['mediclevel'] . ") " . $lang['to'] . " (" . $mediclevel . ")", 2);
-                    if ($donatorlvl <> $player->donatorlvl) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid,$db_link) . "(" . $player->playerid . ") " . $lang['donator'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $row['donatorlvl'] . ") " . $lang['to'] . " (" . $donatorlvl . ")", 2);
-                    if ($adminlevel <> $player->adminlevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid,$db_link) . "(" . $player->playerid . ") " . $lang['admin'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $row['adminlevel'] . ") " . $lang['to'] . " ('" . $adminlevel . ")", 2);
-                    if ($cash <> $player->cash) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid,$db_link) . "(" . $player->playerid . ") " . $lang['cash'] . " " . $lang['from'] . " '" . $row['cash'] . "' " . $lang['to'] . " (" . $cash . "''", 2);
-                    if ($bankacc <> $player->bankacc) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid,$db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " '" . $row['bankacc'] . "' " . $lang['to'] . " (" . $bankacc . "''", 2);
-                    if ($arrested <> $player->arrested) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid,$db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " '" . $row['cash'] . "' " . $lang['to'] . " (" . $cash . "''", 2);
-                    if ($blacklist <> $player->blacklist) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid,$db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " '" . $row['cash'] . "' " . $lang['to'] . " (" . $cash . "''", 2); //todo:finish
+                    if ($coplevel <> $player->coplevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cop'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $row['coplevel'] . ") " . $lang['to'] . " (" . $coplevel . ")", 2);
+                    if ($mediclevel <> $player->mediclevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['medic'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $row['mediclevel'] . ") " . $lang['to'] . " (" . $mediclevel . ")", 2);
+                    if ($donatorlvl <> $player->donatorlvl) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['donator'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $row['donatorlvl'] . ") " . $lang['to'] . " (" . $donatorlvl . ")", 2);
+                    if ($adminlevel <> $player->adminlevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['admin'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $row['adminlevel'] . ") " . $lang['to'] . " ('" . $adminlevel . ")", 2);
+                    if ($cash <> $player->cash) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cash'] . " " . $lang['from'] . " '" . $row['cash'] . "' " . $lang['to'] . " (" . $cash . "''", 2);
+                    if ($bankacc <> $player->bankacc) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " '" . $row['bankacc'] . "' " . $lang['to'] . " (" . $bankacc . "''", 2);
+                    if ($arrested <> $player->arrested) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " '" . $row['cash'] . "' " . $lang['to'] . " (" . $cash . "''", 2);
+                    if ($blacklist <> $player->blacklist) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " '" . $row['cash'] . "' " . $lang['to'] . " (" . $cash . "''", 2); //todo:finish
 
 
                     $update = "UPDATE `players` SET coplevel = '" . $coplevel . "', mediclevel = '" . $mediclevel . "', donatorlvl = '" . $donatorlvl . "', adminlevel = '" . $adminlevel . "', cash = '" . $cash . "', bankacc = '" . $bankacc . "', arrested = '" . $arrested . "', blacklist = '" . $blacklist . "' WHERE `uid` = '" . $uID . "' ";
                     $result_of_query = $db_link->query($update);
-                    message($lang['edited'] . ' ' . nameID($player->playerid,$db_link));
+                    message($lang['edited'] . ' ' . nameID($player->playerid, $db_link));
                 } elseif ($_SESSION['user_level'] >= 3) {
                     $coplevel = intval($_POST["player_coplvl"]);
                     $mediclevel = intval($_POST["player_medlvl"]);
@@ -82,35 +82,37 @@ if (isset($_POST["editType"])) {
                     $bankacc = intval($_POST["player_bank"]);
                     $arrested = intval($_POST["player_arrest"]);
 
-                    if ($coplevel <> $player->coplevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid,$db_link) . "(" . $player->playerid . ") " . $lang['cop'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $row['coplevel'] . ") " . $lang['to'] . " (" . $coplevel . ")", 2);
-                    if ($mediclevel <> $player->mediclevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid,$db_link) . "(" . $player->playerid . ") " . $lang['medic'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $row['mediclevel'] . ") " . $lang['to'] . " (" . $mediclevel . ")", 2);
-                    if ($donatorlvl <> $player->donatorlvl) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid,$db_link) . "(" . $player->playerid . ") " . $lang['donator'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $row['donatorlvl'] . ") " . $lang['to'] . " (" . $donatorlvl . ")", 2);
-                    if ($cash <> $player->cash) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid,$db_link) . "(" . $player->playerid . ") " . $lang['cash'] . " " . $lang['from'] . " '" . $row['cash'] . "' " . $lang['to'] . " (" . $cash . "''", 2);
+                    if ($coplevel <> $player->coplevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cop'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $row['coplevel'] . ") " . $lang['to'] . " (" . $coplevel . ")", 2);
+                    if ($mediclevel <> $player->mediclevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['medic'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $row['mediclevel'] . ") " . $lang['to'] . " (" . $mediclevel . ")", 2);
+                    if ($donatorlvl <> $player->donatorlvl) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['donator'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $row['donatorlvl'] . ") " . $lang['to'] . " (" . $donatorlvl . ")", 2);
+                    if ($cash <> $player->cash) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cash'] . " " . $lang['from'] . " '" . $row['cash'] . "' " . $lang['to'] . " (" . $cash . "''", 2);
 
                     $update = "UPDATE `players` SET coplevel = '" . $coplevel . "', mediclevel = '" . $mediclevel . "', donatorlvl = '" . $donatorlvl . "', cash = '" . $cash . "', bankacc = '" . $bankacc . "', arrested = '" . $arrested . "' WHERE `uid` = '" . $uID . "' ";
                     $result_of_query = $db_link->query($update);
-                    logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid,$db_link) . '(' . $player->playerid . ') ' . $lang['levels'], 2);
-                    message($lang['edited'] . ' ' . nameID($player->playerid,$db_link));
+                    logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['levels'], 2);
+                    message($lang['edited'] . ' ' . nameID($player->playerid, $db_link));
 
                 } elseif ($_SESSION['user_level'] >= 2) {
                     $coplevel = intval($_POST["player_coplvl"]);
                     $mediclevel = intval($_POST["player_medlvl"]);
                     $update = "UPDATE `players` SET coplevel = '" . $coplevel . "', mediclevel = '" . $mediclevel . "' WHERE `uid` = '" . $uID . "' ";
                     $result_of_query = $db_link->query($update);
-                    logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid,$db_link) . '(' . $player->playerid . ') ' . $lang['levels'], 2);
-                    message($lang['edited'] . ' ' . nameID($player->playerid,$db_link));
+                    logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['levels'], 2);
+                    message($lang['edited'] . ' ' . nameID($player->playerid, $db_link));
                 }
                 break;
             case "add_note":
                 $note_text = $_POST["note_text"];
                 $update = "INSERT INTO `notes` (`uid`, `staff_name`, `note_text`, `note_updated`) VALUES ('" . $uID . "', '" . $_SESSION['user_name'] . "', '" . $note_text . "', CURRENT_TIMESTAMP); ";
                 $result_of_query = $db_link->query($update);
-                logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid,$db_link) . '(' . $player->playerid . ') ' . $lang['notes'], 1);
+                logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['notes'], 1);
                 message($lang['edited'] . ' ' . $lang['notes']);
                 break;
         }
-    } else message($lang['expired']);
-}
+    } else {
+        message($lang['expired']);
+    }
+    }
 
 $sql = "SELECT * FROM `players` WHERE `uid` = '" . $uID . "'";
 $result = $db_link->query($sql);
@@ -255,10 +257,18 @@ if ($result->num_rows > 0) {
                 </ul>
             </li>
             <?php
-            if ($_SESSION['permissions']['edit']['houses']) echo '<li><a href="#house" data-toggle="tab">' . $lang['houses'] . '</a></li>';
-            if ($_SESSION['permissions']['edit']['vehicles']) echo '<li><a href="#veh" data-toggle="tab">' . $lang['vehicles'] . '</a></li>';
-            if ($_SESSION['permissions']['edit']['notes']) echo '<li><a href="#notes" data-toggle="tab"> Notes</a></li>';
-            if ($_SESSION['permissions']['view']['wanted'] && $settings['wanted']) echo '<li><a href="#wanted" data-toggle="tab">' . $lang['wanted'] . '</a></li>';
+            if ($_SESSION['permissions']['edit']['houses']) {
+                echo '<li><a href="#house" data-toggle="tab">' . $lang['houses'] . '</a></li>';
+            }
+            if ($_SESSION['permissions']['edit']['vehicles']) {
+                echo '<li><a href="#veh" data-toggle="tab">' . $lang['vehicles'] . '</a></li>';
+            }
+            if ($_SESSION['permissions']['edit']['notes']) {
+                echo '<li><a href="#notes" data-toggle="tab"> Notes</a></li>';
+            }
+            if ($_SESSION['permissions']['view']['wanted'] && $settings['wanted']) {
+                echo '<li><a href="#wanted" data-toggle="tab">' . $lang['wanted'] . '</a></li>';
+            }
             ?>
         </ul>
         <div class="panel-body">
@@ -267,55 +277,55 @@ if ($result->num_rows > 0) {
                     <div class="tab-pane fade in active well" id="civ_lic">
                         <?php
                             if ($player->civ_licenses !== '"[]"' && $player->civ_licenses !== '') {
-                                echo '<h4 style="centred">'. $lang['civil'] . ' ' . $lang['licenses'] .'</h4>';
-                                $return = stripArray($player->civ_licenses,0);
+                                echo '<h4 style="centred">' . $lang['civil'] . ' ' . $lang['licenses'] . '</h4>';
+                                $return = stripArray($player->civ_licenses, 0);
                                 foreach ($return as $value) {
                                     if (strpos($value, "1") == TRUE) {
                                         $name = before(',', $value);
-                                        echo "<button type='button' id=".$name." class='license btn btn-xs btn-success' style='margin-bottom: 3px;'>" . licName($name, $license) . "</button> ";
+                                        echo "<button type='button' id=" . $name . " class='license btn btn-xs btn-success' style='margin-bottom: 3px;'>" . licName($name, $license) . "</button> ";
                                     } else {
                                         $name = before(',', $value);
-                                        echo "<button type='button' id=".$name." class='license btn btn-xs btn-theme01' style='margin-bottom: 3px;'>" . licName($name, $license) . "</button> ";
+                                        echo "<button type='button' id=" . $name . " class='license btn btn-xs btn-theme01' style='margin-bottom: 3px;'>" . licName($name, $license) . "</button> ";
                                     }
                                 }
                             } else {
-                                echo '<h4>'. errorMessage(371,$lang) .'</h4>';
+                                echo '<h4>' . errorMessage(371, $lang) . '</h4>';
                             }?>
                     </div>
                     <div class="tab-pane well fade" id="medic_lic">
                         <?php
                             if ($player->med_licenses !== '"[]"' && $player->med_licenses !== '') {
-                                echo '<h4 style="centred">'. $lang['medic'] . ' ' . $lang['licenses'] .'</h4>';
-                                $return = stripArray($player->med_licenses,0);
+                                echo '<h4 style="centred">' . $lang['medic'] . ' ' . $lang['licenses'] . '</h4>';
+                                $return = stripArray($player->med_licenses, 0);
                                 foreach ($return as $value) {
                                     if (strpos($value, "1") == TRUE) {
                                         $name = before(',', $value);
-                                        echo "<button type='button' id=".$name." class='license btn btn-xs btn-success' style='margin-bottom: 3px;'>" . licName($name, $license) . "</button> ";
+                                        echo "<button type='button' id=" . $name . " class='license btn btn-xs btn-success' style='margin-bottom: 3px;'>" . licName($name, $license) . "</button> ";
                                     } else {
                                         $name = before(',', $value);
-                                        echo "<button type='button' id=".$name." class='license btn btn-xs btn-theme01' style='margin-bottom: 3px;'>" . licName($name, $license) . "</button> ";
+                                        echo "<button type='button' id=" . $name . " class='license btn btn-xs btn-theme01' style='margin-bottom: 3px;'>" . licName($name, $license) . "</button> ";
                                     }
                                 }
                             } else {
-                                echo '<h4>'. errorMessage(372,$lang) .'</h4>';
+                                echo '<h4>' . errorMessage(372, $lang) . '</h4>';
                             } ?>
                     </div>
                     <div class="tab-pane well fade" id="police_lic">
                         <?php
                             if ($player->cop_licenses !== '"[]"' && $player->cop_licenses !== '') {
-                                $return = stripArray($player->cop_licenses,0);
-                                echo '<h4 style="centred">'. $lang['cop'] . ' ' . $lang['licenses'] .'</h4>';
+                                $return = stripArray($player->cop_licenses, 0);
+                                echo '<h4 style="centred">' . $lang['cop'] . ' ' . $lang['licenses'] . '</h4>';
                                 foreach ($return as $value) {
                                     if (strpos($value, "1") == TRUE) {
                                         $name = before(',', $value);
-                                        echo "<button type='button' id=".$name." class='license btn btn-xs btn-success' style='margin-bottom: 3px;'>" . licName($name, $license) . "</button> ";
+                                        echo "<button type='button' id=" . $name . " class='license btn btn-xs btn-success' style='margin-bottom: 3px;'>" . licName($name, $license) . "</button> ";
                                     } else {
                                         $name = before(',', $value);
-                                        echo "<button type='button' id=".$name." class='license btn btn-xs btn-theme01' style='margin-bottom: 3px;'>" . licName($name, $license) . "</button> ";
+                                        echo "<button type='button' id=" . $name . " class='license btn btn-xs btn-theme01' style='margin-bottom: 3px;'>" . licName($name, $license) . "</button> ";
                                     }
                                 }
                             } else {
-                                echo '<h4>'. errorMessage(373,$lang) .'</h4>';
+                                echo '<h4>' . errorMessage(373, $lang) . '</h4>';
                             }
                         ?>
                     </div>
@@ -323,7 +333,7 @@ if ($result->num_rows > 0) {
                     <div class="tab-pane fade well" id="civ_inv">
                         <?php
                         if ($player->civ_gear !== '"[]"' && $player->civ_gear !== '') {
-                            echo '<h4 style="centred">'. $lang['civil'] . ' ' . $lang['gear'] .'</h4>';
+                            echo '<h4 style="centred">' . $lang['civil'] . ' ' . $lang['gear'] . '</h4>';
                             echo "<textarea class='form-control' readonly rows='5' style='width: 100%' id='civ_gear' name='civ_gear'>" . $player->civ_gear . "</textarea><br>";
 
                             if ($_SESSION['permissions']['edit']['inventory']) {
@@ -331,33 +341,33 @@ if ($result->num_rows > 0) {
                                 echo '<i class="fa fa-pencil"></i></a>';
                             }
                         } else {
-                            echo '<h4>'. errorMessage(381,$lang) .'</h4>';
+                            echo '<h4>' . errorMessage(381, $lang) . '</h4>';
                         } ?>
                     </div>
                     <div class="tab-pane fade well" id="police_inv">
                         <?php
                         if ($player->cop_gear !== '"[]"' && $player->cop_gear !== '') {
-                            echo '<h4 style="centred">'. $lang['cop'] . ' ' . $lang['gear'] .'</h4>';
+                            echo '<h4 style="centred">' . $lang['cop'] . ' ' . $lang['gear'] . '</h4>';
                             echo "<textarea class='form-control' readonly rows='5' style='width: 100%' id='cop_gear' name='cop_gear'>" . $player->cop_gear . "</textarea><br>";
                             if ($_SESSION['permissions']['edit']['inventory']) {
                                 echo '<a data-toggle="modal" href="#edit_cop_inv" class="btn btn-primary btn-xs" style="float: right;">';
                                 echo '<i class="fa fa-pencil"></i></a>';
                             }
                         } else {
-                            echo '<h4>'. errorMessage(383,$lang) .'</h4>';
+                            echo '<h4>' . errorMessage(383, $lang) . '</h4>';
                         } ?>
                     </div>
                     <div class="tab-pane fade well" id="medic_inv">
                         <?php
                         if ($player->med_gear !== '"[]"' && $player->med_gear !== '') {
-                            echo '<h4 style="centred">'. $lang['medic'] . ' ' . $lang['gear'] .'</h4>';
+                            echo '<h4 style="centred">' . $lang['medic'] . ' ' . $lang['gear'] . '</h4>';
                             echo "<textarea class='form-control' readonly rows='5' style='width: 100%' id='med_gear' name='med_gear'>" . $player->med_gear . "</textarea><br>";
                             if ($_SESSION['permissions']['edit']['inventory']) {
                                 echo '<a data-toggle="modal" href="#edit_med_inv" class="btn btn-primary btn-xs" style="float: right;">';
                                 echo '<i class="fa fa-pencil"></i></a>';
                             }
                         } else {
-                            echo '<h4>'. errorMessage(382,$lang) .'</h4>';
+                            echo '<h4>' . errorMessage(382, $lang) . '</h4>';
                         } ?>
                     </div>
                 <?php } 
@@ -387,8 +397,8 @@ if ($result->num_rows > 0) {
                                     } ?>
                                     </tbody>
                                 </table>
-                                <?php echo '<a style="float: right;" href="'. $settings['url'] .'houses/' . $player->playerid . '"><h4>'. $lang['more'] .' <i class="fa fa-arrow-circle-right"></i></h4></a>';
-                            } else echo '<h4>'. errorMessage(31,$lang) .'</h4>'; ?>
+                                <?php echo '<a style="float: right;" href="' . $settings['url'] . 'houses/' . $player->playerid . '"><h4>' . $lang['more'] . ' <i class="fa fa-arrow-circle-right"></i></h4></a>';
+                            } else echo '<h4>' . errorMessage(31, $lang) . '</h4>'; ?>
                         </div>
                     </div>
                 <?php } if ($_SESSION['permissions']['view']['vehicles'] || $player->playerid == $_SESSION['playerid']) { ?>
@@ -404,7 +414,9 @@ if ($result->num_rows > 0) {
                                 echo '<th>' . $lang['class'] . '</th>';
                                 echo '<th class="hidden-xs">' . $lang['type'] . '</th>';
                                 echo '<th class="hidden-xs">' . $lang['plate'] . '</th>';
-                                if ($_SESSION['permissions']['edit']['vehicles']) echo "<th>" . $lang['edit'] . "</th>";
+                                if ($_SESSION['permissions']['edit']['vehicles']) {
+                                    echo "<th>" . $lang['edit'] . "</th>";
+                                }
                                 echo '</tr></thead><tbody';
                                 echo '<tr>';
                                 echo '<td>' . carName($veh->classname) . '</td>';
@@ -412,13 +424,13 @@ if ($result->num_rows > 0) {
                                 echo '<td class="hidden-xs">' . $veh->plate . '</td>';
 
                                 if ($_SESSION['permissions']['edit']['vehicles']) {
-                                    echo "<td><a class='btn btn-primary btn-xs' href='" . $settings['url'] . "editVeh/" .$veh->id . "'>";
+                                    echo "<td><a class='btn btn-primary btn-xs' href='" . $settings['url'] . "editVeh/" . $veh->id . "'>";
                                     echo "<i class='fa fa-pencil'></i></a></td>";
                                 }
                                 echo '</tr></tbody></table>';
-                                echo '<a style="float: right; padding-right:15px;" href="' . $settings['url'] . 'vehicles/' . $player->playerid . '"><h4>'. $lang['more'] .' <i class="fa fa-arrow-circle-right"></i></h4></a>';
+                                echo '<a style="float: right; padding-right:15px;" href="' . $settings['url'] . 'vehicles/' . $player->playerid . '"><h4>' . $lang['more'] . ' <i class="fa fa-arrow-circle-right"></i></h4></a>';
 
-                            } else echo '<h4>'. errorMessage(32,$lang) .'</h4>';
+                            } else echo '<h4>' . errorMessage(32, $lang) . '</h4>';
                         ?>
                         </div>
                     </div>
@@ -450,14 +462,16 @@ if ($result->num_rows > 0) {
                                     </tbody>
                                     </table>
                                 <?php
-                                    if ($_SESSION['permissions']['edit']['notes'])
-                                            echo '<a data-toggle="modal" href="#add_note" class="btn btn-primary btn-xs" style="float: right; margin-right:5px; margin-bottom:5px;">
+                                    if ($_SESSION['permissions']['edit']['notes']) {
+                                                                                echo '<a data-toggle="modal" href="#add_note" class="btn btn-primary btn-xs" style="float: right; margin-right:5px; margin-bottom:5px;">
                                                     <i class="fa fa-file-o"></i></a>';
+                                    }
                                     } else {
                                         echo '<h1>' . $lang['noNotes'] . '</h1>';
-                                        if ($_SESSION['permissions']['edit']['notes'])
-                                            echo '<a data-toggle="modal" href="#add_note" class="btn btn-primary btn-xs" style="float: right; margin-right:5px; margin-bottom:5px;">
+                                        if ($_SESSION['permissions']['edit']['notes']) {
+                                                                                    echo '<a data-toggle="modal" href="#add_note" class="btn btn-primary btn-xs" style="float: right; margin-right:5px; margin-bottom:5px;">
                                                     <i class="fa fa-file-o"></i></a>';
+                                        }
                                     };
                                 ?>
                         </div>
@@ -466,22 +480,22 @@ if ($result->num_rows > 0) {
                     <div class="tab-pane fade well" id="wanted">
                         <div class="table-responsive">
                         <?php
-                            $sql = "SELECT `wantedCrimes` FROM `wanted` WHERE `wantedID`='".$player->playerid."'";
+                            $sql = "SELECT `wantedCrimes` FROM `wanted` WHERE `wantedID`='" . $player->playerid . "'";
                             $result_of_query = $db_link->query($sql);
                             if ($result_of_query->num_rows > 0) {
-                                echo "<h3>".$lang['crimes']."</h3>";
+                                echo "<h3>" . $lang['crimes'] . "</h3>";
                                 while ($row = mysqli_fetch_assoc($result_of_query)) {
                                     if ($row['wantedCrimes'] !== "'[]'") {
-                                        $return = stripArray($row['wantedCrimes'],3);
+                                        $return = stripArray($row['wantedCrimes'], 3);
                                         foreach ($return as $value) {
-                                            echo "<button type='button' id=".$value." class='wanted btn btn-xs btn-theme01' style='margin-bottom: 3px;'>" . crimeName($value) . "</button> ";
+                                            echo "<button type='button' id=" . $value . " class='wanted btn btn-xs btn-theme01' style='margin-bottom: 3px;'>" . crimeName($value) . "</button> ";
                                         }
                                     } else {
-                                        echo "<h3>".errorMessage(34,$lang)."</h3>";
+                                        echo "<h3>" . errorMessage(34, $lang) . "</h3>";
 
                                     }
                                 }
-                            } else echo "<h3>".errorMessage(34,$lang)."</h3>";
+                            } else echo "<h3>" . errorMessage(34, $lang) . "</h3>";
                         ?>
 
                         </div>
@@ -521,7 +535,7 @@ if ($result->num_rows > 0) {
                         <button class="btn btn-primary" type="submit"><?php echo $lang['subChange']; ?></button>
                     </div>
                 </form>
-            <?php } else errorMessage(5,$lang); ?>
+            <?php } else errorMessage(5, $lang); ?>
         </div>
     </div>
 </div>
@@ -554,7 +568,7 @@ if ($result->num_rows > 0) {
                         <button class="btn btn-primary" type="submit"><?php echo $lang['subChange']; ?></button>
                     </div>
                 </form>
-            <?php } else errorMessage(5,$lang); ?>
+            <?php } else errorMessage(5, $lang); ?>
         </div>
     </div>
 </div>
@@ -587,7 +601,7 @@ if ($result->num_rows > 0) {
                         <button class="btn btn-primary" type="submit"><?php echo $lang['subChange']; ?></button>
                     </div>
                 </form>
-            <?php } else errorMessage(5,$lang); ?>
+            <?php } else errorMessage(5, $lang); ?>
         </div>
     </div>
 </div>
@@ -620,7 +634,7 @@ if ($result->num_rows > 0) {
                         <button class="btn btn-primary" type="submit"><?php echo $lang['subChange']; ?></button>
                     </div>
                 </form>
-            <?php } else errorMessage(5,$lang); ?>
+            <?php } else errorMessage(5, $lang); ?>
         </div>
     </div>
 </div>
@@ -651,16 +665,16 @@ if ($result->num_rows > 0) {
                                         echo "<h4>" . $lang['cop'] . ": ";
                                         echo "<select id='player_coplvl' name='player_coplvl'>";
                                         for ($lvl = 0;
-                                             $lvl <= $settings['maxLevels']['cop'];
-                                             $lvl++) {
+                                                $lvl <= $settings['maxLevels']['cop'];
+                                                $lvl++) {
                                             echo '<option value="' . $lvl . '"' . select($lvl, $player->coplevel) . '>' . $lvl . '</option>';
                                         }
                                         echo "</select>";
                                         echo "<h4>" . $lang['medic'] . ": ";
                                         echo "<select id='player_medlvl' name='player_medlvl'>";
                                         for ($lvl = 0;
-                                             $lvl <= $settings['maxLevels']['medic'];
-                                             $lvl++) {
+                                                $lvl <= $settings['maxLevels']['medic'];
+                                                $lvl++) {
                                             echo '<option value="' . $lvl . '"' . select($lvl, $player->mediclevel) . '>' . $lvl . '</option>';
                                         }
                                         echo "</select>";
@@ -669,21 +683,21 @@ if ($result->num_rows > 0) {
                                             echo "<h4>" . $lang['admin'] . ": ";
                                             echo "<select id='player_adminlvl' name='player_adminlvl'>";
                                             for ($lvl = 0;
-                                                 $lvl <= $settings['maxLevels']['admin'];
-                                                 $lvl++) {
+                                                    $lvl <= $settings['maxLevels']['admin'];
+                                                    $lvl++) {
                                                 echo '<option value="' . $lvl . '"' . select($lvl, $player->adminlevel) . '>' . $lvl . '</option>';
                                             }
                                             echo "</select>";
                                             echo "<h4>" . $lang['donator'] . ": ";
                                             echo "<select id='player_donlvl' name='player_donlvl'>";
                                             for ($lvl = 0;
-                                                 $lvl <= $settings['maxLevels']['donator'];
-                                                 $lvl++) {
+                                                    $lvl <= $settings['maxLevels']['donator'];
+                                                    $lvl++) {
                                                 echo '<option value="' . $lvl . '"' . select($lvl, $player->donatorlvl) . '>' . $lvl . '</option>';
                                             }
                                             echo "</select>";
                                         }
-                                     }?>
+                                        }?>
                                 </center>
                             </div>
                         </div>
@@ -733,9 +747,9 @@ if ($result->num_rows > 0) {
                     <?php }?>
                 });
                 </script>
-            <?php } else "<h1>" . errorMessage(5,$lang) . "/<h1>"; ?>
+            <?php } else "<h1>" . errorMessage(5, $lang) . "/<h1>"; ?>
         </div>
     </div>
 </div>
 
-<?php } else echo "<h1>" . errorMessage(36,$lang) . "</h1>";
+<?php } else echo "<h1>" . errorMessage(36, $lang) . "</h1>";

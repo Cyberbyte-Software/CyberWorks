@@ -22,17 +22,17 @@ if (isset($registration)) {
                 <p><?php echo $lang['username'] ?>:</p>
                 <input id="user_name" type="text" class="form-control"
                        placeholder="<?php echo $lang['username'] ?>" autofocus
-                       name="user_name" <?php if(isset($_POST['user_name'])) echo 'value="' . $_POST['user_name'] . '"'; ?> required>
+                       name="user_name" <?php if (isset($_POST['user_name'])) echo 'value="' . $_POST['user_name'] . '"'; ?> required>
             </div>
             <div class="form-group">
-                <p><?php echo $lang['player']." ".$lang['id'] ?>:</p>
+                <p><?php echo $lang['player'] . " " . $lang['id'] ?>:</p>
                 <input id="player_id" class="form-control" placeholder="<?php echo $lang['playerid'] ?>" type="number" name="player_id">
                 <p id='steam'></p>
             </div>
             <div class="form-group">
                 <p><?php echo $lang['emailAdd'] ?>:</p>
                 <input id="user_email" placeholder="<?php echo $lang['emailAdd'] ?>" class=" form-control" type="email"
-                       name="user_email" <?php if(isset($_POST['user_name'])) echo 'value="' . $_POST['user_name'] . '"'; ?> required/>
+                       name="user_email" <?php if (isset($_POST['user_name'])) echo 'value="' . $_POST['user_name'] . '"'; ?> required/>
             </div>
             <div class="form-group">
                 <p><?php echo $lang['password'] ?>:</p>
@@ -52,7 +52,7 @@ if (isset($registration)) {
                 <select class="form-control" name="user_lvl">
                     <?php for ($rank = 1; $rank <= $settings['staffRanks']; $rank++) {
                         echo '<option value="' . $rank . '"';
-                        if(isset($_POST['user_lvl'])) if($rank == $_POST['user_lvl']) echo 'selected';
+                        if (isset($_POST['user_lvl'])) if ($rank == $_POST['user_lvl']) echo 'selected';
                         echo '>' . $settings['ranks'][$rank] . '</option>';
                     } ?>
                 </select>
@@ -63,7 +63,7 @@ if (isset($registration)) {
                 <select class=" form-control" name="profile_pic">
                     <?php for ($icon = 1; $icon <= 6; $icon++) {
                         echo '<option value="' . $icon . '" ';
-                        if(isset($_POST['user_name'])) if($icon == $_POST['user_name']) echo 'selected';
+                        if (isset($_POST['user_name'])) if ($icon == $_POST['user_name']) echo 'selected';
                         echo '>' . $settings['names'][$icon] . '</option>';
                     } ?>
                 </select>
@@ -160,7 +160,7 @@ if (isset($registration)) {
             })
             .on('success.validator.fv', function(e, data) {
             if (data.field === 'player_id' && data.validator === 'remote') {
-                document.getElementById("steam").innerHTML = '<?php echo $lang['steamFound'];?>' + ' <a href="' + data.result.url + '" target="_blank">' + data.result.name + '</a>';
+                document.getElementById("steam").innerHTML = '<?php echo $lang['steamFound']; ?>' + ' <a href="' + data.result.url + '" target="_blank">' + data.result.name + '</a>';
             }
             });
     });

@@ -6,9 +6,9 @@
 }
 </style>
 <div class="form-inline pull-right-md">
-    <form name='rows' method="post" action="<?php echo $settings['url'].$currentPage ?>">
+    <form name='rows' method="post" action="<?php echo $settings['url'] . $currentPage ?>">
 
-            <input id='searchText' class="form-control" type='text' name='searchText' placeholder="<?php if(isset($search)) echo $search ?>">
+            <input id='searchText' class="form-control" type='text' name='searchText' placeholder="<?php if (isset($search)) echo $search ?>">
             <input style='margin-right: 10px;' class='btn btn-primary' type='button' name='search' onclick='searchpage();' value='<?php echo $lang['search'] ?>'>
 
             <select id='items' class="form-control" name='items'>

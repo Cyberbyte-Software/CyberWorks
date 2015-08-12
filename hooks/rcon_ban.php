@@ -15,13 +15,13 @@ if (false) {
     if ($result_of_query->num_rows == 1) {
         $server = $result_of_query->fetch_object();
         try
-    	{
-    	    $cmd = 'ban '.$rid.' '.$time.' '.$reason;
-    	    $answer = rcon(decrypt($server->sq_ip), decrypt($server->sq_port),decrypt($server->rcon_pass),$cmd);
-    	}
-    	catch( Exception $e )
-    	{
-    		echo $e->getMessage( );
-    	}
+        {
+            $cmd = 'ban '.$rid.' '.$time.' '.$reason;
+            $answer = rcon(decrypt($server->sq_ip), decrypt($server->sq_port),decrypt($server->rcon_pass),$cmd);
+        }
+        catch( Exception $e )
+        {
+            echo $e->getMessage( );
+        }
     }
 }

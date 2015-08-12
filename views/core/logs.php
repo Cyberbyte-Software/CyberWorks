@@ -8,7 +8,7 @@ if (isset($search)) {
     $total_records = $db_link->query($sql);
     if ($pageNum > $total_records) $pageNum = $total_records;
     $sql = "SELECT `logid`,`date_time`,`user`,`action`,`level` FROM `logs` WHERE `logid` LIKE '" . $search . "' OR `user` LIKE '%" . $search . "%' OR `action` LIKE '%" . $search . "%' OR `level` LIKE '" . $search . "' ORDER BY `logid` DESC " . $max . " ;";
-    logAction($_SESSION['user_name'], $lang['searched'].' (' . $search . ') '.$lang['in'].' '.$lang['logs'], 2);
+    logAction($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['logs'], 2);
 } else {
     $sql = "SELECT `logid` FROM `logs`;";
     $result_of_query = $db_link->query($sql);
@@ -67,4 +67,4 @@ if ($result_of_query->num_rows > 0) {
                 <br>
         </div>
 <?php
-} else echo errorMessage(3,$lang);
+} else echo errorMessage(3, $lang);

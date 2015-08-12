@@ -13,15 +13,15 @@ if (isset($_POST["squad"])) {
     <picture>logo.paa</picture>
     <title>CZ</title>';
 
-    $sql = "SELECT `name`,`members` FROM `gangs` WHERE `id` = '".$gID."';";
+    $sql = "SELECT `name`,`members` FROM `gangs` WHERE `id` = '" . $gID . "';";
     $result = $db_link->query($sql);
     $gang = $result->fetch_object();
-    $members = str_replace('`]"','',str_replace('"[`','',$gang->members));
-    $members = explode('`,`',$members);
+    $members = str_replace('`]"', '', str_replace('"[`', '', $gang->members));
+    $members = explode('`,`', $members);
     foreach ($members as $member) {
-        $name = nameID($member,$db_link);
-        $xml .= '<member id="'.$member.'" nick="'.$name.'">
-        <name>'.$name.'</name><email></email><icq></icq><remark></remark></member>';
+        $name = nameID($member, $db_link);
+        $xml .= '<member id="' . $member . '" nick="' . $name . '">
+        <name>'.$name . '</name><email></email><icq></icq><remark></remark></member>';
     }
     $xml .= '</squad>';
     var_dump($xml);
@@ -29,10 +29,10 @@ if (isset($_POST["squad"])) {
 
 if (isset($_POST["editType"])) {
     if (formtoken::validateToken($_POST)) {
-        if($_SESSION['permissions']['edit']['gangs']) {
+        if ($_SESSION['permissions']['edit']['gangs']) {
             switch ($_POST["editType"]) {
                 case "edit_members":
-                    $gMem = clean($_POST["gMem"],'string');
+                    $gMem = clean($_POST["gMem"], 'string');
                     $sql = "UPDATE `gangs` SET `members`='" . $gMem . "' WHERE `gangs`.`id` = '" . $gID . "'";
                     $result_of_query = $db_link->query($sql);
                     message($lang['updated']);
@@ -45,19 +45,21 @@ if (isset($_POST["editType"])) {
                     break;
 
                 case "gang_edit":
-                    $gname = clean($_POST["gname"],'string');
-                    $gowner = clean($_POST["gowner"],'int');
-                    $gMM = clean($_POST["gMM"],'int');
-                    $gbank = clean($_POST["gbank"],'int');
-                    $gAct = clean($_POST["gAct"],'int');
+                    $gname = clean($_POST["gname"], 'string');
+                    $gowner = clean($_POST["gowner"], 'int');
+                    $gMM = clean($_POST["gMM"], 'int');
+                    $gbank = clean($_POST["gbank"], 'int');
+                    $gAct = clean($_POST["gAct"], 'int');
                     $sql = "UPDATE `gangs` SET `owner`='" . $gowner . "',`name`='" . $gname . "',`maxmembers`='" . $gMM . "',`bank`='" . $gbank . "',`active`='" . $gAct . "' WHERE `gangs`.`id` = '" . $gID . "'";
                     $result_of_query = $db_link->query($sql);
                     message($lang['updated']);
                     break;
             }
         }
-    } else message($lang['expired']);
-}
+    } else {
+        message($lang['expired']);
+    }
+    }
 
 $sql = 'SELECT * FROM `gangs` WHERE `id` ="' . $gID . '";';
 $result_of_query = $db_link->query($sql);
@@ -68,13 +70,13 @@ if ($result_of_query->num_rows > 0) {
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="panel-title"><i
-                    class="fa fa-child fa-fw"></i><?php echo nameID($gang->owner,$db_link) . "'s " . $lang['gang']; ?>
+                    class="fa fa-child fa-fw"></i><?php echo nameID($gang->owner, $db_link) . "'s " . $lang['gang']; ?>
             </h2>
         </div>
         <div class="panel-body">
             <center><img src="<?php echo $settings['url'] ?>assets/img/uniform/U_BG_Guerilla2_3.jpg"/>
                 <?php
-                echo "<h4>" . $lang['owner'] . ": <a href='" . $settings['url'] . "editPlayer/" . uID($gang->owner,$db_link) . "'>" . nameID($gang->owner,$db_link) . "</a></h4>";
+                echo "<h4>" . $lang['owner'] . ": <a href='" . $settings['url'] . "editPlayer/" . uID($gang->owner, $db_link) . "'>" . nameID($gang->owner, $db_link) . "</a></h4>";
                 echo "<h4>" . $lang['name'] . ": " . $gang->name . "</h4>";
                 ?>
                 <span class="fa fa-2x fa-bank"></span>
@@ -117,10 +119,10 @@ if ($result_of_query->num_rows > 0) {
             <div class="tab-pane fade active in well" id="civ_inv">
                 <h4 style="centred"><?php echo $lang['gang'] . " " . $lang['members']; ?> </h4>
                 <?php
-                    $return = stripArray($gang->members,1);
+                    $return = stripArray($gang->members, 1);
 
                     foreach ($return as $value) {
-                        echo "<span class='label label-success' style='margin-right:3px; line-height:2;'>" . nameID($value,$db_link) . "</span> ";
+                        echo "<span class='label label-success' style='margin-right:3px; line-height:2;'>" . nameID($value, $db_link) . "</span> ";
                     }
                 }
                 ?>

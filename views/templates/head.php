@@ -20,10 +20,10 @@
     <![endif]-->
     
     <?php
-    if (isset($settings)){
+    if (isset($settings)) {
         foreach ($settings['plugins'] as &$plugin) {
-            if (file_exists("plugins/". $plugin. "/assets/style.css")) {
-                echo '<link rel="stylesheet" type="text/css" href="'. $settings['url'] . 'plugins/' . $plugin . '/assets/style.css">';
+            if (file_exists("plugins/" . $plugin . "/assets/style.css")) {
+                echo '<link rel="stylesheet" type="text/css" href="' . $settings['url'] . 'plugins/' . $plugin . '/assets/style.css">';
             }
         }
     } ?>

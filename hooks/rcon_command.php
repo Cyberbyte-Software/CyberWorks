@@ -13,12 +13,12 @@ if (isset($_POST['sid']) && isset($_POST['command'])) {
     if ($result_of_query->num_rows == 1) {
         $server = $result_of_query->fetch_object();
         try
-    	{
-    	    $answer = rcon(decrypt($server->sq_ip), decrypt($server->sq_port),decrypt($server->rcon_pass),$cmd);
-    	}
-    	catch( Exception $e )
-    	{
-    		echo $e->getMessage( );
-    	}
+        {
+            $answer = rcon(decrypt($server->sq_ip), decrypt($server->sq_port),decrypt($server->rcon_pass),$cmd);
+        }
+        catch( Exception $e )
+        {
+            echo $e->getMessage( );
+        }
     }
 }
