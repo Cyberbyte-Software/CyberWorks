@@ -86,7 +86,9 @@ class Registration
                 // escaping, additionally removing everything that could be (html/javascript-) code
                 $user_name = $this->db_connection->real_escape_string(strip_tags($_POST['user_name'], ENT_QUOTES));
                 $user_email = $this->db_connection->real_escape_string(strip_tags($_POST['user_email'], ENT_QUOTES));
-                if(isset($_POST['player_id'])) $playerid = $this->db_connection->real_escape_string(strip_tags($_POST['player_id'], ENT_QUOTES));
+                if(isset($_POST['player_id'])) {
+                    $playerid = $this->db_connection->real_escape_string(strip_tags($_POST['player_id'], ENT_QUOTES));
+                }
                 $user_password = $_POST['user_password_new'];
                 $user_profile = $_POST['profile_pic'];
                 $user_lvl = $_POST['user_lvl'];

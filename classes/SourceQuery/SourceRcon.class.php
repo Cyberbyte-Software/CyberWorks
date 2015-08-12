@@ -28,6 +28,10 @@ use xPaw\SourceQuery\Exception\TimeoutException;
         private $RconSocket;
         private $RconRequestId;
 		
+        /**
+         * @param SourceQueryBuffer $Buffer
+         * @param SourceQuerySocket $Socket
+         */
         public function __construct( $Buffer, $Socket )
         {
             $this->Buffer = $Buffer;
@@ -36,9 +40,9 @@ use xPaw\SourceQuery\Exception\TimeoutException;
 		
         public function Close( )
         {
-            if( $this->RconSocket )
+            if ($this->RconSocket)
             {
-                FClose( $this->RconSocket );
+                FClose($this->RconSocket);
 				
                 $this->RconSocket = null;
             }
@@ -48,67 +52,67 @@ use xPaw\SourceQuery\Exception\TimeoutException;
 		
         public function Open( )
         {
-            if( !$this->RconSocket )
+            if (!$this->RconSocket)
             {
-                $this->RconSocket = @FSockOpen( $this->Socket->Ip, $this->Socket->Port, $ErrNo, $ErrStr, $this->Socket->Timeout );
+                $this->RconSocket = @FSockOpen($this->Socket->Ip, $this->Socket->Port, $ErrNo, $ErrStr, $this->Socket->Timeout);
 				
-                if( $ErrNo || !$this->RconSocket )
+                if ($ErrNo || !$this->RconSocket)
                 {
-                    throw new TimeoutException( 'Can\'t connect to RCON server: ' . $ErrStr, TimeoutException::TIMEOUT_CONNECT);
+                    throw new TimeoutException('Can\'t connect to RCON server: ' . $ErrStr, TimeoutException::TIMEOUT_CONNECT);
                 }
 				
-                Stream_Set_Timeout( $this->RconSocket, $this->Socket->Timeout );
-                Stream_Set_Blocking( $this->RconSocket, true );
+                Stream_Set_Timeout($this->RconSocket, $this->Socket->Timeout);
+                Stream_Set_Blocking($this->RconSocket, true);
             }
         }
 		
-        public function Write( $Header, $String = '' )
+        public function Write($Header, $String = '')
         {
             // Pack the packet together
-            $Command = Pack( 'VV', ++$this->RconRequestId, $Header ) . $String . "\x00\x00\x00"; 
+            $Command = Pack('VV', ++$this->RconRequestId, $Header) . $String . "\x00\x00\x00"; 
 			
             // Prepend packet length
-            $Command = Pack( 'V', StrLen( $Command ) ) . $Command;
-            $Length  = StrLen( $Command );
+            $Command = Pack('V', StrLen($Command)) . $Command;
+            $Length  = StrLen($Command);
 			
-            return $Length === FWrite( $this->RconSocket, $Command, $Length );
+            return $Length === FWrite($this->RconSocket, $Command, $Length);
         }
 		
-        public function Read( $Length = 1400 )
+        public function Read($Length = 1400)
         {
-            $this->Buffer->Set( FRead( $this->RconSocket, $Length ) );
+            $this->Buffer->Set(FRead($this->RconSocket, $Length));
 			
             $PacketSize = $this->Buffer->GetLong( );
 			
             $Buffer = $this->Buffer->Get( );
 			
-            $Remaining = $PacketSize - StrLen( $Buffer );
+            $Remaining = $PacketSize - StrLen($Buffer);
 			
-            while( $Remaining > 0 )
+            while ($Remaining > 0)
             {
-                $Buffer2 = FRead( $this->RconSocket, $Length );
+                $Buffer2 = FRead($this->RconSocket, $Length);
                 $Buffer .= $Buffer2;
 				
-                $Remaining -= StrLen( $Buffer2 );
+                $Remaining -= StrLen($Buffer2);
             }
 			
-            $this->Buffer->Set( $Buffer );
+            $this->Buffer->Set($Buffer);
         }
 		
-        public function Command( $Command )
+        public function Command($Command)
         {
-            $this->Write( SourceQuery :: SERVERDATA_EXECCOMMAND, $Command );
+            $this->Write(SourceQuery :: SERVERDATA_EXECCOMMAND, $Command);
 			
             $this->Read( );
 			
             $this->Buffer->GetLong( ); // RequestID
-            $Type      = $this->Buffer->GetLong( );
+            $Type = $this->Buffer->GetLong( );
 			
-            if( $Type === SourceQuery :: SERVERDATA_AUTH_RESPONSE )
+            if ($Type === SourceQuery :: SERVERDATA_AUTH_RESPONSE)
             {
-                throw new AuthenticationException( 'Bad rcon_password.', AuthenticationException::BAD_PASSWORD);
+                throw new AuthenticationException('Bad rcon_password.', AuthenticationException::BAD_PASSWORD);
             }
-            else if( $Type !== SourceQuery :: SERVERDATA_RESPONSE_VALUE )
+            else if ($Type !== SourceQuery :: SERVERDATA_RESPONSE_VALUE)
             {
                 return false;
             }
@@ -117,24 +121,24 @@ use xPaw\SourceQuery\Exception\TimeoutException;
 			
             // We do this stupid hack to handle split packets
             // See https://developer.valvesoftware.com/wiki/Source_RCON_Protocol#Multiple-packet_Responses
-            if( StrLen( $Buffer ) >= 4000 )
+            if (StrLen($Buffer) >= 4000)
             {
                 do
                 {
-                    $this->Write( SourceQuery :: SERVERDATA_RESPONSE_VALUE );
+                    $this->Write(SourceQuery :: SERVERDATA_RESPONSE_VALUE);
 					
                     $this->Read( );
 					
                     $this->Buffer->GetLong( ); // RequestID
 					
-                    if( $this->Buffer->GetLong( ) !== SourceQuery :: SERVERDATA_RESPONSE_VALUE )
+                    if ($this->Buffer->GetLong( ) !== SourceQuery :: SERVERDATA_RESPONSE_VALUE)
                     {
                         break;
                     }
 					
                     $Buffer .= $this->Buffer->Get( );
                 }
-                while( false ); // TODO: This is so broken that we don't even try to read multiple times, needs to be revised
+                while (false); // TODO: This is so broken that we don't even try to read multiple times, needs to be revised
             }
 			
             // TODO: It should use GetString, but there are no null bytes at the end, why?
@@ -142,6 +146,9 @@ use xPaw\SourceQuery\Exception\TimeoutException;
             return $Buffer;
         }
 		
+        /**
+         * @param string $Password
+         */
         public function Authorize( $Password )
         {
             $this->Write( SourceQuery :: SERVERDATA_AUTH, $Password );
@@ -153,7 +160,7 @@ use xPaw\SourceQuery\Exception\TimeoutException;
             // If we receive SERVERDATA_RESPONSE_VALUE, then we need to read again
             // More info: https://developer.valvesoftware.com/wiki/Source_RCON_Protocol#Additional_Comments
 			
-            if( $Type === SourceQuery :: SERVERDATA_RESPONSE_VALUE )
+            if ($Type === SourceQuery :: SERVERDATA_RESPONSE_VALUE)
             {
                 $this->Read( );
 				
@@ -161,9 +168,9 @@ use xPaw\SourceQuery\Exception\TimeoutException;
                 $Type      = $this->Buffer->GetLong( );
             }
 			
-            if( $RequestID === -1 || $Type !== SourceQuery :: SERVERDATA_AUTH_RESPONSE )
+            if ($RequestID === -1 || $Type !== SourceQuery :: SERVERDATA_AUTH_RESPONSE)
             {
-                throw new AuthenticationException( 'RCON authorization failed.', AuthenticationException::BAD_PASSWORD);
+                throw new AuthenticationException('RCON authorization failed.', AuthenticationException::BAD_PASSWORD);
             }
 			
             return true;

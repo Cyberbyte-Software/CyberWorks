@@ -99,4 +99,7 @@ function getPlayers() {
 </div>
 
 <?php
-} else echo errorMessage(11, $lang); ;
+} else {
+    echo errorMessage(11, $lang);
+}
+;

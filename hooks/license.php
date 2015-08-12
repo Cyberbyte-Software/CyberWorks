@@ -20,11 +20,14 @@ if (isset($_SESSION['permissions']['edit']['licences'])) {
                 $num = strpos($lic, $change['2']) + strlen($change['2']) + 2;
                 if ($lic[$num] == '1') {
                     $lic[$num] = '0';
-                    if ($settings['logging']) logAction($_SESSION['user_name'], $lang['removed'] . ' ' . uIDname($_POST['player'], $db_link) . ' ' . $lang['licenses'] . ' (' . licName($_POST['id'], $license) . ')', 2);
-                }
-                elseif ($lic[$num] == '0') {
+                    if ($settings['logging']) {
+                        logAction($_SESSION['user_name'], $lang['removed'] . ' ' . uIDname($_POST['player'], $db_link) . ' ' . $lang['licenses'] . ' (' . licName($_POST['id'], $license) . ')', 2);
+                    }
+                } elseif ($lic[$num] == '0') {
                     $lic[$num] = '1';
-                    if ($settings['logging']) logAction($_SESSION['user_name'], $lang['added'] . ' ' . uIDname($_POST['player'], $db_link) . ' ' . $lang['licenses'] . ' (' . licName($_POST['id'], $license) . ')', 2);
+                    if ($settings['logging']) {
+                        logAction($_SESSION['user_name'], $lang['added'] . ' ' . uIDname($_POST['player'], $db_link) . ' ' . $lang['licenses'] . ' (' . licName($_POST['id'], $license) . ')', 2);
+                    }
                 }
                 $sql = "UPDATE `players` SET `" . $col . "`='$lic' WHERE `uid` = '" . $_POST['player'] . "';";
                 $db_link->query($sql);

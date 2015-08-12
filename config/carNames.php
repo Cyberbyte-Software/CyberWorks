@@ -81,6 +81,9 @@ function carName($class)
     $car['C_Kart_01_Black_F'] = 'Kart Black';
     $car['C_Kart_01_Red_F'] = 'Kart Red';
     $car['O_Truck_02_Ammo_F'] = 'Zamak Ammo';
-    if (isset($car[$class])) return $car[$class];
-    else return $class;
-}
+    if (isset($car[$class])) {
+        return $car[$class];
+    } else {
+        return $class;
+    }
+    }

@@ -121,17 +121,23 @@ class PHPGangsta_GoogleAuthenticator
      */
     protected function _base32Decode($secret)
     {
-        if (empty($secret)) return '';
+        if (empty($secret)) {
+            return '';
+        }
 
         $base32chars = $this->_getBase32LookupTable();
         $base32charsFlipped = array_flip($base32chars);
 
         $paddingCharCount = substr_count($secret, $base32chars[32]);
         $allowedValues = array(6, 4, 3, 1, 0);
-        if (!in_array($paddingCharCount, $allowedValues)) return false;
+        if (!in_array($paddingCharCount, $allowedValues)) {
+            return false;
+        }
         for ($i = 0; $i < 4; $i++) {
             if ($paddingCharCount == $allowedValues[$i] &&
-                substr($secret, -($allowedValues[$i])) != str_repeat($base32chars[32], $allowedValues[$i])) return false;
+                substr($secret, -($allowedValues[$i])) != str_repeat($base32chars[32], $allowedValues[$i])) {
+                return false;
+            }
         }
         $secret = str_replace('=', '', $secret);
         $secret = str_split($secret);

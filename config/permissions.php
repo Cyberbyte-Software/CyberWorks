@@ -1,14 +1,14 @@
-<?php return array (
+<?php return array(
     5 =>
-    array (
+    array(
     'super_admin' => '1',
     'permissions' =>
-    array (
+    array(
         'view' => '1',
         'edit' => '1',
     ),
     'view' =>
-    array (
+    array(
         'staff' => '1',
         'update' => '1',
         'vehicles' => '1',
@@ -30,7 +30,7 @@
         'gamesrvAdmin' => '1',
     ),
     'edit' =>
-    array (
+    array(
         'staff' => '1',
         'update' => '1',
         'vehicles' => '1',
@@ -49,15 +49,15 @@
     ),
     ),
     4 =>
-    array (
+    array(
     'super_admin' => '0',
     'permissions' =>
-    array (
+    array(
         'view' => '0',
         'grant' => '0',
     ),
     'view' =>
-    array (
+    array(
         'staff' => '1',
         'update' => '1',
         'vehicles' => '1',
@@ -78,7 +78,7 @@
         'gamesrvAdmin' => '1',
     ),
     'edit' =>
-    array (
+    array(
         'staff' => '1',
         'update' => '1',
         'vehicles' => '1',
@@ -97,15 +97,15 @@
     ),
     ),
     3 =>
-    array (
+    array(
     'super_admin' => '0',
     'permissions' =>
-    array (
+    array(
         'view' => '0',
         'grant' => '0',
     ),
     'view' =>
-    array (
+    array(
         'staff' => '0',
         'update' => '0',
         'vehicles' => '1',
@@ -126,7 +126,7 @@
         'gamesrvAdmin' => '0',
     ),
     'edit' =>
-    array (
+    array(
         'staff' => '0',
         'update' => '0',
         'vehicles' => '1',
@@ -145,15 +145,15 @@
     ),
     ),
     2 =>
-    array (
+    array(
     'super_admin' => '0',
     'permissions' =>
-    array (
+    array(
         'view' => '0',
         'grant' => '0',
     ),
     'view' =>
-    array (
+    array(
         'staff' => '0',
         'update' => '0',
         'vehicles' => '1',
@@ -173,7 +173,7 @@
         'gamesrvAdmin' => '0',
     ),
     'edit' =>
-    array (
+    array(
         'staff' => '0',
         'update' => '0',
         'vehicles' => '0',
@@ -192,15 +192,15 @@
     ),
     ),
     1 =>
-    array (
+    array(
     'super_admin' => '0',
     'permissions' =>
-    array (
+    array(
         'view' => '0',
         'grant' => '0',
     ),
     'view' =>
-    array (
+    array(
         'staff' => '0',
         'update' => '0',
         'vehicles' => '0',
@@ -220,7 +220,7 @@
         'gamesrvAdmin' => '0',
     ),
     'edit' =>
-    array (
+    array(
         'staff' => '0',
         'update' => '0',
         'vehicles' => '0',
