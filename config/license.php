@@ -1,8 +1,9 @@
 <?php
-if (isset($_SESSION['lang']))
+if (isset($_SESSION['lang'])) {
     $licenseLang = $_SESSION['lang'];
-else
+} else {
     $licenseLang = 'en';
+}
 $license = array();
 
 if ($licenseLang == 'en') {
@@ -25,13 +26,12 @@ if ($licenseLang == 'en') {
     $license['copper'] = 'Copper Processing';
     $license['cement'] = 'Cement Mixing License';
     $license['home'] = 'Home Owners License';
-	$license['truck'] = 'Truck License';
+    $license['truck'] = 'Truck License';
 	
     // Cop
     $license['coastguard'] = 'Coast Guard License';
     $license['swat'] = 'SWAT License';
-}
-else if ($licenseLang == 'de') {
+} else if ($licenseLang == 'de') {
     // Civ
     $license['driver'] = 'Führerschein';
     $license['boat'] = 'Bootsschein';
@@ -50,13 +50,12 @@ else if ($licenseLang == 'de') {
     $license['copper'] = 'Kupferverarbeitung';
     $license['cement'] = 'Zementherstellung';
     $license['home'] = 'Eigentumsurkunde';
-	$license['truck'] = 'LKW Führerschein';
+    $license['truck'] = 'LKW Führerschein';
 	
     // Cop
     $license['coastguard'] = 'Küstenwache';
     $license['swat'] = 'SWAT-Lizenz';
-}
-else if ($licenseLang == 'fr') {
+} else if ($licenseLang == 'fr') {
     // Civ
     $license['driver'] = 'Permis de Conduire';
     $license['boat'] = 'Permis Bateau';
@@ -75,13 +74,12 @@ else if ($licenseLang == 'fr') {
     $license['copper'] = 'Fonte du Cuivre';
     $license['cement'] = 'Fabrication du Ciment';
     $license['home'] = 'Droit de Propriété';
-	$license['truck'] = 'Truck License';
+    $license['truck'] = 'Truck License';
 	
     // Cop
     $license['coastguard'] = 'Garde-Cotes';
     $license['swat'] = 'License du SWAT';
-}
-else if ($licenseLang == 'it') {
+} else if ($licenseLang == 'it') {
     // Civ
     $license['driver'] = 'Licenza di Guida';
     $license['boat'] = 'Licenza Nautica';
@@ -100,13 +98,12 @@ else if ($licenseLang == 'it') {
     $license['copper'] = 'Processo Rame';
     $license['cement'] = 'Processo Cemento';
     $license['home'] = 'Licenza possesso Casa';
-	$license['truck'] = 'Truck License';
+    $license['truck'] = 'Truck License';
 	
     // Cop
     $license['coastguard'] = 'Licenza Guardia Costiera';
     $license['swat'] = 'Licenza SWAT';
-}
-else if ($licenseLang == 'por') {
+} else if ($licenseLang == 'por') {
     // Civ
     $license['driver'] = 'Licença de Motorista';
     $license['boat'] = 'Licença de Barco';
@@ -125,7 +122,7 @@ else if ($licenseLang == 'por') {
     $license['copper'] = 'Processamento de Bronze';
     $license['cement'] = 'Licença de Cimento';
     $license['home'] = 'Licença de Casas';
-	$license['truck'] = 'Truck License';
+    $license['truck'] = 'Truck License';
 	
     // Cop
     $license['coastguard'] = 'Licença de Guarda Costeira';
@@ -133,7 +130,7 @@ else if ($licenseLang == 'por') {
 }
 
 
-function licName($lic,$license)
+function licName($lic, $license)
 {
     // Civ
     if ($lic == 'license_civ_driver') return $license['driver'];
@@ -154,8 +151,8 @@ function licName($lic,$license)
     elseif ($lic == 'license_civ_copper') return $license['copper'];
     elseif ($lic == 'license_civ_cement') return $license['cement'];
     elseif ($lic == 'license_civ_home') return $license['home'];
-	elseif ($lic == 'license_civ_air') return $license['pilot'];
-	elseif ($lic == 'license_civ_truck') return $license['truck'];
+    elseif ($lic == 'license_civ_air') return $license['pilot'];
+    elseif ($lic == 'license_civ_truck') return $license['truck'];
 	
     // Medic
     elseif ($lic == 'license_med_mAir') return $license['pilot'];

@@ -8,14 +8,18 @@ if (isset($_POST['email'])) {
         $_SESSION['user_profile'] = $user_pic;
         $sql = "UPDATE `users` SET `user_email`= '" . $email . "',`playerid`= '" . $pId . "', `user_profile`= '" . $user_pic . "'WHERE `user_name` = '" . $_SESSION['user_name'] . "' ";
         $result_of_query = $db_connection->query($sql);
-    } else message($lang['expired']);
-}
+    } else {
+        message($lang['expired']);
+    }
+    }
 if (isset($_POST['user_password'])) {
     if (formtoken::validateToken($_POST)) {
         $sql = "UPDATE `users` SET `user_password_hash`= '" . password_hash($_POST['user_password'], PASSWORD_DEFAULT) . "' WHERE `user_name` = '" . $_SESSION['user_name'] . "' ";
         $result_of_query = $db_connection->query($sql);
-    } else message($lang['expired']);
-}
+    } else {
+        message($lang['expired']);
+    }
+    }
 ?>
 
 <div class="row">
@@ -86,13 +90,13 @@ while ($row = mysqli_fetch_assoc($result_of_query)) {
                     invalid: 'fa fa-times',
                     validating: 'fa fa-refresh'
                 },
-                locale: '<?php if(isset($_SESSION['forum_lang'])) echo $_SESSION['forum_lang']; else echo 'en_US' ?>',
+                locale: '<?php if (isset($_SESSION['forum_lang'])) echo $_SESSION['forum_lang']; else echo 'en_US' ?>',
                 fields: {
                     email: {
                         validators: {
                             notEmpty: {
                             }
-                            <?php if(isset($settings['mailgunAPI'])) { ?>,
+                            <?php if (isset($settings['mailgunAPI'])) { ?>,
                                 remote: {
                                 type: 'GET',
                                 url: 'https://api.mailgun.net/v2/address/validate?callback=?',
@@ -105,7 +109,9 @@ while ($row = mysqli_fetch_assoc($result_of_query)) {
                                 validKey: 'is_valid',
                                 message: 'The email is not valid'
                                 }
-                            <?php }; ?>
+                            <?php };
+}
+?>
                         }
                     },
                     player_id: {
@@ -176,7 +182,7 @@ while ($row = mysqli_fetch_assoc($result_of_query)) {
 
             .on('success.validator.fv', function (e, data) {
                 if (data.field === 'player_id' && data.validator === 'remote') {
-                    document.getElementById("steam").innerHTML = '<?php echo $lang['steamFound'];?>' + ' <a href="' + data.result.url + '" target="_blank">' + data.result.name + '</a>';
+                    document.getElementById("steam").innerHTML = '<?php echo $lang['steamFound']; ?>' + ' <a href="' + data.result.url + '" target="_blank">' + data.result.name + '</a>';
                 }
                 if (data.field === 'email' && data.validator === 'remote') {
                 var response = data.result;  // response is the result returned by MailGun API

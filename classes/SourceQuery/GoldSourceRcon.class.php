@@ -28,6 +28,10 @@
 		private $RconRequestId;
 		private $RconChallenge;
 		
+		/**
+		 * @param SourceQueryBuffer $Buffer
+		 * @param SourceQuerySocket $Socket
+		 */
 		public function __construct( $Buffer, $Socket )
 		{
 			$this->Buffer = $Buffer;
@@ -46,6 +50,9 @@
 			//
 		}
 		
+		/**
+		 * @param integer $Header
+		 */
 		public function Write( $Header, $String = '' )
 		{
 			$Command = Pack( 'cccca*', 0xFF, 0xFF, 0xFF, 0xFF, $String );
@@ -74,8 +81,7 @@
 			if($Trimmed === 'Bad rcon_password.')
 			{
 				throw new AuthenticationException($Trimmed, AuthenticationException::BAD_PASSWORD);
-			}
-			else if($Trimmed === 'You have been banned from this server.')
+			} else if($Trimmed === 'You have been banned from this server.')
 			{
 				throw new AuthenticationException($Trimmed, AuthenticationException::BANNED);
 			}
@@ -117,6 +123,9 @@
 			return $this->Buffer->Get( );
 		}
 		
+		/**
+		 * @param string $Password
+		 */
 		public function Authorize( $Password )
 		{
 			$this->RconPassword = $Password;

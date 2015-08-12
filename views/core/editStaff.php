@@ -3,71 +3,71 @@ $sql = 'SELECT * FROM `users` WHERE `user_id` ="' . $uId . '";';
 $result_of_query = $db_connection->query($sql);
 
 if ($result_of_query->num_rows > 0) {
-	$user = $result_of_query->fetch_object();
+    $user = $result_of_query->fetch_object();
 
-	if (isset($_POST["staffName"])) {
-		if (formtoken::validateToken($_POST)) {
-		    $staffName = $_POST['staffName'];
-		    $staffEmail = $_POST['staffEmail'];
-		    $staffPID = $_POST['staffPID'];
-		    if (isset($_POST['ban'])) $staffRank = 0; else $staffRank = $_POST['staffRank'];
+    if (isset($_POST["staffName"])) {
+        if (formtoken::validateToken($_POST)) {
+            $staffName = $_POST['staffName'];
+            $staffEmail = $_POST['staffEmail'];
+            $staffPID = $_POST['staffPID'];
+            if (isset($_POST['ban'])) $staffRank = 0; else $staffRank = $_POST['staffRank'];
 	
-		    $sql = "UPDATE `users` SET `user_name`='" . $staffName . "',`user_email`='" . $staffEmail . "',`playerid`='" . $staffPID . "',`user_level`='" . $staffRank . "' WHERE `user_id` ='" . $uId . "';";
-		    $result_of_query = $db_connection->query($sql);
-		    message(ucfirst($_POST['staffName']) . ' ' . $lang['updated']);
-		} else message($lang['expired']);
-	}
-	if (isset($_POST["viewPlayer"])) {
-		if (formtoken::validateToken($_POST)) {
-			if ($user->user_level == 5) {
-				$permissions['super_admin'] = 1;
-			} else {
-				$permissions['super_admin'] = 0;
-			}
+            $sql = "UPDATE `users` SET `user_name`='" . $staffName . "',`user_email`='" . $staffEmail . "',`playerid`='" . $staffPID . "',`user_level`='" . $staffRank . "' WHERE `user_id` ='" . $uId . "';";
+            $result_of_query = $db_connection->query($sql);
+            message(ucfirst($_POST['staffName']) . ' ' . $lang['updated']);
+        } else message($lang['expired']);
+    }
+    if (isset($_POST["viewPlayer"])) {
+        if (formtoken::validateToken($_POST)) {
+            if ($user->user_level == 5) {
+                $permissions['super_admin'] = 1;
+            } else {
+                $permissions['super_admin'] = 0;
+            }
 	
-			$permissions['permissions']['view'] = $_POST['viewPerms'];
-			$permissions['permissions']['edit'] = $_POST['editPerms'];
+            $permissions['permissions']['view'] = $_POST['viewPerms'];
+            $permissions['permissions']['edit'] = $_POST['editPerms'];
 	
-			$permissions['view']['staff'] = $_POST['viewStaff'];
-			$permissions['view']['update'] = '1';
-			$permissions['view']['vehicles'] = $_POST['viewVehicles'];
-			$permissions['view']['houses'] = $_POST['viewHouses'];
-			$permissions['view']['gangs'] = $_POST['viewGangs'];
-			$permissions['view']['wanted'] = $_POST['viewWanted'];
-			$permissions['view']['steam'] = $_POST['viewSteam'];
-			$permissions['view']['player'] = $_POST['viewPlayer'];
-			$permissions['view']['licences'] = $_POST['viewLic'];
-			$permissions['view']['messages'] = $_POST['viewMSG'];
-			$permissions['view']['notes'] = $_POST['viewNotes'];
-			$permissions['view']['logs'] = $_POST['viewLogs'];
-			$permissions['view']['curplayer'] = $_POST['viewCurPlayer'];
-			$permissions['view']['gamesrv'] = $_POST['gamesrv'];
-			$permissions['view']['gamesrvAdmin'] = $_POST['gamesrvAdmin'];
+            $permissions['view']['staff'] = $_POST['viewStaff'];
+            $permissions['view']['update'] = '1';
+            $permissions['view']['vehicles'] = $_POST['viewVehicles'];
+            $permissions['view']['houses'] = $_POST['viewHouses'];
+            $permissions['view']['gangs'] = $_POST['viewGangs'];
+            $permissions['view']['wanted'] = $_POST['viewWanted'];
+            $permissions['view']['steam'] = $_POST['viewSteam'];
+            $permissions['view']['player'] = $_POST['viewPlayer'];
+            $permissions['view']['licences'] = $_POST['viewLic'];
+            $permissions['view']['messages'] = $_POST['viewMSG'];
+            $permissions['view']['notes'] = $_POST['viewNotes'];
+            $permissions['view']['logs'] = $_POST['viewLogs'];
+            $permissions['view']['curplayer'] = $_POST['viewCurPlayer'];
+            $permissions['view']['gamesrv'] = $_POST['gamesrv'];
+            $permissions['view']['gamesrvAdmin'] = $_POST['gamesrvAdmin'];
 	
-			$permissions['edit']['staff'] = $_POST['editStaff'];
-			$permissions['edit']['update'] = '1';
-			$permissions['edit']['vehicles'] = $_POST['editVehicles'];
-			$permissions['edit']['houses'] = $_POST['editHouses'];
-			$permissions['edit']['gangs'] = $_POST['editGangs'];
-			$permissions['edit']['wanted'] = $_POST['editWanted'];
-			$permissions['edit']['steam'] = $_POST['viewSteam'];
-			$permissions['edit']['player'] = $_POST['editPlayer'];
-			$permissions['edit']['licences'] = $_POST['editLIC'];
-			$permissions['edit']['inventory'] = $_POST['editINV'];
-			$permissions['edit']['server'] = $_POST['editServer'];
-			$permissions['edit']['ranks'] = $_POST['editRanks'];
-			$permissions['edit']['bank'] = $_POST['editBank'];
-			$permissions['edit']['ignLVL'] = $_POST['editignLVL'];
-			$permissions['edit']['notes'] = $_POST['addNote'];
+            $permissions['edit']['staff'] = $_POST['editStaff'];
+            $permissions['edit']['update'] = '1';
+            $permissions['edit']['vehicles'] = $_POST['editVehicles'];
+            $permissions['edit']['houses'] = $_POST['editHouses'];
+            $permissions['edit']['gangs'] = $_POST['editGangs'];
+            $permissions['edit']['wanted'] = $_POST['editWanted'];
+            $permissions['edit']['steam'] = $_POST['viewSteam'];
+            $permissions['edit']['player'] = $_POST['editPlayer'];
+            $permissions['edit']['licences'] = $_POST['editLIC'];
+            $permissions['edit']['inventory'] = $_POST['editINV'];
+            $permissions['edit']['server'] = $_POST['editServer'];
+            $permissions['edit']['ranks'] = $_POST['editRanks'];
+            $permissions['edit']['bank'] = $_POST['editBank'];
+            $permissions['edit']['ignLVL'] = $_POST['editignLVL'];
+            $permissions['edit']['notes'] = $_POST['addNote'];
 	
-			$userPerms = json_encode($permissions);
+            $userPerms = json_encode($permissions);
 	
-		    $sql = "UPDATE `users` SET `permissions`='" . $userPerms . "' WHERE `user_id` ='" . $uId . "';";
-		    $result_of_query = $db_connection->query($sql);
-		    message("Permissions Updated");
-		    if($_SESSION['user_id'] == $uId) SessionManager::regenerateSession();
-		} else message($lang['expired']);
-	}
+            $sql = "UPDATE `users` SET `permissions`='" . $userPerms . "' WHERE `user_id` ='" . $uId . "';";
+            $result_of_query = $db_connection->query($sql);
+            message("Permissions Updated");
+            if($_SESSION['user_id'] == $uId) SessionManager::regenerateSession();
+        } else message($lang['expired']);
+    }
     ?>
     <div class="row">
         <div class="col-lg-12">
@@ -85,7 +85,7 @@ if ($result_of_query->num_rows > 0) {
             <div class="panel-body">
                 <?php
                 echo '<form method="post" action="' . $settings['url'] . 'editStaff/' . $uId . '" name="editform">';
-				echo formtoken::getField();
+                echo formtoken::getField();
 				
                 echo "<center>";
                 echo "<h4>" . $lang['name'] . ":  <input id='staffName' class='form-control' name='staffName' type='text' value='" . $user->user_name . "'></h4>";
@@ -102,15 +102,16 @@ if ($result_of_query->num_rows > 0) {
 
                 echo "<input id='user_id' type='hidden' name='user_id' value='" . $uId . "'>";
                 echo "<center><input class='btn btn-lg btn-primary'  type='submit'  name='edit' value='" . $lang['subChange'] . "'>";
-                if ($_SESSION['user_id'] <> $uId)
-                    echo "  <input class='btn btn-lg btn-danger' type='submit'  name='ban' value='" . $lang['ban'] . "'>";
+                if ($_SESSION['user_id'] <> $uId) {
+                                    echo "  <input class='btn btn-lg btn-danger' type='submit'  name='ban' value='" . $lang['ban'] . "'>";
+                }
                 ?>
                 </center>
                 </form>
             </div>
         </div>
     </div>
-    <?php if($_SESSION['permissions']['permissions']['view']) { ?>
+    <?php if ($_SESSION['permissions']['permissions']['view']) { ?>
 	<div class="col-md-8">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -118,8 +119,8 @@ if ($result_of_query->num_rows > 0) {
             </div>
             <div class="panel-body">
 				<?php echo "<form method='post' action='" . $settings['url'] . 'editStaff/' . $uId . "' name='permsUpdate'>";
-				$permissions = json_decode($user->permissions,true);
-				?>
+                $permissions = json_decode($user->permissions,true);
+                ?>
 				<div class="col-md-4" style='padding-right: 0px; padding-left: 0px;'>
 					<div class="panel-heading">
 						<div class="pull-left"><h5><i class="fa fa-tasks"></i><?php echo ' '.$lang['admin'].' '.$lang['perms']; ?></h5></div>
@@ -133,7 +134,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewPerms" id="viewPerms">
 													<option value="1" selected>Yes</option>
@@ -148,7 +149,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewPerms" id="viewPerms">
 													<option value="1">Yes</option>
@@ -163,7 +164,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_edit']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editPerms" id="editPerms">
 													<option value="1" selected>Yes</option>
@@ -178,7 +179,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_edit']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editPerms" id="editPerms">
 													<option value="1">Yes</option>
@@ -195,7 +196,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_notes']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewNotes" id="viewNotes">
 													<option value="1" selected>Yes</option>
@@ -210,7 +211,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_notes']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewNotes" id="viewNotes">
 													<option value="1">Yes</option>
@@ -227,7 +228,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_edit_notes']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="addNote" id="addNote">
 													<option value="1" selected>Yes</option>
@@ -242,7 +243,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_edit_notes']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="addNote" id="addNote">
 													<option value="1">Yes</option>
@@ -259,7 +260,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_logs']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewLogs" id="viewLogs">
 													<option value="1" selected>Yes</option>
@@ -274,7 +275,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_logs']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewLogs" id="viewLogs">
 													<option value="1">Yes</option>
@@ -291,7 +292,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_edit_server']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editServer" id="editServer">
 													<option value="1" selected>Yes</option>
@@ -306,7 +307,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_edit_server']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editServer" id="editServer">
 													<option value="1">Yes</option>
@@ -323,7 +324,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_edit_staff']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editStaff" id="editStaff">
 													<option value="1" selected>Yes</option>
@@ -338,7 +339,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_edit_staff']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editStaff" id="editStaff">
 													<option value="1">Yes</option>
@@ -355,7 +356,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_staff']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewStaff" id="viewStaff">
 													<option value="1" selected>Yes</option>
@@ -370,7 +371,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_staff']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewStaff" id="viewStaff">
 													<option value="1">Yes</option>
@@ -388,7 +389,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_gamesrvAdmin']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="gamesrvAdmin" id="gamesrvAdmin">
 													<option value="1" selected>Yes</option>
@@ -403,7 +404,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_gamesrvAdmin']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="gamesrvAdmin" id="gamesrvAdmin">
 													<option value="1">Yes</option>
@@ -422,7 +423,7 @@ if ($result_of_query->num_rows > 0) {
 				</div>
 				<div class="col-md-4" style='padding-right: 0px; padding-left: 0px;'>
 					<div class="panel-heading">
-						<div class="pull-left"><h5><i class="fa fa-tasks"></i><?php echo ' '.$lang['perm_view']; ?></h5></div>
+						<div class="pull-left"><h5><i class="fa fa-tasks"></i><?php echo ' ' . $lang['perm_view']; ?></h5></div>
 							<br>
 						</div>
 						<div class="panel-body">
@@ -433,7 +434,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_player']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewPlayer" id="viewPlayer">
 													<option value="1" selected>Yes</option>
@@ -448,7 +449,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_player']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewPlayer" id="viewPlayer">
 													<option value="1">Yes</option>
@@ -465,7 +466,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_vehicles']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewVehicles" id="viewVehicles">
 													<option value="1" selected>Yes</option>
@@ -480,7 +481,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_vehicles']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewVehicles" id="viewVehicles">
 													<option value="1">Yes</option>
@@ -497,7 +498,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_houses']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewHouses" id="viewHouses">
 													<option value="1" selected>Yes</option>
@@ -512,7 +513,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_houses']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewHouses" id="viewHouses">
 													<option value="1">Yes</option>
@@ -529,7 +530,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_gangs']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewGangs" id="viewGangs">
 													<option value="1" selected>Yes</option>
@@ -544,7 +545,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_gangs']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewGangs" id="viewGangs">
 													<option value="1">Yes</option>
@@ -561,7 +562,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_wanted']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewWanted" id="viewWanted">
 													<option value="1" selected>Yes</option>
@@ -576,7 +577,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_wanted']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewWanted" id="viewWanted">
 													<option value="1">Yes</option>
@@ -593,7 +594,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_licences']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewLic" id="viewLic">
 													<option value="1" selected>Yes</option>
@@ -608,7 +609,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_licences']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewLic" id="viewLic">
 													<option value="1">Yes</option>
@@ -625,7 +626,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_messages']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewMSG" id="viewMSG">
 													<option value="1" selected>Yes</option>
@@ -640,7 +641,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_messages']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewMSG" id="viewMSG">
 													<option value="1">Yes</option>
@@ -657,7 +658,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_curplayer']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewCurPlayer" id="viewCurPlayer">
 													<option value="1" selected>Yes</option>
@@ -672,7 +673,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_curplayer']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewCurPlayer" id="viewCurPlayer">
 													<option value="1">Yes</option>
@@ -689,7 +690,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_steam']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewSteam" id="viewSteam">
 													<option value="1" selected>Yes</option>
@@ -704,7 +705,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_steam']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="viewSteam" id="viewSteam">
 													<option value="1">Yes</option>
@@ -721,7 +722,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_gamesrv']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="gamesrv" id="gamesrv">
 													<option value="1" selected>Yes</option>
@@ -736,7 +737,7 @@ if ($result_of_query->num_rows > 0) {
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
 											<span class="task-title-sp"><?php echo $lang['perm_view_gamesrv']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="gamesrv" id="gamesrv">
 													<option value="1">Yes</option>
@@ -753,7 +754,7 @@ if ($result_of_query->num_rows > 0) {
 				</div>
 				<div class="col-md-4" style='padding-right: 0px; padding-left: 0px;'>
 					<div class="panel-heading">
-						<div class="pull-left"><h5><i class="fa fa-tasks"></i><?php echo ' '.$lang['perm_edit']; ?></h5></div>
+						<div class="pull-left"><h5><i class="fa fa-tasks"></i><?php echo ' ' . $lang['perm_edit']; ?></h5></div>
 							<br>
 						</div>
 						<div class="panel-body">
@@ -763,8 +764,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-success">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_player']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_player']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editPlayer" id="editPlayer">
 													<option value="1" selected>Yes</option>
@@ -778,8 +779,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-danger">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_player']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_player']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editPlayer" id="editPlayer">
 													<option value="1">Yes</option>
@@ -795,8 +796,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-success">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_vehicles']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_vehicles']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editVehicles" id="editVehicles">
 													<option value="1" selected>Yes</option>
@@ -810,8 +811,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-danger">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_vehicles']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_vehicles']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editVehicles" id="editVehicles">
 													<option value="1">Yes</option>
@@ -827,8 +828,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-success">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_houses']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_houses']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editHouses" id="editHouses">
 													<option value="1" selected>Yes</option>
@@ -842,8 +843,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-danger">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_houses']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_houses']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editHouses" id="editHouses">
 													<option value="1">Yes</option>
@@ -859,8 +860,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-success">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_gangs']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_gangs']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editGangs" id="editGangs">
 													<option value="1" selected>Yes</option>
@@ -874,8 +875,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-danger">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_gangs']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_gangs']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editGangs" id="editGangs">
 													<option value="1">Yes</option>
@@ -891,8 +892,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-success">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_wanted']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_wanted']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editWanted" id="editWanted">
 													<option value="1" selected>Yes</option>
@@ -906,8 +907,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-danger">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_wanted']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_wanted']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editWanted" id="editWanted">
 													<option value="1">Yes</option>
@@ -923,8 +924,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-success">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_licences']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_licences']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editLIC" id="editLIC">
 													<option value="1" selected>Yes</option>
@@ -938,8 +939,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-danger">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_licences']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_licences']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editLIC" id="editLIC">
 													<option value="1">Yes</option>
@@ -955,8 +956,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-success">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_inventory']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_inventory']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editINV" id="editINV">
 													<option value="1" selected>Yes</option>
@@ -970,8 +971,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-danger">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_inventory']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_inventory']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editINV" id="editINV">
 													<option value="1">Yes</option>
@@ -986,8 +987,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-success">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_ranks']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_ranks']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editRanks" id="editRanks">
 													<option value="1" selected>Yes</option>
@@ -1001,8 +1002,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-danger">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_ranks']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_ranks']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editRanks" id="editRanks">
 													<option value="1">Yes</option>
@@ -1017,8 +1018,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-success">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_bank']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_bank']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editBank" id="editBank">
 													<option value="1" selected>Yes</option>
@@ -1032,8 +1033,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-danger">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_bank']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_bank']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editBank" id="editBank">
 													<option value="1">Yes</option>
@@ -1048,8 +1049,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-success">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_ignLVL']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_ignLVL']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editignLVL" id="editignLVL">
 													<option value="1" selected>Yes</option>
@@ -1063,8 +1064,8 @@ if ($result_of_query->num_rows > 0) {
 									<li class="list-danger">
 										<i class=" fa fa-ellipsis-v"></i>
 										<div class="task-title">
-											<span class="task-title-sp"><?php echo ' '.$lang['perm_edit_ignLVL']; ?></span>
-											<?php if($_SESSION['permissions']['permissions']['edit']) { ?>
+											<span class="task-title-sp"><?php echo ' ' . $lang['perm_edit_ignLVL']; ?></span>
+											<?php if ($_SESSION['permissions']['permissions']['edit']) { ?>
 											<div class="pull-right hidden-phone" style="padding-right:5px;">
 												<select name="editignLVL" id="editignLVL">
 													<option value="1">Yes</option>
@@ -1088,5 +1089,5 @@ if ($result_of_query->num_rows > 0) {
     <?php } ?>
 <?php
 } else {
-    echo errorMessage(3,$lang);
+    echo errorMessage(3, $lang);
 }

@@ -22,13 +22,13 @@ if (isset($GuestReg)) {
                 <p>Username:</p>
                 <input id="user_name" type="text" class="form-control"
                        placeholder="Username (only letters and numbers, 2 to 30 characters)" autofocus
-                       name="user_name" <?php if(isset($_POST['user_name'])) echo 'value="' . $_POST['user_name'] . '"'; ?> required>
+                       name="user_name" <?php if (isset($_POST['user_name'])) echo 'value="' . $_POST['user_name'] . '"'; ?> required>
             </div>
 
             <div class="form-group">
                 <p>Email Address:</p>
                 <input id="user_email" placeholder="User's email" class=" form-control" type="email"
-                       name="user_email" <?php if(isset($_POST['user_name'])) echo 'value="' . $_POST['user_name'] . '"'; ?> required/>
+                       name="user_email" <?php if (isset($_POST['user_name'])) echo 'value="' . $_POST['user_name'] . '"'; ?> required/>
             </div>
             <div class="form-group">
                 <p>Password:</p>
@@ -47,7 +47,7 @@ if (isset($GuestReg)) {
                 <select class=" form-control" name="profile_pic">
                     <?php for ($icon = 1; $icon <= 6; $icon++) {
                         echo '<option value="' . $icon . '" ';
-                        if(isset($_POST['user_name'])) if($icon == $_POST['user_name']) echo 'selected';
+                        if (isset($_POST['user_name'])) if ($icon == $_POST['user_name']) echo 'selected';
                         echo '>' . $settings['names'][$icon] . '</option>';
                     } ?>
                 </select>

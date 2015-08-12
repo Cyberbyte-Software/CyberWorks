@@ -55,7 +55,7 @@ if ($result_of_query->num_rows > 0) {
                     echo "<td class='hidden-xs'>" . $row["wantedID"] . "</td>";
                     echo "<td>" . $row["wantedName"] . "</td>";
                     echo "<td class='hidden-xs'>" . $row["wantedBounty"] . "</td>";
-                    echo "<td class='hidden-xs'>" . yesNo($row["active"],$lang) . "</td>";
+                    echo "<td class='hidden-xs'>" . yesNo($row["active"], $lang) . "</td>";
                     echo "<td><a class='btn btn-primary btn-xs' href='editWanted/" . $row["wantedID"] . "'>";
                     echo "<i class='fa fa-pencil'></i></a></td>";
                     echo "</tr>";
@@ -70,4 +70,4 @@ if ($result_of_query->num_rows > 0) {
         </div>
     </div>
 <?php
-} else  echo errorMessage(3,$lang);
+} else  echo errorMessage(3, $lang);

@@ -1,7 +1,7 @@
 <?php
 if ($settings['version'] < 0.3) {
     if (!isset($settings['installedLanguage'])) $settings['installedLanguage'] = array();
-    $lang = array('English','en');
+    $lang = array('English', 'en');
     array_push($settings['installedLanguage'], $lang);
     $settings['version'] = 0.3;
     file_put_contents('config/settings.php', '<?php return ' . var_export($settings, true) . ';');
@@ -16,4 +16,6 @@ if ($settings['version'] < 0.4) {
     file_put_contents('config/settings.php', '<?php return ' . var_export($settings, true) . ';');
     $updated = true;
 }
-if (isset($updated)) message('Updated :)');
+if (isset($updated)) {
+    message('Updated :)');
+}

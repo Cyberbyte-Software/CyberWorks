@@ -55,11 +55,26 @@ $result_of_query = $db_link->query($sql);
                 <form style="float:right;" name='rows' method="post" action="<?php echo $settings['url'] ?>vehicles">
                     <select id='items' name='items'>
                         <?php echo $_SESSION['items']; ?>
-                        <option value="5" <?php if ('5' == $_SESSION['items']) echo 'selected'; ?>>5</option>
-                        <option value="10" <?php if ('10' == $_SESSION['items']) echo 'selected'; ?>>10</option>
-                        <option value="15" <?php if ('15' == $_SESSION['items']) echo 'selected'; ?>>15</option>
-                        <option value="25" <?php if ('25' == $_SESSION['items']) echo 'selected'; ?>>25</option>
-                        <option value="50" <?php if ('50' == $_SESSION['items']) echo 'selected'; ?>>50</option>
+                        <option value="5" <?php if ('5' == $_SESSION['items']) {
+    echo 'selected';
+}
+?>>5</option>
+                        <option value="10" <?php if ('10' == $_SESSION['items']) {
+    echo 'selected';
+}
+?>>10</option>
+                        <option value="15" <?php if ('15' == $_SESSION['items']) {
+    echo 'selected';
+}
+?>>15</option>
+                        <option value="25" <?php if ('25' == $_SESSION['items']) {
+    echo 'selected';
+}
+?>>25</option>
+                        <option value="50" <?php if ('50' == $_SESSION['items']) {
+    echo 'selected';
+}
+?>>50</option>
                     </select>
                     <input class='btn btn-sm btn-primary' name='update' type="submit"
                            value="<?php echo $lang['itemsPP'] ?>">
@@ -74,7 +89,7 @@ $result_of_query = $db_link->query($sql);
             </div>
             <div class="col-md-3 pull-right">
                 <form style="float:right;" name='search'>
-                    <input id='searchText' type='text' name='searchText' placeholder="<?php if(isset($search)) echo $search ?>">
+                    <input id='searchText' type='text' name='searchText' placeholder="<?php if (isset($search)) echo $search ?>">
                     <input class='btn btn-sm btn-primary' type='button' name='search'
                            onclick='searchpage();' value='<?php echo $lang['search'] ?>'>
                 </form>
@@ -85,12 +100,17 @@ $result_of_query = $db_link->query($sql);
             <thead>
             <tr>
                 <th><i class="fa fa-eye"></i><?php echo " " . $lang['owner'] ?></th>
-                <th><i class="fa fa-car"></i><?php echo " " . $lang['class']; ?></th>
+                <th><i class="fa fa-car"></i><?php echo " " . $lang['class'];
+}
+?></th>
                 <th class="hidden-xs"><i class="fa fa-car"></i><?php echo " " . $lang['type']; ?></th>
                 <th class="hidden-xs"><i class="fa fa-car"></i><?php echo " " . $lang['plate']; ?></th>
                 <th class="hidden-xs"><i class="fa fa-car"></i><?php echo " " . $lang['alive']; ?></th>
                 <th class="hidden-xs"><i class="fa fa-info"></i><?php echo " " . $lang['active']; ?></th>
-                <?php if ($_SESSION['user_level'] >= P_EDIT_VEHICLES) echo '<th><i class="fa fa-pencil"></i><div class="hidden-xs"> ' . $lang['edit'] . '</div></th>'; ?>
+                <?php if ($_SESSION['user_level'] >= P_EDIT_VEHICLES) {
+    echo '<th><i class="fa fa-pencil"></i><div class="hidden-xs"> ' . $lang['edit'] . '</div></th>';
+}
+?>
             </tr>
             </thead>
             <tbody>

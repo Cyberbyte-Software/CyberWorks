@@ -1,7 +1,7 @@
 <?php
 if ($settings['url'] == "/") {
-  require_once("config/carNames.php");
-  require_once("config/images.php");
+    require_once("config/carNames.php");
+    require_once("config/images.php");
 } else {
     require_once(realpath($settings['url']) . "config/carNames.php");
     require_once(realpath($settings['url']) . "config/images.php");
@@ -21,7 +21,7 @@ if (isset($_POST["editType"])) {
                     $sql = "SELECT `pid`,`classname` FROM `vehicles` WHERE `id` ='" . $vehID . "';";
                     $result_of_query = $db_link->query($sql);
                     while ($row = mysqli_fetch_assoc($result_of_query)) {
-                        logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($row["pid"],$db_link) . '\'s ' . carName($row["classname"]) . '(' . $vehID . ')', 1);
+                        logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($row["pid"], $db_link) . '\'s ' . carName($row["classname"]) . '(' . $vehID . ')', 1);
                     }
                     break;
 
@@ -32,7 +32,7 @@ if (isset($_POST["editType"])) {
                     $sql = "SELECT `pid`,`classname` FROM `vehicles` WHERE `id` ='" . $vehID . "';";
                     $result_of_query = $db_link->query($sql);
                     while ($row = mysqli_fetch_assoc($result_of_query)) {
-                        logAction($_SESSION['user_name'], $lang['stored'] . ' ' . nameID($row["pid"],$db_link) . '\'s ' . carName($row["classname"]) . '(' . $vehID . ')', 1);
+                        logAction($_SESSION['user_name'], $lang['stored'] . ' ' . nameID($row["pid"], $db_link) . '\'s ' . carName($row["classname"]) . '(' . $vehID . ')', 1);
                     }
                     break;
 
@@ -43,7 +43,7 @@ if (isset($_POST["editType"])) {
                     $sql = "SELECT `pid`,`classname` FROM `vehicles` WHERE `id` ='" . $vehID . "';";
                     $result_of_query = $db_link->query($sql);
                     while ($row = mysqli_fetch_assoc($result_of_query)) {
-                        logAction($_SESSION['user_name'], $lang['deleted'] . ' ' . nameID($row["pid"],$db_link) . '\'s ' . carName($row["classname"]) . '(' . $vehID . ')', 2);
+                        logAction($_SESSION['user_name'], $lang['deleted'] . ' ' . nameID($row["pid"], $db_link) . '\'s ' . carName($row["classname"]) . '(' . $vehID . ')', 2);
                     }
                     break;
 
@@ -57,11 +57,13 @@ if (isset($_POST["editType"])) {
                     $sql = "SELECT `pid` FROM `vehicles` WHERE `id` ='" . $vehID . "';";
                     $result_of_query = $db_link->query($sql);
                     while ($row = mysqli_fetch_assoc($result_of_query)) {
-                        logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($row["pid"],$db_link) . '\'s ' . carName($vehClass) . '(' . $vehID . ')', 1);
+                        logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($row["pid"], $db_link) . '\'s ' . carName($vehClass) . '(' . $vehID . ')', 1);
                     }
                     break;
             }
-        } else message($lang['expired']);
+        } else {
+            message($lang['expired']);
+        }
     }
 }
 
@@ -74,14 +76,14 @@ if ($result_of_query->num_rows > 0) {
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="panel-title"><i
-                    class="fa fa-child fa-fw"></i><?php echo nameID($veh->pid,$db_link) . "'s " . carName($veh->classname); ?>
+                    class="fa fa-child fa-fw"></i><?php echo nameID($veh->pid, $db_link) . "'s " . carName($veh->classname); ?>
             </h2>
         </div>
         <div class="panel-body">
             <?php $carPic = getPic($veh->classname);
             echo '<center><img src="' . $settings['url'] . 'assets/img/cars/' . $carPic . '.jpg" class="img-responsive" alt="' . $veh->classname . '">'; ?>
             <?php
-            echo "<h4>" . $lang['owner'] . ": <a href='" . $settings['url'] . "editPlayer/" . uID($veh->pid,$db_link) . "'>" . nameID($veh->pid,$db_link) . "</a></h4>";
+            echo "<h4>" . $lang['owner'] . ": <a href='" . $settings['url'] . "editPlayer/" . uID($veh->pid, $db_link) . "'>" . nameID($veh->pid, $db_link) . "</a></h4>";
             echo "<h4>" . $lang['class'] . ": " . carName($veh->classname) . "</h4>";
             echo "<h4>" . $lang['plate'] . ": " . $veh->plate . "</h4>";
 
@@ -96,7 +98,8 @@ if ($result_of_query->num_rows > 0) {
             } else {
                 echo " <span class='label label-success'>" . $lang["active"] . "</span></h4>";
             }
-            if ($_SESSION['permissions']['edit']['vehicles']) echo '
+            if ($_SESSION['permissions']['edit']['vehicles']) {
+                echo '
                 <div style="float: right;">
                     <a data-toggle="modal" href="#edit_veh" class="btn btn-primary btn-xs" style="margin-right:3px">
                         <i class="fa fa-pencil"></i>
@@ -108,6 +111,7 @@ if ($result_of_query->num_rows > 0) {
                         <i class="fa fa-exclamation-triangle"></i>
                     </a>
                 </div>';
+            }
             ?>
         </div>
     </div>
@@ -138,7 +142,7 @@ if ($result_of_query->num_rows > 0) {
             case 'med':
                 ?>
                 <span class="fa fa-3x fa-ambulance"></span>
-                <h4> <?php echo $lang['side'] . ": " . $lang['medic'];?> </h4>
+                <h4> <?php echo $lang['side'] . ": " . $lang['medic']; ?> </h4>
                 <?php
                 break;
         }
@@ -169,7 +173,9 @@ if ($result_of_query->num_rows > 0) {
                 <h4 style="centred"><?php echo $lang['vehicle'] . " " . $lang['inventory']; ?> </h4>
                 <?php
                 $inv = str_replace(']"', "", str_replace('"[', "", $veh->inventory));
-                if (empty($inv)) $inv = 'Empty';
+                if (empty($inv)) {
+                    $inv = 'Empty';
+                }
                 echo "<textarea class='form-control' readonly rows='5' style='width: 100%' id='civ_gear' name='civ_gear'>" . $inv . "</textarea>";
                 ?>
                 <br>
@@ -315,4 +321,4 @@ if ($result_of_query->num_rows > 0) {
             </div>
         </div>
     </div>
-<?php } else echo "<h1>" . errorMessage(32,$lang) . "</h1>";
+<?php } else echo "<h1>" . errorMessage(32, $lang) . "</h1>";

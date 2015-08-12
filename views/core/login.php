@@ -6,32 +6,34 @@ if (isset($_GET['setup'])) {
         $message = 'The database has now been setup';
     } elseif ($_GET['setup'] == 2) {
         $message = 'The database has now been upgraded';
-    } else $message = $_GET['setup'];
-}
+    } else {
+        $message = $_GET['setup'];
+    }
+    }
 
 if (isset($_POST['emailed']) && $settings['passreset']) {
     if (formtoken::validateToken($_POST)) {
-    	$to = $_POST['emailed'];
-    	$token = tokenGen(32);
-    	$sql = "SELECT  `user_id` FROM `users` WHERE  `user_email` =  '".$to."';";
-    	$result = $db_connection->query($sql);
-    	if ($result->num_rows > 0) {
-    		$row = $result->fetch_assoc();
-    		$sql = "UPDATE  `users` SET  `token` =  '".$token."' WHERE  `user_id` = '". $row['user_id'] ."';";
-    		$result_of_query = $db_connection->query($sql);
+        $to = $_POST['emailed'];
+        $token = tokenGen(32);
+        $sql = "SELECT  `user_id` FROM `users` WHERE  `user_email` =  '".$to."';";
+        $result = $db_connection->query($sql);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $sql = "UPDATE  `users` SET  `token` =  '".$token."' WHERE  `user_id` = '". $row['user_id'] ."';";
+            $result_of_query = $db_connection->query($sql);
     
             //Send the reset Email
             $subject = "Password Reset";
             $headers = "MIME-Version: 1.0" . "\r\n";
             $headers .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
             //$headers .= "From: Password Reset <no-reply@cyberbyte.org.uk>\r\n";
-            $headers .= "From: ".$settings['community'] ." Panel <".$email.">\r\n"."Reply-To: ".$email."\r\n" ;
-            $msg = "Password reset<br/> token: ".$token." <br/> url: <a href='".$settings['url']."?token=".$token."&uID=".$row['user_id']."'>".$settings['url']."?token=".$token."&uID=".$row['user_id']."</a>";
-            $mail =  mail($to, $subject, $msg, $headers);
+            $headers .= "From: " . $settings['community'] . " Panel <" . $email . ">\r\n" . "Reply-To: " . $email . "\r\n";
+            $msg = "Password reset<br/> token: " . $token . " <br/> url: <a href='" . $settings['url'] . "?token=" . $token . "&uID=" . $row['user_id'] . "'>" . $settings['url'] . "?token=" . $token . "&uID=" . $row['user_id'] . "</a>";
+            $mail = mail($to, $subject, $msg, $headers);
     
             $message = "Your password has been reset please check your email";
             //$message = $settings['url']."?token=".$token."&uID=".$row['user_id']; // DEBUG ONLY
-    	}
+        }
     }
 }
 
@@ -41,20 +43,20 @@ if (isset($_GET['token']) && isset($_GET['uID']) && $settings['passreset']) {
             $error = 'Password and password repeat are not the same';
         } else {
             $sql = "SELECT `user_id` FROM `users` WHERE  `user_id` = '". $_GET['uID'] ."' AND `token` =  '".$_GET['token']."';";
-	        $result_of_query = $db_connection->query($sql);
-	        if ($result_of_query->num_rows == 1) {
-	            $user_password_hash = password_hash($_POST['user_password_new'], PASSWORD_DEFAULT);
-	            $sql = "UPDATE `users` SET `user_password_hash` =  '".$user_password_hash."', `token` = '' WHERE  `user_id` = '". $_GET['uID'] ."' AND `token` =  '".$_GET['token']."';";
+            $result_of_query = $db_connection->query($sql);
+            if ($result_of_query->num_rows == 1) {
+                $user_password_hash = password_hash($_POST['user_password_new'], PASSWORD_DEFAULT);
+                $sql = "UPDATE `users` SET `user_password_hash` =  '".$user_password_hash."', `token` = '' WHERE  `user_id` = '". $_GET['uID'] ."' AND `token` =  '".$_GET['token']."';";
                 $result_of_query = $db_connection->query($sql);
-	            $message = 'Your password been updated';
-	        } else {
-	            $error = 'User not found or token invalid';
-	        }
+                $message = 'Your password been updated';
+            } else {
+                $error = 'User not found or token invalid';
+            }
         }
     } else {
-	$sql = "SELECT `user_id` FROM `users` WHERE  `user_id` = '". $_GET['uID'] ."' AND `token` =  '".$_GET['token']."';";
-	$result_of_query = $db_connection->query($sql);
-	if ($result_of_query->num_rows == 1) {
+    $sql = "SELECT `user_id` FROM `users` WHERE  `user_id` = '". $_GET['uID'] ."' AND `token` =  '".$_GET['token']."';";
+    $result_of_query = $db_connection->query($sql);
+    if ($result_of_query->num_rows == 1) {
 ?>
    <script>$(document).ready(function () { $('#memberModal').modal('show'); });</script>
 
@@ -87,11 +89,11 @@ if (isset($_GET['token']) && isset($_GET['uID']) && $settings['passreset']) {
     	</div>
     </div>
 <?php
-	    } else {
+        } else {
             $error = 'User not found or token invalid';
-            logAction($_POST['email'], ' '.$lang['passreset'], 3);
+            logAction($_POST['email'], ' ' . $lang['passreset'], 3);
         }
-	}
+    }
 }
 
 
@@ -116,14 +118,17 @@ if (isset($_GET['token']) && isset($_GET['uID']) && $settings['passreset']) {
                 echo '<div style="margin-top: 120px;" class="alert alert-info animated infinite bounce" role="alert">' . $message . '</div>';
             } elseif (isset($error)) {
                 echo '<div style="margin-top: 120px;" class="alert alert-danger animated infinite bounce" role="alert">' . $error . '</div>';
-            } else echo '<div style="margin-top: 190px;"></div>' ?>
+            } else {
+                echo '<div style="margin-top: 190px;"></div>' ?>
 
 
             <div id="showtime"></div>
             <h2><a data-toggle="modal" href="#login"><i class="fa fa-lock"></i></a></h2>
 
             <h3>LOGIN</h3>
-            <?php if (isset($settings['steamAPI']) && $settings['steamlogin'] == 'true' && isset($settings['steamdomain'])) include 'classes/steamlogin.php'; //dont know why it needs to be true todo:change?>
+            <?php if (isset($settings['steamAPI']) && $settings['steamlogin'] == 'true' && isset($settings['steamdomain'])) include 'classes/steamlogin.php';
+            }
+            //dont know why it needs to be true todo:change?>
             <?php if ($settings['passreset']) {?>
                 <a data-toggle="modal" href="#pass"> <span>Password Reset</span>  </a>
             <?php }?>
@@ -153,10 +158,10 @@ if (isset($_GET['token']) && isset($_GET['uID']) && $settings['passreset']) {
                                         else $tempLang = 'en';
                                         echo '<select id = "lang" name = "lang" class="form-control login_input" >';
                                         
-                                        foreach($settings['installedLanguage'] as $language) {
-                                            echo '<option value = "'.$language[1].'" ';
+                                        foreach ($settings['installedLanguage'] as $language) {
+                                            echo '<option value = "' . $language[1] . '" ';
                                             if ($tempLang == $language[1]) echo 'selected';
-                                            echo '> '.$language[0].'</option>';
+                                            echo '> ' . $language[0] . '</option>';
                                         }
                                     echo '</select><br>';
                                     }

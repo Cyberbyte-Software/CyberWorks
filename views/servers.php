@@ -72,7 +72,7 @@ $result_of_query = $db_connection->query($sql);
             </div>
             <div class="col-md-3 pull-right">
                 <form style="float:right;" name='search'>
-                    <input id='searchText' type='text' name='searchText' placeholder="<?php if(isset($search)) echo $search ?>">
+                    <input id='searchText' type='text' name='searchText' placeholder="<?php if (isset($search)) echo $search ?>">
                     <input class='btn btn-sm btn-primary' type='button' name='search'
                            onclick='searchpage();' value='<?php echo $lang['search'] ?>'>
                 </form>

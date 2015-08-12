@@ -6,11 +6,17 @@
     </div>
 
     <a href="<?php echo $settings['url'] ?>dashboard" class="logo"><b>Cyber Works
-            <?php if ($debug) echo '- Debug Mode'; ?>
+            <?php if ($debug) {
+    echo '- Debug Mode';
+}
+?>
         </b></a>
 
     <a class="logosmall pull-right hidden-xs">
-        <b>Copyright &copy; 2015 Cyber Works <?php if (isset($settings['version'])) echo $settings['version']; ?> by
+        <b>Copyright &copy; 2015 Cyber Works <?php if (isset($settings['version'])) {
+    echo $settings['version'];
+}
+?> by
             Cyberbyte Studios</b></a>
 </header>
 
@@ -18,7 +24,7 @@
     <div id="sidebar" class="nav-collapse ">
         <ul class="sidebar-menu" id="nav-accordion">
             <p class="centered">
-                <?php if (!isset($_SESSION['profile_link'])){
+                <?php if (!isset($_SESSION['profile_link'])) {
                     echo '<a href="' . $settings['url'] . 'profile">';
                     echo '<img src="' . $settings['url'] . 'assets/img/profile/' . $_SESSION['user_profile'] . '.jpg"';
                     echo 'class="img-circle" width="60" height="60"></a></p>';
@@ -29,7 +35,7 @@
                 ?>
             <h5 class="centered">
                 <?php
-                if($_SESSION['steamsignon']) echo '<i class="fa fa-steam-square"></i>';
+                if ($_SESSION['steamsignon']) echo '<i class="fa fa-steam-square"></i>';
                 echo $_SESSION['user_name']; ?>
             </h5>
 
@@ -41,25 +47,25 @@
             </li>
 
 			<?php
-				if(isset($_SESSION['server_type']))
-				{
-					switch($_SESSION['server_type'])
-					{
-						case 'life':
-							include("views/life/nav.php");
-					}
-				}
+                if(isset($_SESSION['server_type']))
+                {
+                    switch($_SESSION['server_type'])
+                    {
+                        case 'life':
+                            include("views/life/nav.php");
+                    }
+                }
 
-				foreach ($settings['plugins'] as &$plugin) {
+                foreach ($settings['plugins'] as &$plugin) {
                     if (file_exists("plugins/". $plugin. "/nav.php")) {
                         include("plugins/". $plugin."/nav.php");
                     }
                 }
 
-				$sql = "SELECT `sid`,`name` FROM `servers` WHERE `use_sq` = 1;";
-				$result = $db_connection->query($sql);
-				if ($result->num_rows >= 1) {
-				?>
+                $sql = "SELECT `sid`,`name` FROM `servers` WHERE `use_sq` = 1;";
+                $result = $db_connection->query($sql);
+                if ($result->num_rows >= 1) {
+                ?>
 					<li class="dropdown">
 						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 							<i class="fa fa-server"></i>
@@ -154,10 +160,10 @@
                         <li>
                             <a href="<?php echo $settings['url'] ?>servers">
                                 <i class="fa fa-fw fa-cogs"></i>
-                                <span><?php echo $lang['edit'] .' '. $lang['databases'] ?></span>
+                                <span><?php echo $lang['edit'] . ' ' . $lang['databases'] ?></span>
                             </a>
                         </li>
-                        <?php if($settings['logging']){ ?>
+                        <?php if ($settings['logging']) { ?>
                         <li>
                             <a href="<?php echo $settings['url'] ?>logs">
                                 <i class="fa fa-fw fa-th-list"></i>
@@ -183,7 +189,7 @@
             <li>
                 <a data-toggle="modal" href="#changeDB">
                     <i class="fa fa-fw fa-cogs"></i>
-                    <span><?php echo $lang['database'].'s' ?></span>
+                    <span><?php echo $lang['database'] . 's' ?></span>
                 </a>
             </li>
             <?php } ?>
@@ -191,7 +197,10 @@
                 <a href="<?php echo $settings['url'] ?>index?logout"><i
                         class="fa fa-fw fa-power-off"></i><?php echo " " . $lang['navLogOut']; ?></a>
             </li>
-            <?php if ($debug) include("views/debug/nav.php"); ?>
+            <?php if ($debug) {
+    include("views/debug/nav.php");
+}
+?>
         </ul>
     </div>
 </aside>
@@ -199,9 +208,15 @@
 <section id="main-content">
     <section class="wrapper">
         <?php
-        if (isset($error)) echo '<div style="margin-top: 120px;" class="alert alert-danger animated infinite bounce" role="alert">' . $error . '</div>';
-        if (isset($message)) echo '<div style="margin-top: 120px;" class="alert alert-info animated infinite bounce" role="alert">' . $message . '</div>';
-        if (isset($page)) include($page);
+        if (isset($error)) {
+            echo '<div style="margin-top: 120px;" class="alert alert-danger animated infinite bounce" role="alert">' . $error . '</div>';
+        }
+        if (isset($message)) {
+            echo '<div style="margin-top: 120px;" class="alert alert-info animated infinite bounce" role="alert">' . $message . '</div>';
+        }
+        if (isset($page)) {
+            include($page);
+        }
         ?>
     </section>
 </section>

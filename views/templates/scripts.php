@@ -9,7 +9,7 @@
             </div>
             <section class="task-panel tasks-widget">
                 <div class="panel-heading">
-                    <div class="pull-left"><h5><i class="fa fa-tasks"></i> <?php echo $lang['database'].'s'  ?></h5></div>
+                    <div class="pull-left"><h5><i class="fa fa-tasks"></i> <?php echo $lang['database'] . 's'  ?></h5></div>
                     <br>
                 </div>
                 <div class="panel-body">
@@ -77,7 +77,7 @@
     </div>
 </div>
 <script src="<?php echo $settings['url'] ?>assets/js/main.min.js"></script>
-<?php if (isset($_SESSION['forum_lang'])) echo '<script type="text/javascript" src="'.$settings["url"].'assets/js/language/' . $_SESSION['forum_lang'] . '.js"></script>'; ?>
+<?php if (isset($_SESSION['forum_lang'])) echo '<script type="text/javascript" src="' . $settings["url"] . 'assets/js/language/' . $_SESSION['forum_lang'] . '.js"></script>'; ?>
 <script>
     function searchpage() {
         sn = document.getElementById('searchText').value;
@@ -97,8 +97,8 @@
 </script>
 <?php
 foreach ($settings['plugins'] as &$plugin) {
-    if (file_exists("plugins/". $plugin. "/assets/scripts.js")) {
-        echo '<script type="text/javascript" src="'. $settings['url'] . 'plugins/' . $plugin . '/assets/scripts.js"></script>';
+    if (file_exists("plugins/" . $plugin . "/assets/scripts.js")) {
+        echo '<script type="text/javascript" src="' . $settings['url'] . 'plugins/' . $plugin . '/assets/scripts.js"></script>';
     }
 }
 

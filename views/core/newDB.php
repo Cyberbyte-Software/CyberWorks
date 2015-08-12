@@ -1,5 +1,5 @@
 <?php
-if (isset($_POST['db_type']) && isset($_POST['SQL_host'])  && isset($_POST['SQL_user']) && isset($_POST['SQL_pass']) && isset($_POST['SQL_name']) ) {
+if (isset($_POST['db_type']) && isset($_POST['SQL_host']) && isset($_POST['SQL_user']) && isset($_POST['SQL_pass']) && isset($_POST['SQL_name'])) {
     if (formtoken::validateToken($_POST)) {
         $db_type = $_POST['db_type'];
     
@@ -7,8 +7,10 @@ if (isset($_POST['db_type']) && isset($_POST['SQL_host'])  && isset($_POST['SQL_
         $result_of_query = $db_connection->query($sql);
     
         message($lang['newdb']);
-    } else message($lang['expired']);
-}
+    } else {
+        message($lang['expired']);
+    }
+    }
 ?>
 <div id="login-page">
     <div class="col-lg-10 container">

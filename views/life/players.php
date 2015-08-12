@@ -9,7 +9,7 @@ if (isset($search)) {
     $total_records = mysqli_num_rows($result_of_query);
     if ($pageNum > $total_records) $pageNum = $total_records;
     $sql = "SELECT `playerid`,`name`,`bankacc`,`cash`,`coplevel`,`mediclevel`,`adminlevel`,`uid` FROM `players` WHERE `uid` LIKE '" . $search . "' OR `name` LIKE '" . $search . "' OR `playerid` LIKE '" . $search . "'" . $max . " ;";
-    logAction($_SESSION['user_name'], $lang['searched'].' (' . $search . ') '.$lang['in'].' '.$lang['players'], 1);
+    logAction($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['players'], 1);
 } else {
     $sql = "SELECT `uid` FROM `players`;";
     $result_of_query = $db_link->query($sql);
@@ -29,7 +29,9 @@ if ($result_of_query->num_rows > 0) {
         $bans = get_object_vars(json_decode(file_get_contents($api)));
         $bans = $bans['players'];
         $steamPlayers = count($bans);
-    } else $steamPlayers = 0;
+    } else {
+        $steamPlayers = 0;
+    }
 
     $result_of_query = $db_link->query($sql);
     ?>
@@ -54,15 +56,21 @@ if ($result_of_query->num_rows > 0) {
                     <th class="hidden-xs"><i class="fa fa-taxi"></i> <?php echo $lang['cop']; ?></th>
                     <th class="hidden-xs"><i class="fa fa-ambulance"></i> <?php echo $lang['medic']; ?></th>
                     <th class="hidden-xs"><i class="fa fa-cogs"></i> <?php echo $lang['admin']; ?></th>
-                    <?php if ($_SESSION['permissions']['edit']['player']) echo '<th class="hidden-xs"><i class="fa fa-pencil"></i> ' .
-                        $lang['edit'] . '</th>'; else  echo '<th class="hidden-xs"><i class="fa fa-eye"></i>' . $lang['view'] . '</th>';
-                    if ($_SESSION['permissions']['view']['steam'] && $steamPlayers > 0) echo '<th class="hidden-xs"><i class="fa fa-fw fa-steam"></i> Steam</th>'?>
+                    <?php if ($_SESSION['permissions']['edit']['player']) {
+    echo '<th class="hidden-xs"><i class="fa fa-pencil"></i> ' .
+                        $lang['edit'] . '</th>';
+} else {
+                            echo '<th class="hidden-xs"><i class="fa fa-eye"></i>' . $lang['view'] . '</th>';
+                        }
+                    if ($_SESSION['permissions']['view']['steam'] && $steamPlayers > 0) {
+                        echo '<th class="hidden-xs"><i class="fa fa-fw fa-steam"></i> Steam</th>'?>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
                 while ($row = mysqli_fetch_assoc($result_of_query)) {
                     $playersID = $row["playerid"];
+                    }
                     echo "<tr>";
                     echo "<td>" . $row["name"] . "</td>";
                     echo "<td>" . $playersID . "</td>";
@@ -80,9 +88,9 @@ if ($result_of_query->num_rows > 0) {
                     }
                     if ($_SESSION['permissions']['view']['steam'] && $steamPlayers > 0) {
                         echo "<td><a href='http://steamcommunity.com/profiles/" . $row["playerid"] . "' ";
-                        for ($player = 0; $player <= $steamPlayers; $player++){
-                            if ($bans[$player]->SteamId == $row['playerid']){
-                                if($bans[$player]->VACBanned == true) {
+                        for ($player = 0; $player <= $steamPlayers; $player++) {
+                            if ($bans[$player]->SteamId == $row['playerid']) {
+                                if ($bans[$player]->VACBanned == true) {
                                     echo "<td><a href='http://steamcommunity.com/profiles/" . $row["playerid"] . "' ";
                                     echo "class='btn btn-danger btn-xs hidden-xs' target='_blank'><i class='fa fa-steam'></i></a>";
 
@@ -101,4 +109,4 @@ if ($result_of_query->num_rows > 0) {
                 ?>
         </div>
 <?php
-} else echo '<h3>'.errorMessage(36,$lang).'</h3>';
+} else echo '<h3>' . errorMessage(36, $lang) . '</h3>';

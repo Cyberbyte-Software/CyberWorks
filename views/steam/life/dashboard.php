@@ -154,7 +154,7 @@ if ($result->num_rows > 0) {
                         <h4 style="centred"><?php echo $lang['civ'] . " " . $lang['licenses']; ?> </h4>
                         <?php
                             if ($player->civ_licenses !== '"[]"') {
-                                $return = stripArray($player->civ_licenses,0);
+                                $return = stripArray($player->civ_licenses, 0);
                                 foreach ($return as $value) {
                                     if (strpos($value, "1") == TRUE) {
                                         $name = before(',', $value);
@@ -172,7 +172,7 @@ if ($result->num_rows > 0) {
                         <h4 style="centred"><?php echo $lang['medic'] . " " . $lang['licenses']; ?> </h4>
                         <?php
                             if ($player->med_licenses !== '"[]"') {
-                                $return = stripArray($player->med_licenses,0);
+                                $return = stripArray($player->med_licenses, 0);
 
                                 foreach ($return as $value) {
                                     if (strpos($value, "1") == TRUE) {
@@ -191,7 +191,7 @@ if ($result->num_rows > 0) {
                         <h4 style="centred"><?php echo $lang['cop'] . " " . $lang['licenses']; ?> </h4>
                         <?php
                             if ($player->cop_licenses !== '"[]"') {
-                                $return = stripArray($player->cop_licenses,0);
+                                $return = stripArray($player->cop_licenses, 0);
 
                                 foreach ($return as $value) {
                                     if (strpos($value, "1") == TRUE) {
@@ -275,7 +275,7 @@ if ($result->num_rows > 0) {
                                     ?>
                                     </tbody>
                                 </table>
-                                <?php echo '<a class="fa fa-caret-right fa-2x" style="float: right; padding-right:15px;" href="'. $settings['url'] .'houses/' . $player->playerid . '"> More</a>';
+                                <?php echo '<a class="fa fa-caret-right fa-2x" style="float: right; padding-right:15px;" href="' . $settings['url'] . 'houses/' . $player->playerid . '"> More</a>';
                             } else echo $lang['noHouse'] ?>
                         </div>
                     </div>
@@ -286,6 +286,7 @@ if ($result->num_rows > 0) {
                         <div class="table-responsive">
                         <?php
                             $sql = "SELECT `classname`,`type`,`id`,`plate` FROM `vehicles` WHERE `pid` = '" . $player->playerid . "' ORDER BY `id` DESC LIMIT 8";
+                            }
                             $result_of_query = $db_link->query($sql);
                             if ($result_of_query->num_rows > 0) {
                                 $veh = $result_of_query->fetch_object();
@@ -294,7 +295,9 @@ if ($result->num_rows > 0) {
                                 echo '<th>' . $lang['class'] . '</th>';
                                 echo '<th>' . $lang['type'] . '</th>';
                                 echo '<th>' . $lang['plate'] . '</th>';
-                                if ($_SESSION['permissions']['edit']['vehicles']) echo "<th>" . $lang['edit'] . "</th>";
+                                if ($_SESSION['permissions']['edit']['vehicles']) {
+                                    echo "<th>" . $lang['edit'] . "</th>";
+                                }
                                 echo '</tr></thead><tbody';
                                 echo '<tr>';
                                 echo '<td>' . carName($veh->classname) . '</td>';
@@ -302,7 +305,7 @@ if ($result->num_rows > 0) {
                                 echo '<td>' . $veh->plate . '</td>';
 
                                 if ($_SESSION['permissions']['edit']['vehicles']) {
-                                    echo "<td><a class='btn btn-primary btn-xs' href='" . $settings['url'] . "editVeh.php?ID=" .$veh->id . "'>";
+                                    echo "<td><a class='btn btn-primary btn-xs' href='" . $settings['url'] . "editVeh.php?ID=" . $veh->id . "'>";
                                     echo "<i class='fa fa-pencil'></i></a></td>";
                                 }
 
@@ -310,7 +313,9 @@ if ($result->num_rows > 0) {
                                 echo '</tbody></table>';
                                 echo '<a class="fa fa-caret-right fa-2x" style="float: right; padding-right:15px;" href="' . $settings['url'] . 'vehicles/' . $player->playerid . '"> More</a>';
 
-                            } else echo $lang['noVeh'];
+                            } else {
+                                echo $lang['noVeh'];
+                            }
                         ?>
                         </div>
                     </div>

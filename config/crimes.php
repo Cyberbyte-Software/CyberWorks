@@ -31,6 +31,11 @@ $crime['en']['5'] = 'Driving Stolen Vehicle';
 $crime['en']['6'] = 'Hit and Run';
 $crime['en']['7'] = 'Attempted Murder';
 
-if (isset($crime[$_SESSION['lang']][$crimeName])) return $crime[$_SESSION['lang']][$crimeName];
-elseif (isset($crime['en'][$crimeName])) return $crime['en'][$crimeName]; else return $crimeName;
+if (isset($crime[$_SESSION['lang']][$crimeName])) {
+    return $crime[$_SESSION['lang']][$crimeName];
+} elseif (isset($crime['en'][$crimeName])) {
+    return $crime['en'][$crimeName];
+} else {
+    return $crimeName;
+}
 }

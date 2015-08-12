@@ -7,11 +7,11 @@ $max = 'LIMIT ' . ($pageNum - 1) * $_SESSION['items'] . ',' . $_SESSION['items']
 if (isset($search)) {
     logAction($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['vehicles'], 1);
 
-    $sql = "SELECT `id` FROM `vehicles` INNER JOIN `players` ON vehicles.pid=players.playerid WHERE `pid` LIKE '" . $search . "' OR `classname` LIKE '%" . $search . "%' OR `name` LIKE '%".$search."%' OR `plate` LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%';";
+    $sql = "SELECT `id` FROM `vehicles` INNER JOIN `players` ON vehicles.pid=players.playerid WHERE `pid` LIKE '" . $search . "' OR `classname` LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%' OR `plate` LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%';";
     $result_of_query = $db_link->query($sql);
     $total_records = mysqli_num_rows($result_of_query);
     if ($pageNum > $total_records) $pageNum = $total_records;
-    $sql = "SELECT `id`,`pid`,`classname`,`active`,`type`,`plate`,`alive`,`active` FROM `vehicles` INNER JOIN `players` ON vehicles.pid=players.playerid WHERE `pid` LIKE '" . $search . "' OR `classname` LIKE '%" . $search . "%' OR `name` LIKE '%".$search."%' OR `plate` LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%' " . $max . " ;";
+    $sql = "SELECT `id`,`pid`,`classname`,`active`,`type`,`plate`,`alive`,`active` FROM `vehicles` INNER JOIN `players` ON vehicles.pid=players.playerid WHERE `pid` LIKE '" . $search . "' OR `classname` LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%' OR `plate` LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%' " . $max . " ;";
 } else {
     $sql = "SELECT `id` FROM `vehicles` INNER JOIN `players` ON vehicles.pid=players.playerid;";
     $result_of_query = $db_link->query($sql);
@@ -47,7 +47,10 @@ if ($result_of_query->num_rows > 0) {  ?>
                 <th class="hidden-xs"><i class="fa fa-car"></i> <?php echo $lang['plate']; ?></th>
                 <th class="hidden-xs"><i class="fa fa-car"></i> <?php echo $lang['alive']; ?></th>
                 <th class="hidden-xs"><i class="fa fa-info"></i> <?php echo $lang['active']; ?></th>
-                <?php if ($_SESSION['permissions']['edit']['vehicles']) echo '<th><i class="fa fa-pencil"></i><span class="hidden-xs"> ' . $lang['edit'] . '</span></th>'; ?>
+                <?php if ($_SESSION['permissions']['edit']['vehicles']) {
+    echo '<th><i class="fa fa-pencil"></i><span class="hidden-xs"> ' . $lang['edit'] . '</span></th>';
+}
+?>
             </tr>
             </thead>
             <tbody>
@@ -74,4 +77,4 @@ if ($result_of_query->num_rows > 0) {  ?>
     </table>
 </div>
 <?php
-} else echo errorMessage(37,$lang);
+} else echo errorMessage(37, $lang);

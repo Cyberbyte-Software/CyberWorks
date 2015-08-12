@@ -27,12 +27,12 @@
 			</a>
 		</li>
 	<?php } if (isset($_SESSION['steamsignon'])) {
-		if ($_SESSION['steamsignon'] && $_SESSION['user_level'] == 1) {
-			if ($settings['url'] == "/") {
-			    include("views/steam/life/nav.php");
-			} else {
-			    include(realpath($settings['url']) . "views/steam/life/nav.php");
-			}
+        if ($_SESSION['steamsignon'] && $_SESSION['user_level'] == 1) {
+            if ($settings['url'] == "/") {
+                include("views/steam/life/nav.php");
+            } else {
+                include(realpath($settings['url']) . "views/steam/life/nav.php");
+            }
 		
-		}
+        }
 }

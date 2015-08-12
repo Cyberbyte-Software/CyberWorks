@@ -13,11 +13,11 @@ if (isset($search)) {
         }
         $samepID = array_reduce($samepID, 'array_merge', array());
         $samepID = implode(',', $samepID);
-        $sql = "SELECT `id`,`name`,`owner`,`bank`,`members`,`maxmembers`,`active` FROM `gangs` WHERE `owner` IN ( ". $samepID ." ) OR `name` LIKE '%" . $search . "%' OR `id` = '" . $search . "' OR `owner` LIKE '" . $search . "' OR `members` LIKE '%" . $search . "%' ;";
+        $sql = "SELECT `id`,`name`,`owner`,`bank`,`members`,`maxmembers`,`active` FROM `gangs` WHERE `owner` IN ( " . $samepID . " ) OR `name` LIKE '%" . $search . "%' OR `id` = '" . $search . "' OR `owner` LIKE '" . $search . "' OR `members` LIKE '%" . $search . "%' ;";
         $result_of_query = $db_link->query($sql);
         $total_records = mysqli_num_rows($result_of_query);
         if ($pageNum > $total_records) $pageNum = $total_records;
-        $sql = "SELECT `id`,`name`,`owner`,`bank`,`members`,`maxmembers`,`active` FROM `gangs` WHERE `owner` IN ( ". $samepID ." ) OR `name` LIKE '%" . $search . "%' OR `id` = '" . $search . "' OR `owner` LIKE '" . $search . "' OR `members` LIKE '%" . $search . "%' " . $max . " ;";
+        $sql = "SELECT `id`,`name`,`owner`,`bank`,`members`,`maxmembers`,`active` FROM `gangs` WHERE `owner` IN ( " . $samepID . " ) OR `name` LIKE '%" . $search . "%' OR `id` = '" . $search . "' OR `owner` LIKE '" . $search . "' OR `members` LIKE '%" . $search . "%' " . $max . " ;";
     } else {
         $sql = "SELECT `id` FROM `gangs` WHERE `name` LIKE '%" . $search . "%'  OR `id` = '" . $search . "' OR `owner` LIKE '" . $search . "' OR `members` LIKE '%" . $search . "%' ;";
         $result_of_query = $db_link->query($sql);
@@ -62,7 +62,10 @@ if ($result_of_query->num_rows > 0) {
             }?>
             <th class="hidden-xs"><i class="fa fa-user"></i> <?php echo $lang['maxmembers']; ?></th>
             <th class="hidden-xs"><i class="fa fa-user"></i> <?php echo $lang['active']; ?></th>
-            <?php if ($_SESSION['permissions']['edit']['gangs']) echo '<th><i class="fa fa-pencil"></i>' . $lang['edit'] . '</th>'; ?>
+            <?php if ($_SESSION['permissions']['edit']['gangs']) {
+    echo '<th><i class="fa fa-pencil"></i>' . $lang['edit'] . '</th>';
+}
+?>
         </tr>
         </thead>
         <tbody>
@@ -71,7 +74,7 @@ if ($result_of_query->num_rows > 0) {
             echo "<tr>";
             echo "<td class='hidden-xs'>" . $row["id"] . "</td>";
             echo "<td>" . $row["name"] . "</td>";
-            echo "<td class='hidden-xs'>" . nameID($row["owner"],$db_link) . "</td>";
+            echo "<td class='hidden-xs'>" . nameID($row["owner"], $db_link) . "</td>";
             echo "<td class='hidden-xs'>" . $row["bank"] . "</td>";
             $members = substr_count($row['members'], ",");
             $members++;
@@ -97,4 +100,4 @@ if ($result_of_query->num_rows > 0) {
 </div>
 
 <?php
-} else echo errorMessage(3,$lang);
+} else echo errorMessage(3, $lang);

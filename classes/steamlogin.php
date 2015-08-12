@@ -42,8 +42,14 @@ class user
                             $_SESSION['user_email'] = $result_row->user_email;
                             $_SESSION['user_id'] = $result_row->user_id;
                             $_SESSION['permissions'] = json_decode($result_row->permissions, true);
-                            if (isset($result_row->items)) $_SESSION['items'] = $result_row->items; else $_SESSION['items'] = $settings['items'];
-                            if (isset($_POST['lang'])) $_SESSION['lang'] = $_POST['lang'];
+                            if (isset($result_row->items)) {
+                                $_SESSION['items'] = $result_row->items;
+                            } else {
+                                $_SESSION['items'] = $settings['items'];
+                            }
+                            if (isset($_POST['lang'])) {
+                                $_SESSION['lang'] = $_POST['lang'];
+                            }
                             $_SESSION['user_login_status'] = 1;
                             $_SESSION['steamsignon'] = false; //used to determine if its a single sign on with no account
                             multiDB();
@@ -54,7 +60,7 @@ class user
                             logAction($_POST['user_name'], 'Steam Login Failed - Banned User (' . $_SERVER['REMOTE_ADDR'] . ')', 3);
                         }
                     } else {
-                        if ($settings['annonlogin']){
+                        if ($settings['annonlogin']) {
                             $permissions = require('config/permissions.php');
                             $steam = $this->GetPlayerSummaries($_SESSION['playerid']);
                             $_SESSION['user_name'] = $steam->personaname;
@@ -68,7 +74,9 @@ class user
                             multiDB();
         
                             logAction($_SESSION['user_name'], 'Successful Steam Login (' . $_SERVER['REMOTE_ADDR'] . ')', 2);
-                        } else errorMessage(7);
+                        } else {
+                            errorMessage(7);
+                        }
                     }
                     header('Location: ' . $settings['url']);
                     exit;

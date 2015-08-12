@@ -14,8 +14,11 @@ function decrypt($text)
 function masterConnect()
 {
     $settings = require('config/settings.php');
-    if (isset($settings['db']['port'])) $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']), decrypt($settings['db']['port']));
-    else $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']));
+    if (isset($settings['db']['port'])) {
+        $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']), decrypt($settings['db']['port']));
+    } else {
+        $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']));
+    }
     if (!$db_connection->set_charset("utf8")) {
         $db_connection->errors[] = $db_connection->error;
     }
@@ -24,11 +27,16 @@ function masterConnect()
 
 function serverConnect($dbid = NULL)
 {
-    if (isset($_SESSION['dbid']) && empty($dbid)) $dbid = $_SESSION['dbid'];
+    if (isset($_SESSION['dbid']) && empty($dbid)) {
+        $dbid = $_SESSION['dbid'];
+    }
     $settings = require('config/settings.php');
 
-    if (isset($settings['db']['port'])) $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']), decrypt($settings['db']['port']));
-    else $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']));
+    if (isset($settings['db']['port'])) {
+        $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']), decrypt($settings['db']['port']));
+    } else {
+        $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']));
+    }
 
     $sql = "SELECT `sql_host`,`sql_name`,`sql_pass`,`sql_user` FROM `db` WHERE `dbid` = '" . $dbid . "';";
     $server = $db_connection->query($sql);
@@ -37,21 +45,26 @@ function serverConnect($dbid = NULL)
         $server = $server->fetch_object();
         $host = decrypt($server->sql_host);
 
-        if(strpos($host,":")) {
+        if (strpos($host, ":")) {
             $SQL_ip = explode(":", $host);
             $host = $SQL_ip['0'];
             $port = $SQL_ip['1'];
         }
 
-        if (isset($port)) $db_link = new mysqli($host, decrypt($server->sql_user), decrypt($server->sql_pass), decrypt($server->sql_name), $port);
-        else $db_link = new mysqli($host, decrypt($server->sql_user), decrypt($server->sql_pass), decrypt($server->sql_name));
+        if (isset($port)) {
+            $db_link = new mysqli($host, decrypt($server->sql_user), decrypt($server->sql_pass), decrypt($server->sql_name), $port);
+        } else {
+            $db_link = new mysqli($host, decrypt($server->sql_user), decrypt($server->sql_pass), decrypt($server->sql_name));
+        }
 
         if (!$db_link->set_charset("utf8")) {
             $db_link->errors[] = $db_link->error;
         }
 
         return $db_link;
-    } else return false;
+    } else {
+        return false;
+    }
 
 }
 
@@ -72,17 +85,23 @@ function carType($car, $lang)
 
 function yesNo($input, $lang)
 {
-    if ($input == 1) return $lang['yes'];
-    else if ($input == 0) return $lang['no'];
-    else return $lang['error'];
-}
+    if ($input == 1) {
+        return $lang['yes'];
+    } else if ($input == 0) {
+        return $lang['no'];
+    } else {
+        return $lang['error'];
+    }
+    }
 
 function select($val, $row)
 {
-    if ($row == $val) return 'selected';
-}
+    if ($row == $val) {
+        return 'selected';
+    }
+    }
 
-function nameID($pId,$db_link)
+function nameID($pId, $db_link)
 {
     $sql = "SELECT `name` FROM `players` WHERE `playerid` LIKE '" . $pId . "' ";
     $result_of_query = $db_link->query($sql);
@@ -91,10 +110,12 @@ function nameID($pId,$db_link)
         while ($row = mysqli_fetch_assoc($result_of_query)) {
             return $row['name'];
         }
-    } else return $pId;
-}
+    } else {
+        return $pId;
+    }
+    }
 
-function uID($pId,$db_link)
+function uID($pId, $db_link)
 {
     $sql = "SELECT `uid` FROM `players` WHERE `playerid` = '" . $pId . "' ";
     $result_of_query = $db_link->query($sql);
@@ -102,10 +123,12 @@ function uID($pId,$db_link)
         while ($row = mysqli_fetch_assoc($result_of_query)) {
             return $row['uid'];
         }
-    } else return $pId;
-}
+    } else {
+        return $pId;
+    }
+    }
 
-function uIDname($uID,$db_link)
+function uIDname($uID, $db_link)
 {
     $sql = "SELECT `name` FROM `players` WHERE `uid` = '" . $uID . "' ";
     $result_of_query = $db_link->query($sql);
@@ -113,10 +136,12 @@ function uIDname($uID,$db_link)
         while ($row = mysqli_fetch_assoc($result_of_query)) {
             return $row['name'];
         }
-    } else return $uID;
-}
+    } else {
+        return $uID;
+    }
+    }
 
-function IDname($name,$db_link)
+function IDname($name, $db_link)
 {
     $sql = "SELECT `name`,`playerid` FROM `players` WHERE `name` LIKE '%" . $name . "%' ";
     $result_of_query = $db_link->query($sql);
@@ -124,8 +149,10 @@ function IDname($name,$db_link)
     if ($result_of_query->num_rows > 0) {
         while ($row = mysqli_fetch_array($result_of_query)) {
         }
-    } else return $name;
-}
+    } else {
+        return $name;
+    }
+    }
 
 function logAction($user, $action, $level)
 {
@@ -148,10 +175,10 @@ function message($text)
 
 function error($errno, $errstr, $errfile, $errline)
 {
-    echo '<h4><b>PHP ERROR '. $errno .'</b> '.$errstr.' - '.$errfile.':'.$errline.'</h4>';
+    echo '<h4><b>PHP ERROR ' . $errno . '</b> ' . $errstr . ' - ' . $errfile . ':' . $errline . '</h4>';
 }
 
-function errorMessage($code,$lang)
+function errorMessage($code, $lang)
 {
     switch ($code)
     {
@@ -177,7 +204,7 @@ function errorMessage($code,$lang)
             return $lang['selDB']; // Select A DB
         case 11:
             return $lang['noServer']; // Select A DB
-		case 31:
+        case 31:
             return $lang['noHouse']; //No House
         case 32:
             return $lang['noVeh']; //No Vehicle
@@ -192,19 +219,19 @@ function errorMessage($code,$lang)
         case 37:
             return $lang['noLic']; //No License
         case 371:
-            return $lang['no']. ' ' .$lang['civil']. ' ' .$lang['licenses']; //No Civillian Licenses
+            return $lang['no'] . ' ' . $lang['civil'] . ' ' . $lang['licenses']; //No Civillian Licenses
         case 372:
-            return $lang['no']. ' ' .$lang['medic']. ' ' .$lang['licenses']; //No Medic Licenses
+            return $lang['no'] . ' ' . $lang['medic'] . ' ' . $lang['licenses']; //No Medic Licenses
         case 373:
-            return $lang['no']. ' ' .$lang['police']. ' ' .$lang['licenses']; //No Police Licenses
+            return $lang['no'] . ' ' . $lang['police'] . ' ' . $lang['licenses']; //No Police Licenses
         case 38:
-            return $lang['no']. ' ' .$lang['gear']; //No License
+            return $lang['no'] . ' ' . $lang['gear']; //No License
         case 381:
-            return $lang['no']. ' ' .$lang['civil']. ' ' .$lang['gear']; //No Civillian Licenses
+            return $lang['no'] . ' ' . $lang['civil'] . ' ' . $lang['gear']; //No Civillian Licenses
         case 382:
-            return $lang['no']. ' ' .$lang['medic']. ' ' .$lang['gear']; //No Medic Licenses
+            return $lang['no'] . ' ' . $lang['medic'] . ' ' . $lang['gear']; //No Medic Licenses
         case 383:
-            return $lang['no']. ' ' .$lang['police']. ' ' .$lang['gear']; //No Police Licenses
+            return $lang['no'] . ' ' . $lang['police'] . ' ' . $lang['gear']; //No Police Licenses
     }
 }
 
@@ -223,7 +250,7 @@ function steamBanned($PID)
     $settings = require('config/settings.php');
     if (!empty($settings['steamAPI'])) {
         $api = "http://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key=" . $settings['steamAPI'] . "&steamids=" . $PID;
-        $bans = json_decode(file_get_contents($api),true);
+        $bans = json_decode(file_get_contents($api), true);
         if ($bans['players']['0']['VACBanned']) return '<h4><span class="label label-danger" style="margin-left:3px; line-height:2;">VAC BANNED</span></h4>'; //todo:formatting
     }
 }
@@ -235,7 +262,7 @@ function multiDB()
     else $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']));
 
     $sql = "SELECT `sid`,`dbid`,`type`,`name` FROM `servers`;";
-    $db = $db_connection->query($sql)->fetch_object();;
+    $db = $db_connection->query($sql)->fetch_object(); ;
 
     if ($db->num_rows <= 1) {
         $_SESSION['multiDB'] = false;
@@ -248,10 +275,10 @@ function multiDB()
 
 function tokenGen($length)
 {
-    return substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'),0 , $length);
+    return substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, $length);
 }
 
-function stripArray($input,$type)
+function stripArray($input, $type)
 {
     $array = array();
 
@@ -284,12 +311,12 @@ function stripArray($input,$type)
     return $array;
 }
 
-function clean($input,$type)
+function clean($input, $type)
 {
-    if ($type == 'string') return filter_var(htmlspecialchars(trim($input)),FILTER_SANITIZE_STRING);
-    elseif ($type == 'int') {$input = filter_var(htmlspecialchars(trim($input)),FILTER_SANITIZE_NUMBER_INT); if ($input < 0) return 0; else return $input ;}
-    elseif ($type == 'url') return filter_var(htmlspecialchars(trim($input)),FILTER_SANITIZE_URL);
-    elseif ($type == 'email') return filter_var(htmlspecialchars(trim($input)),FILTER_SANITIZE_EMAIL);
+    if ($type == 'string') return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_STRING);
+    elseif ($type == 'int') {$input = filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_NUMBER_INT); if ($input < 0) return 0; else return $input; }
+    elseif ($type == 'url') return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_URL);
+    elseif ($type == 'email') return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_EMAIL);
     elseif ($type == 'boolean') return ($input === 'true');
     elseif ($type == 'intbool') if ($input == 1 || $input == 0) return $input; else return 0;
 }
@@ -302,14 +329,15 @@ function before($this, $inthat)
 
 function after($this, $inthat)
 {
-    if (!is_bool(strpos($inthat, $this)))
-        return substr($inthat, strpos($inthat, $this) + strlen($this));
-}
+    if (!is_bool(strpos($inthat, $this))) {
+            return substr($inthat, strpos($inthat, $this) + strlen($this));
+    }
+    }
 
 function communityBanned($GUID)
 {
     $settings = require('config/settings.php');
-    $data = json_decode(file_get_contents("http://bans.itsyuka.tk/api/bans/player/id/".$GUID."/format/json/key/".$settings['communityBansAPI']),true);
+    $data = json_decode(file_get_contents("http://bans.itsyuka.tk/api/bans/player/id/" . $GUID . "/format/json/key/" . $settings['communityBansAPI']), true);
 
     if ($data['level'] >= 1) {
         return true;
