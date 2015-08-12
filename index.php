@@ -1,25 +1,33 @@
 <?php
+//error_reporting(0);
+error_reporting(E_ALL); // Turn on for error messages
 require("classes/session.php");
-SessionManager::sessionStart('CyberWorks');
+SessionManager::sessionStart('CyberWorks',1814400);
 require_once("classes/csrf.php");
 ob_start();
 
 if (version_compare(PHP_VERSION, '5.3.7', '<')) {
     errorMessage(1,$lang);
 } else if (version_compare(PHP_VERSION, '5.5.0', '<')) {
-    require_once("libraries/password_compatibility_library.php");
+    require_once("classes/password.php");
 }
 
 if (file_exists('config/settings.php')) {
     $settings = require_once 'config/settings.php';
 
-    require_once("classes/Login.php");
+    require_once("classes/login.php");
     $login = new Login();
 
     require_once("classes/googleAuth.php");
     $gauth = new PHPGangsta_GoogleAuthenticator();
 
-    require_once("config/lang/module.php");
+    include_once('config/lang.en.php');
+    foreach ($settings['plugins'] as &$plugin) {
+        if (file_exists("plugins/". $plugin. "/lang/lang.php")) {
+            include("plugins/". $plugin."/lang/lang.php");
+        }
+    }
+
     if (file_exists('views/debug')) {
         include("views/debug/init.php");
     } else {
@@ -28,6 +36,8 @@ if (file_exists('config/settings.php')) {
 
     if(isset($_GET['searchText'])) $search = $_GET['searchText'];
     require_once("gfunctions.php");
+
+    include "classes/update.php";
 
     $url = (parse_url($_SERVER['REQUEST_URI']));
     $url['path'] = str_replace('.php', '', $url['path']);
@@ -269,7 +279,7 @@ if (file_exists('config/settings.php')) {
                         }
 
                     } elseif ($currentPage == 'editgang') {
-                        if ($_SESSION['permissions']['edit']['gangf']) {
+                        if ($_SESSION['permissions']['edit']['gangs']) {
                             if ($query) {
                                 $gID = $url['path'][$settings['base'] + 1];
                                 logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
@@ -340,142 +350,106 @@ if (file_exists('config/settings.php')) {
                     }
                 }
             }
-
-            if ($currentPage == 'newdb') {
-                if ($_SESSION['permissions']['super_admin']) {
-                    if (!isset($_SESSSION['sudo']) || isset($_POST['sudo'])) {
-                        pass();
-                    } else {
-                        if ($_SESSSION['sudo'] > now() + 10800) pass(1); else {
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
-                            $page = "views/core/newDB.php";
-                        }
-                    }
-                } else {
-                    $err = errorMessage(5,$lang);
-                    $page = "views/templates/error.php";
-                    logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'newDB'", 3);
+            if ($currentPage == 'newdb' || $currentPage == 'newserver' || $currentPage == 'settings' || $currentPage == 'editstaff' || $currentPage == 'staff' ||$currentPage == 'pluginstore' || $currentPage == 'newuser' || $currentPage == 'logs') {
+                if (isset($_POST['passTest'])) {
+                    $sql = "SELECT user_password_hash FROM users WHERE user_id = '" . $_SESSION['user_id'] . "';";
+                    $pass = $db_connection->query($sql)->fetch_object()->user_password_hash;
+                    if (password_verify($_POST['passTest'], $pass)) {
+                        $_SESSION['sudo'] = time();
+                    } else message($lang['incorrectPass']);
                 }
-            }
-            elseif ($currentPage == 'newserver') {
-                if ($_SESSION['permissions']['super_admin']) {
-                    if (!isset($_SESSSION['sudo']) || isset($_POST['sudo'])) {
-                        pass();
+                if ($_SESSION['sudo'] + 10800 < time() ) {
+                        $page = "views/core/sudo.php";
                     } else {
-                        if ($_SESSSION['sudo'] > now() + 10800) pass(1); else {
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
-                            $page = "views/core/newServer.php";
-                        }
-                    }
-                } else {
-                    $err = errorMessage(5,$lang);
-                    $page = "views/templates/error.php";
-                    logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'newServer'", 3);
-                }
-
-            } elseif ($currentPage == 'settings') {
-                if ($_SESSION['permissions']['super_admin']) {
-                    if (!isset($_SESSSION['sudo']) || isset($_POST['sudo'])) {
-                        pass();
-                    } else {
-                        if ($_SESSSION['sudo'] > now() + 10800) pass(1); else {
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
-                            $page = "views/core/settings.php";
-                        }
-                    }
-                } else {
-                    $err = errorMessage(5,$lang);
-                    $page = "views/templates/error.php";
-                    logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'settings'", 3);
-                }
-
-            } elseif ($currentPage == 'editstaff') {
-                if ($_SESSION['permissions']['edit']['staff']) {
-                    if (!isset($_SESSSION['sudo']) || isset($_POST['sudo'])) {
-                        pass();
-                    } else {
-                        if ($_SESSSION['sudo'] > now() + 10800) pass(1); else {
-                            if ($query) {
-                                $uId = $url['path'][$settings['base'] + 1];
+                        if ($currentPage == 'newdb') {
+                            if ($_SESSION['permissions']['super_admin']) {
                                 logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
-                                $page = "views/core/editStaff.php";
+                                $page = "views/core/newDB.php";
                             } else {
-                                $err = errorMessage(8,$lang);
+                                $err = errorMessage(5,$lang);
                                 $page = "views/templates/error.php";
+                                logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'newDB'", 3);
+                            }
+                        }
+                        elseif ($currentPage == 'newserver') {
+                            if ($_SESSION['permissions']['super_admin']) {
+                                logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
+                                $page = "views/core/newServer.php";
+                            } else {
+                                $err = errorMessage(5,$lang);
+                                $page = "views/templates/error.php";
+                                logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'newServer'", 3);
+                            }
+
+                        } elseif ($currentPage == 'settings') {
+                            if ($_SESSION['permissions']['super_admin']) {
+                                logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
+                                $page = "views/core/settings.php";
+                            } else {
+                                $err = errorMessage(5,$lang);
+                                $page = "views/templates/error.php";
+                                logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'settings'", 3);
+                            }
+
+                        } elseif ($currentPage == 'editstaff') {
+                            if ($_SESSION['permissions']['edit']['staff']) {
+                                if ($query) {
+                                    $uId = $url['path'][$settings['base'] + 1];
+                                    logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
+                                    $page = "views/core/editStaff.php";
+                                } else {
+                                    $err = errorMessage(8,$lang);
+                                    $page = "views/templates/error.php";
+                                }
+                            } else {
+                                $err = errorMessage(5,$lang); $page = "views/templates/error.php";
+                                logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'editStaff'", 3);
+                            }
+                        } elseif ($currentPage == 'staff') {
+                            if ($_SESSION['permissions']['view']['staff']) {
+                                if ($query) {
+                                    $search = $url['path'][$settings['base'] + 1];
+                                }
+                                logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
+                                $page = "views/core/staff.php";
+                            } else {
+                                $err = errorMessage(5,$lang); $page = "views/templates/error.php";
+                                logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'staff'", 3);
+                            }
+
+                        } elseif ($currentPage == 'pluginstore') {
+                            if ($_SESSION['permissions']['super_admin']) {
+                                logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
+                                $page = "views/core/pluginstore.php";
+                            } else {
+                                $err = errorMessage(5,$lang); $page = "views/templates/error.php";
+                                logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'pluginstore'", 3);
+                            }
+
+                        } elseif ($currentPage == 'newuser') {
+                            if ($_SESSION['permissions']['edit']['staff']) {
+                                require_once("classes/registration.php");
+                                $registration = new Registration();
+                                logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
+                                $page = "views/core/newUser.php";
+                            } else {
+                                $err = errorMessage(5,$lang); $page = "views/templates/error.php";
+                                logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'newUser'", 3);
+                            }
+
+                        } elseif ($currentPage == 'logs' && $settings['logging']) {
+                            if ($_SESSION['permissions']['view']['logs']) {
+                                if ($query) {
+                                    $search = $url['path'][$settings['base'] + 1];
+                                }
+                                logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
+                                $page = "views/core/logs.php";
+                            } else {
+                                $err = errorMessage(5,$lang); $page = "views/templates/error.php";
+                                logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'noPerm'", 3);
                             }
                         }
                     }
-                } else {
-                    $err = errorMessage(5,$lang); $page = "views/templates/error.php";
-                    logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'editStaff'", 3);
-                }
-            } elseif ($currentPage == 'staff') {
-                if ($_SESSION['permissions']['view']['staff']) {
-                    if (!isset($_SESSSION['sudo']) || isset($_POST['sudo'])) {
-                        pass();
-                    } else {
-                        if ($_SESSSION['sudo'] > now() + 10800) pass(1); else {
-                            if ($query) {
-                                $search = $url['path'][$settings['base'] + 1];
-                            }
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
-                            $page = "views/core/staff.php";
-                        }
-                    }
-                } else {
-                    $err = errorMessage(5,$lang); $page = "views/templates/error.php";
-                    logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'staff'", 3);
-                }
-
-            } elseif ($currentPage == 'pluginstore') {
-                if ($_SESSION['permissions']['super_admin']) {
-                    if (!isset($_SESSSION['sudo']) || isset($_POST['sudo'])) {
-                        pass();
-                    } else {
-                        if ($_SESSSION['sudo'] > now() + 10800) pass(1); else {
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
-                            $page = "views/core/pluginstore.php";
-                        }
-                    }
-                } else {
-                    $err = errorMessage(5,$lang); $page = "views/templates/error.php";
-                    logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'pluginstore'", 3);
-                }
-
-            } elseif ($currentPage == 'newuser') {
-                if ($_SESSION['permissions']['edit']['staff']) {
-                    if (!isset($_SESSSION['sudo']) || isset($_POST['sudo'])) {
-                        pass();
-                    } else {
-                        if ($_SESSSION['sudo'] > now() + 10800) pass(1); else {
-                            require_once("classes/Registration.php");
-                            $registration = new Registration();
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
-                            $page = "views/core/newUser.php";
-                        }
-                    }
-                } else {
-                    $err = errorMessage(5,$lang); $page = "views/templates/error.php";
-                    logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'newUser'", 3);
-                }
-
-            } elseif ($currentPage == 'logs' && $settings['logging']) {
-                if ($_SESSION['permissions']['view']['logs']) {
-                    if (!isset($_SESSSION['sudo']) || isset($_POST['sudo'])) {
-                        pass();
-                    } else {
-                        if ($_SESSSION['sudo'] > now() + 10800) pass(1); else {
-                            if ($query) {
-                                $search = $url['path'][$settings['base'] + 1];
-                            }
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
-                            $page = "views/core/logs.php";
-                        }
-                    }
-                } else {
-                    $err = errorMessage(5,$lang); $page = "views/templates/error.php";
-                    logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'noPerm'", 3);
-                }
             }
 
             if ($currentPage == 'curplayers') {

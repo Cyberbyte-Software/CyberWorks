@@ -8,13 +8,13 @@ if (isset($search)) {
     $result_of_query = $db_link->query($sql);
     $total_records = mysqli_num_rows($result_of_query);
     if ($pageNum > $total_records) $pageNum = $total_records;
-    $sql = "SELECT `id`,`pid`,`pos`,`name` FROM `houses` INNER JOIN `players` ON houses.pid=players.playerid WHERE `id` LIKE '" . $search . "' OR `pos` LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%' " . $max . " ;";
+    $sql = "SELECT `id`,`pid`,`pos`,`name`,`owned` FROM `houses` INNER JOIN `players` ON houses.pid=players.playerid WHERE `id` LIKE '" . $search . "' OR `pos` LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%' " . $max . " ;";
 } else {
     $sql = "SELECT `id` FROM `houses`;";
     $result_of_query = $db_link->query($sql);
     $total_records = mysqli_num_rows($result_of_query);
     if ($pageNum > $total_records) $pageNum = $total_records;
-    $sql = "SELECT `id`,`pid`,`pos`,`name` FROM `houses` INNER JOIN `players` ON houses.pid=players.playerid " . $max . " ;";
+    $sql = "SELECT `id`,`pid`,`pos`,`name`,`owned` FROM `houses` INNER JOIN `players` ON houses.pid=players.playerid " . $max . " ;";
 }
 
 $result_of_query = $db_link->query($sql);
@@ -23,7 +23,6 @@ if ($result_of_query->num_rows > 0) {  ?>
         <div class="col-lg-12">
             <h1 class="page-header">
                 <?php echo $lang['houses']; ?>
-                <small> <?php echo $lang['overview']; ?></small>
             </h1>
         </div>
     </div>

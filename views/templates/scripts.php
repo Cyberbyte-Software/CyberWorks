@@ -76,19 +76,8 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript" src="<?php echo $settings['url'] ?>assets/js/bootstrap.min.js"></script>
-<script class="include" type="text/javascript" src="<?php echo $settings['url'] ?>assets/js/jquery.dcjqaccordion.2.7.js"></script>
-<script src="<?php echo $settings['url'] ?>assets/js/jquery.sparkline.js"></script>
-<script src="<?php echo $settings['url'] ?>assets/js/formValidation.min.js"></script>
-<script src="<?php echo $settings['url'] ?>assets/js/framework/bootstrap.min.js"></script>
+<script src="<?php echo $settings['url'] ?>assets/js/main.min.js"></script>
 <?php if (isset($_SESSION['forum_lang'])) echo '<script type="text/javascript" src="'.$settings["url"].'assets/js/language/' . $_SESSION['forum_lang'] . '.js"></script>'; ?>
-
-<script src="<?php echo $settings['url'] ?>assets/js/common-scripts.js"></script>
-
-<script type="text/javascript" src="<?php echo $settings['url'] ?>assets/js/gritter/js/jquery.gritter.js"></script>
-<script type="text/javascript" src="<?php echo $settings['url'] ?>assets/js/gritter-conf.js"></script>
-
 <script>
     function searchpage() {
         sn = document.getElementById('searchText').value;
@@ -96,7 +85,6 @@
         document.location.href = redirecturl;
     }
 </script>
-
 <script type="text/javascript">
     $('#myTab a').click(function (e) {
         console.log('clicked ' + this);
@@ -107,7 +95,6 @@
         }
     });
 </script>
-
 <?php
 foreach ($settings['plugins'] as &$plugin) {
     if (file_exists("plugins/". $plugin. "/assets/scripts.js")) {

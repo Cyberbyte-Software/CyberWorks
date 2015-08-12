@@ -22,8 +22,19 @@ function decrypt($text, $salt)
 }
 
 if (isset($_POST['user_name'])) {
-    $settings['url'] = $_POST['url'];
+    $last = str_replace(strrchr($_SERVER['REQUEST_URI'], '/'), '', $_SERVER['REQUEST_URI']).'/';
+    $settings['url'] = 'http://'.$_SERVER['HTTP_HOST'].$last;
+    $base = substr($last,1);
     $settings['base'] = substr_count($settings['url'],"/")-2;
+    
+    $hta = 'RewriteEngine On\n
+RewriteBase '.$base.'\n
+RewriteCond %{REQUEST_FILENAME} !-f\n
+RewriteRule . '.$base.'index.php [L]\n';
+
+    $htaccess = fopen(".htaccess", "w") or die("Unable to make .htaccess");
+    fwrite($htaccess, $hta);
+    fclose($htaccess);
 
     if (isset($_POST['user_pid'])) $verify = str_replace (" ","%20",'http://cyberbyte.org.uk/hooks/cyberworks/getid.php?url='.$settings['url'].'&name='.$_POST['community_name'].'&pid='.$_POST['user_pid']);
     else $verify = str_replace (" ","%20",'http://cyberbyte.org.uk/hooks/cyberworks/getid.php?url='.$settings['url'].'&name='.$_POST['community_name']);
@@ -138,15 +149,18 @@ if (isset($_POST['user_name'])) {
         if (mysqli_num_rows($query) == 1) mysqli_query($link, "DROP TABLE `logs`") or die('DROP 5: ' . mysqli_error($link));
 
         mysqli_query($link, "CREATE TABLE IF NOT EXISTS `users` (
-      `user_id` int(11) NOT NULL primary key COMMENT 'auto incrementing user_id of each user, unique index',
-      `user_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s name, unique',
-      `user_password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s password in salted and hashed format',
-      `user_email` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s email, unique',
+      `user_id` int(11) NOT NULL primary key,
+      `user_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+      `user_password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+      `user_email` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
       `playerid` varchar(17) COLLATE utf8_unicode_ci DEFAULT NULL,
       `user_level` int(1) NOT NULL DEFAULT '1',
       `permissions` text COLLATE utf8_unicode_ci NOT NULL,
       `user_profile` varchar(255) NOT NULL,
-      `items` int(1) NULL
+      `items` int(2) NULL,
+      `twoFactor` VARCHAR(25) NULL,
+      `backup` VARCHAR(25) NULL,
+      `backup` VARCHAR(255) NULL 
     ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data';") or die('1: ' . mysqli_error($link));
 
         if (isset($_POST['user_pid'])) {
@@ -275,9 +289,6 @@ if (isset($_POST['user_name'])) {
                             <label for="community_name">Community Name: </label>
                             <input placeholder="Community Name" id="community_name"
                                    class="form-control login_input" type="text" name="community_name" <?php if(isset($_POST['community_name'])) echo 'value="'.$_POST['community_name'].'"'?>>
-                                   <label for="community_name">Install URL: (MUST BE AS FOLLOWS)</label>
-                            <input placeholder="http://cyberbyte.org.uk/" id="url"
-                                   class="form-control login_input" type="text" name="url" <?php if(isset($_POST['url'])) echo 'value="'.$_POST['url'].'"'?>>
                             <br><h4>User Setup</h4>
                             <label for="user_name">Username: </label>
                             <input placeholder="Username" id="user_name"

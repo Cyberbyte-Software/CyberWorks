@@ -4,11 +4,11 @@
     <div class="sidebar-toggle-box">
         <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
     </div>
-    <!--logo start-->
+
     <a href="<?php echo $settings['url'] ?>dashboard" class="logo"><b>Cyber Works
             <?php if ($debug) echo '- Debug Mode'; ?>
         </b></a>
-    <!--logo end-->
+
     <a class="logosmall pull-right hidden-xs">
         <b>Copyright &copy; 2015 Cyber Works <?php if (isset($settings['version'])) echo $settings['version']; ?> by
             Cyberbyte Studios</b></a>
@@ -18,7 +18,7 @@
     <div id="sidebar" class="nav-collapse ">
         <ul class="sidebar-menu" id="nav-accordion">
             <p class="centered">
-                <?php if(is_numeric($_SESSION['user_profile'])){
+                <?php if (!isset($_SESSION['profile_link'])){
                     echo '<a href="' . $settings['url'] . 'profile">';
                     echo '<img src="' . $settings['url'] . 'assets/img/profile/' . $_SESSION['user_profile'] . '.jpg"';
                     echo 'class="img-circle" width="60" height="60"></a></p>';
@@ -29,7 +29,7 @@
                 ?>
             <h5 class="centered">
                 <?php
-                if($_SESSION['']) echo '<i class="fa fa-steam-square"></i>';
+                if($_SESSION['steamsignon']) echo '<i class="fa fa-steam-square"></i>';
                 echo $_SESSION['user_name']; ?>
             </h5>
 
@@ -47,7 +47,6 @@
 					{
 						case 'life':
 							include("views/life/nav.php");
-							break;
 					}
 				}
 
@@ -77,14 +76,27 @@
 							<?php } ?>
 						</ul>
 					</li>
-				<?php }
-            if (isset($_SESSION['user_email'])) { ?>
-            <li>
-                <a href="<?php echo $settings['url'] ?>profile">
-                    <i class="fa fa-fw fa-user"></i>
-                    <span><?php echo $lang['navProfile']; ?></span>
-                </a>
-            </li>
+				<?php } if (isset($_SESSION['user_email'])) { ?>
+            <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <i class="fa fa-user"></i>
+                        <span><?php echo $lang['navProfile']; ?></span>
+                    </a>
+                    <ul class="dropdown-menu extended tasks-bar">
+                        <li>
+                            <a href="<?php echo $settings['url'] ?>profile">
+                                <i class="fa fa-fw fa-user"></i>
+                                <span><?php echo $lang['navProfile']; ?></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $settings['url'] ?>2factor">
+                                <i class="fa fa-fw fa-mobile"></i>
+                                <span><?php echo $lang['2factor']; ?></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             <?php } else { ?>
             <li>
                 <a href="<?php echo $settings['url'] ?>register">
@@ -92,9 +104,7 @@
                     <span> Register</span>
                 </a>
             </li>
-            <?php }
-			if ($_SESSION['permissions']['edit']['staff']) {
-                ?>
+            <?php } if ($_SESSION['permissions']['edit']['staff']) { ?>
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <i class="fa fa-users"></i>
@@ -115,18 +125,14 @@
                         </li>
                     </ul>
                 </li>
-            <?php
-            } elseif ($_SESSION['permissions']['view']['staff']) {
-                ?>
+            <?php } elseif ($_SESSION['permissions']['view']['staff']) { ?>
                 <li>
                     <a href="<?php echo $settings['url'] ?>staff">
                         <i class="fa fa-fw fa-user"></i>
                         <span><?php echo $lang['staff']; ?></span>
                     </a>
                 </li>
-            <?php }
-            if ($_SESSION['permissions']['super_admin']) {
-                ?>
+            <?php } if ($_SESSION['permissions']['super_admin']) { ?>
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <i class="fa fa-cogs"></i>
@@ -151,15 +157,14 @@
                                 <span><?php echo $lang['edit'] .' '. $lang['databases'] ?></span>
                             </a>
                         </li>
-                        <?php
-                        if($settings['logging']){ ?>
+                        <?php if($settings['logging']){ ?>
                         <li>
                             <a href="<?php echo $settings['url'] ?>logs">
                                 <i class="fa fa-fw fa-th-list"></i>
                                 <span><?php echo $lang['logs'] ?></span>
                             </a>
                         </li>
-                        <?php }?>
+                        <?php } ?>
                         <li>
                             <a href="<?php echo $settings['url'] ?>settings">
                                 <i class="fa fa-fw fa-wrench"></i>
@@ -196,7 +201,8 @@
         <?php
         if (isset($error)) echo '<div style="margin-top: 120px;" class="alert alert-danger animated infinite bounce" role="alert">' . $error . '</div>';
         if (isset($message)) echo '<div style="margin-top: 120px;" class="alert alert-info animated infinite bounce" role="alert">' . $message . '</div>';
-        if (isset($page)) include($page); ?>
+        if (isset($page)) include($page);
+        ?>
     </section>
 </section>
 <?php include("views/templates/scripts.php"); ?>

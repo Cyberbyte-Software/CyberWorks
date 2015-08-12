@@ -76,7 +76,7 @@ if ($_SESSION['2factor'] == 1 || $_SESSION['2factor'] == 5 || $_SESSION['2factor
   if (isset($settings['communityName'])) $name = urlencode(str_replace(' ','',$settings['communityName'])."CyberWorks");
   else $name = 'CyberWorks';
   echo '<div class="col-md-6">'.$lang['2factorSetup1'].'<br>'.$lang['2factorSetup2'].' <b>'.$secret.'</b><br><form method="post" action="2factor" class="form-inline">
-  <label for="testCode">'.$lang['2factorSetup3'].'<div class="form-group"></label><input class="form-control" id="testCode" type="text" name="testCode"></div>
+  <label for="testCode">'.$lang['2factorSetup3'].'<div class="form-group"></label><input style="margin-left: 5px;" class="form-control" id="testCode" type="text" name="testCode"></div>
   <input type="hidden" id="secret" name="secret" value="'.$secret.'"><button type="submit" class="btn btn-default">Verify</button>
   </form></div><div class="col-md-6"><img src="'.$gauth->getQRCodeGoogleUrl($name,$secret).'"></div>';
 }

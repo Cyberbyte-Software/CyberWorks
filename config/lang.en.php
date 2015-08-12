@@ -354,3 +354,4 @@ $lang['2factorForce'] = 'Your panel admin has forced Two factor login for all us
 $lang['sudoExpired'] = 'Your login has expired, please try again';
 $lang['sudo'] = 'You are entering sudo mode, you will not need to login again for 3 hours';
 $lang['whitelist'] = 'Add IP\'s which you want to connect from. Example: 127.0.0.1, 127.0.0 and 127 will all allow 127.0.0.1 to connect';
+$lang['sudoMode'] = 'Sudo Mode';

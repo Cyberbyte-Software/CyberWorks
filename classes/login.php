@@ -106,15 +106,16 @@ class Login
                                 $_SESSION['2factor'] = 0;
                                 if (!empty($result_row->twoFactor)) {
                                   if ($settings['2factor']) $_SESSION['2factor'] = 1; else {
-                                    $sql = "UPDATE `users` SET `backup` = 'NULL',`twoFactor` = 'NULL' WHERE `userid` = '".$result_row->user_id."';";
-                                    $message = $lang['2factorForceRevoke'];
+                                    $sql = "UPDATE `users` SET `backup`=NULL,`twoFactor`=NULL WHERE `userid` = '".$result_row->user_id."';";
+                                    $this->db_connection->query($sql);
+                                    $this->errors[] = $lang['2factorForceRevoke'];
                                   }
                                 }
 
                                 if (isset($_COOKIE['token']) && !empty($result_row->token)) {
                                     if (decrypt($result_row->token) == $_COOKIE['token']) $_SESSION['2factor'] = 2;
                                 }
-
+                                $_SESSION['sudo'] = time();
                                 $_SESSION['message'] = $verify;
                                 $_SESSION['user_name'] = $result_row->user_name;
                                 $_SESSION['user_level'] = $result_row->user_level;

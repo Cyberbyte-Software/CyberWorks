@@ -157,79 +157,54 @@ function errorMessage($code,$lang)
     {
         case 1:
             return $lang['lowVersion']; //Version too low
-            break;
         case 2:
             return $lang['dbConnect']; //Db Connection
-            break;
         case 3:
             return $lang['noRes']; //No Results
-            break;
         case 4:
             return $lang['404']; //404 Not Found
-            break;
         case 5:
             return $lang['noPerm']; //No Permissions
-            break;
         case 6:
             return $lang['banned']; //User Banned
-            break;
         case 7:
             return $lang['pluginNF']; //User Banned
-            break;
         case 8:
             return $lang['noID']; //No ID
-            break;
         case 9:
             return $lang['noPlayers']; // RCON no players online
-            break;
         case 10:
             return $lang['selDB']; // Select A DB
-            break;
         case 11:
             return $lang['noServer']; // Select A DB
-            break;
 		case 31:
             return $lang['noHouse']; //No House
-            break;
         case 32:
             return $lang['noVeh']; //No Vehicle
-            break;
         case 33:
             return $lang['noGang']; //No Gang
-            break;
         case 34:
             return $lang['noCrimes']; //No Crimes
-            break;
         case 35:
             return $lang['noCrimes']; //No Crimes
-            break;
         case 36:
             return $lang['noPlayer']; //No Player
-            break;
         case 37:
             return $lang['noLic']; //No License
-            break;
         case 371:
             return $lang['no']. ' ' .$lang['civil']. ' ' .$lang['licenses']; //No Civillian Licenses
-            break;
         case 372:
             return $lang['no']. ' ' .$lang['medic']. ' ' .$lang['licenses']; //No Medic Licenses
-            break;
         case 373:
             return $lang['no']. ' ' .$lang['police']. ' ' .$lang['licenses']; //No Police Licenses
-            break;
         case 38:
             return $lang['no']. ' ' .$lang['gear']; //No License
-            break;
         case 381:
             return $lang['no']. ' ' .$lang['civil']. ' ' .$lang['gear']; //No Civillian Licenses
-            break;
         case 382:
             return $lang['no']. ' ' .$lang['medic']. ' ' .$lang['gear']; //No Medic Licenses
-            break;
         case 383:
             return $lang['no']. ' ' .$lang['police']. ' ' .$lang['gear']; //No Police Licenses
-            break;
     }
 }
 
@@ -341,9 +316,4 @@ function communityBanned($GUID)
     } else {
         return false;
     }
-}
-
-function pass ($expired = 0) {
-  if ($expired) echo message($lang['sudoExpired']);
-  var_dump('pass');
 }

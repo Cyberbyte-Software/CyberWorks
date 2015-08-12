@@ -136,5 +136,3 @@ function rcon($serverip,$serverport,$rconpassword,$cmd)
     $answer = fixAnswer($answer);
 	return $answer;
 }
-
-?>
