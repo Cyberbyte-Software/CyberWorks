@@ -9,15 +9,20 @@ if (isset($_SESSION['permissions']['edit']['player'])) {
         $settings = require('../config/settings.php');
         $db_link = serverConnect($_SESSION['dbid']);
 
-        if ($settings['logging']) logAction($_SESSION['user_name'], $lang['edited'] . ' ' . uIDname($_POST['player'], $db_link) . ' ' . $lang['licenses'], 1);
+        if ($settings['logging']) {
+            logAction($_SESSION['user_name'], $lang['edited'] . ' ' . uIDname($_POST['player'], $db_link) . ' ' . $lang['licenses'], 1);
+        }
 
         if ($_POST['id'] == 'arrested') {
             $sql = "SELECT `arrested` FROM `players` WHERE `uid` = '" . $_POST['player'] . "';";
             $result = $db_link->query($sql);
             if ($result->num_rows > 0) {
                 $switch = $result->fetch_object();
-                if ($switch == '1') $sql = "UPDATE `players` SET `arrested`='0' WHERE `uid` = '" . $_POST['player'] . "';";
-                elseif ($switch == '0') $sql = "UPDATE `players` SET `arrested`='1' WHERE `uid` = '" . $_POST['player'] . "';";
+                if ($switch == '1') {
+                    $sql = "UPDATE `players` SET `arrested`='0' WHERE `uid` = '" . $_POST['player'] . "';";
+                } elseif ($switch == '0') {
+                    $sql = "UPDATE `players` SET `arrested`='1' WHERE `uid` = '" . $_POST['player'] . "';";
+                }
                 $db_link->query($sql);
             }
         } elseif ($_POST['id'] == 'blacklist') {

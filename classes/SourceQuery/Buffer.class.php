@@ -34,10 +34,10 @@
          *
          * @param string $Buffer Buffer
          */
-        public function Set( $Buffer )
+        public function Set($Buffer)
         {
             $this->Buffer   = $Buffer;
-            $this->Length   = StrLen( $Buffer );
+            $this->Length   = StrLen($Buffer);
             $this->Position = 0;
         }
 		
@@ -68,25 +68,25 @@
          *
          * @return string
          */
-        public function Get( $Length = -1 )
+        public function Get($Length = -1)
         {
-            if( $Length === 0 )
+            if ($Length === 0)
             {
                 return '';
             }
 			
             $Remaining = $this->Remaining( );
 			
-            if( $Length === -1 )
+            if ($Length === -1)
             {
                 $Length = $Remaining;
             }
-            else if( $Length > $Remaining )
+            else if ($Length > $Remaining)
             {
                 return '';
             }
 			
-            $Data = SubStr( $this->Buffer, $this->Position, $Length );
+            $Data = SubStr($this->Buffer, $this->Position, $Length);
 			
             $this->Position += $Length;
 			
@@ -100,7 +100,7 @@
          */
         public function GetByte( )
         {
-            return Ord( $this->Get( 1 ) );
+            return Ord($this->Get(1));
         }
 		
         /**
@@ -110,9 +110,9 @@
          */
         public function GetShort( )
         {
-            $Data = UnPack( 'v', $this->Get( 2 ) );
+            $Data = UnPack('v', $this->Get(2));
 			
-            return $Data[ 1 ];
+            return $Data[1];
         }
 		
         /**
@@ -122,9 +122,9 @@
          */
         public function GetLong( )
         {
-            $Data = UnPack( 'l', $this->Get( 4 ) );
+            $Data = UnPack('l', $this->Get(4));
 			
-            return $Data[ 1 ];
+            return $Data[1];
         }
 		
         /**
@@ -134,9 +134,9 @@
          */
         public function GetFloat( )
         {
-            $Data = UnPack( 'f', $this->Get( 4 ) );
+            $Data = UnPack('f', $this->Get(4));
 			
-            return $Data[ 1 ];
+            return $Data[1];
         }
 		
         /**
@@ -146,9 +146,9 @@
          */
         public function GetUnsignedLong( )
         {
-            $Data = UnPack( 'V', $this->Get( 4 ) );
+            $Data = UnPack('V', $this->Get(4));
 			
-            return $Data[ 1 ];
+            return $Data[1];
         }
 		
         /**
@@ -158,15 +158,14 @@
          */
         public function GetString( )
         {
-            $ZeroBytePosition = StrPos( $this->Buffer, "\0", $this->Position );
+            $ZeroBytePosition = StrPos($this->Buffer, "\0", $this->Position);
 			
-            if( $ZeroBytePosition === false )
+            if ($ZeroBytePosition === false)
             {
                 $String = "";
-            }
-            else
+            } else
             {
-                $String = $this->Get( $ZeroBytePosition - $this->Position );
+                $String = $this->Get($ZeroBytePosition - $this->Position);
 				
                 $this->Position++;
             }

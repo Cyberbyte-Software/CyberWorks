@@ -34,7 +34,9 @@ if (file_exists('config/settings.php')) {
         $debug = false;
     }
 
-    if (isset($_GET['searchText'])) $search = $_GET['searchText'];
+    if (isset($_GET['searchText'])) {
+        $search = $_GET['searchText'];
+    }
     require_once("gfunctions.php");
 
     include "classes/update.php";
@@ -47,14 +49,18 @@ if (file_exists('config/settings.php')) {
     if (count($url['path']) > $settings['base'] + 1 && $url['path'][$settings['base'] + 1] <> '') {
         $query = true;
         $url['path'][$settings['base'] + 1] = str_replace("%20", " ", $url['path'][$settings['base'] + 1]);
-    } else $query = false;
+    } else {
+        $query = false;
+    }
 
     $db_connection = masterConnect();
     $currentPage = $url['path'][$settings['base']];
 
     if (isset($_GET["page"])) {
         $pageNum = clean($_GET["page"], 'int');
-        if ($pageNum < 1) $pageNum = 1;
+        if ($pageNum < 1) {
+            $pageNum = 1;
+        }
     } else {
         $pageNum = 1;
     }
@@ -511,13 +517,13 @@ if (file_exists('config/settings.php')) {
                     if (!$_SESSION['steamsignon']) $_SESSION['2factor'] == 5;
                 } elseif ($settings['force2factor'] == 'all') $_SESSION['2factor'] == 5;
                 $page = 'views/core/2factor.php';
-                } elseif ($_SESSION['2factor'] == 1 || $_SESSION['2factor'] == 3 ) {
+                } elseif ($_SESSION['2factor'] == 1 || $_SESSION['2factor'] == 3) {
                 if (isset($_POST['code'])) {
-                    $sql = "SELECT `twoFactor` FROM `users` WHERE `user_id` = '".$_SESSION['user_id']."';";
+                    $sql = "SELECT `twoFactor` FROM `users` WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
                     $user = $db_connection->query($sql)->fetch_object();
                     if ($gauth->verifyCode($user->twoFactor, $_POST['code'])) $_SESSION['2factor'] = 2;
                     else {
-                    $sql = "SELECT `backup` FROM `users` WHERE `user_id` = '".$_SESSION['user_id']."';";
+                    $sql = "SELECT `backup` FROM `users` WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
                     $user = $db_connection->query($sql)->fetch_object();
                     if ($user->backup == $_POST['backup']) $_SESSION['2factor'] = 2;
                     else {

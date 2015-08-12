@@ -1,6 +1,8 @@
 <?php
 if ($settings['version'] < 0.3) {
-    if (!isset($settings['installedLanguage'])) $settings['installedLanguage'] = array();
+    if (!isset($settings['installedLanguage'])) {
+        $settings['installedLanguage'] = array();
+    }
     $lang = array('English', 'en');
     array_push($settings['installedLanguage'], $lang);
     $settings['version'] = 0.3;

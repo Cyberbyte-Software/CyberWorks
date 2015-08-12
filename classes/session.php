@@ -60,10 +60,10 @@ class SessionManager
         session_start();
 
         // Make sure the session hasn't expired, and destroy it if it has
-        if(self::validateSession())
+        if (self::validateSession())
         {
             // Check to see if the session is new or a hijacking attempt
-            if(!self::preventHijacking())
+            if (!self::preventHijacking())
             {
                 // Reset session data and regenerate id
                 $_SESSION = array();
@@ -73,10 +73,10 @@ class SessionManager
                 self::regenerateSession();
 
             // Give a 5% chance of the session id changing on any request
-            }elseif(rand(1, 100) <= 5){
+            }elseif (rand(1, 100) <= 5) {
                 self::regenerateSession();
             }
-        }else{
+        } else {
             $_SESSION = array();
             session_destroy();
             session_start();
@@ -92,7 +92,7 @@ class SessionManager
     {
         // If this session is obsolete it means there already is a new id
         // some people have an issue with this according to its github the fix is to remove the true bit as if its set its true anyway
-        if(isset($_SESSION['OBSOLETE']))
+        if (isset($_SESSION['OBSOLETE']))
             return;
 
         // Set current session to expire in 10 seconds
@@ -122,10 +122,10 @@ class SessionManager
      */
     static protected function validateSession()
     {
-        if( isset($_SESSION['OBSOLETE']) && !isset($_SESSION['EXPIRES']) )
+        if (isset($_SESSION['OBSOLETE']) && !isset($_SESSION['EXPIRES']))
             return false;
 
-        if(isset($_SESSION['EXPIRES']) && $_SESSION['EXPIRES'] < time())
+        if (isset($_SESSION['EXPIRES']) && $_SESSION['EXPIRES'] < time())
             return false;
 
         return true;
@@ -139,12 +139,12 @@ class SessionManager
      */
     static protected function preventHijacking()
     {
-        if(!isset($_SESSION['IPaddress']) || !isset($_SESSION['userAgent']))
+        if (!isset($_SESSION['IPaddress']) || !isset($_SESSION['userAgent']))
             return false;
 
 
-        if( $_SESSION['userAgent'] != $_SERVER['HTTP_USER_AGENT']
-            && !( strpos($_SESSION['userAgent'], ÔTridentÕ) !== false
+        if ($_SESSION['userAgent'] != $_SERVER['HTTP_USER_AGENT']
+            && !(strpos($_SESSION['userAgent'], ÔTridentÕ) !== false
                 && strpos($_SERVER['HTTP_USER_AGENT'], ÔTridentÕ) !== false))
         {
             return false;
@@ -157,13 +157,13 @@ class SessionManager
 
         $remoteIpSegment = substr($remoteIpHeader, 0, 7);
 
-        if($_SESSION['IPaddress'] != $remoteIpHeader
+        if ($_SESSION['IPaddress'] != $remoteIpHeader
             && !(in_array($sessionIpSegment, $this->aolProxies) && in_array($remoteIpSegment, $this->aolProxies)))
         {
             return false;
         }
 
-        if( $_SESSION['userAgent'] != $_SERVER['HTTP_USER_AGENT'])
+        if ($_SESSION['userAgent'] != $_SERVER['HTTP_USER_AGENT'])
             return false;
 
         return true;

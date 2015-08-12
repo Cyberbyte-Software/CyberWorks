@@ -1,145 +1,145 @@
 <?php
-	/**
-	 * Class written by xPaw
-	 *
-	 * Website: http://xpaw.me
-	 * GitHub: https://github.com/xPaw/PHP-Source-Query-Class
-	 */
+    /**
+     * Class written by xPaw
+     *
+     * Website: http://xpaw.me
+     * GitHub: https://github.com/xPaw/PHP-Source-Query-Class
+     */
 
-	use xPaw\SourceQuery\Exception\AuthenticationException;
+    use xPaw\SourceQuery\Exception\AuthenticationException;
 	
-	class SourceQueryGoldSourceRcon
-	{
-		/**
-		 * Points to buffer class
-		 * 
-		 * @var SourceQueryBuffer
-		 */
-		private $Buffer;
+    class SourceQueryGoldSourceRcon
+    {
+        /**
+         * Points to buffer class
+         * 
+         * @var SourceQueryBuffer
+         */
+        private $Buffer;
 		
-		/**
-		 * Points to socket class
-		 * 
-		 * @var SourceQuerySocket
-		 */
-		private $Socket;
+        /**
+         * Points to socket class
+         * 
+         * @var SourceQuerySocket
+         */
+        private $Socket;
 		
-		private $RconPassword;
-		private $RconRequestId;
-		private $RconChallenge;
+        private $RconPassword;
+        private $RconRequestId;
+        private $RconChallenge;
 		
-		/**
-		 * @param SourceQueryBuffer $Buffer
-		 * @param SourceQuerySocket $Socket
-		 */
-		public function __construct( $Buffer, $Socket )
-		{
-			$this->Buffer = $Buffer;
-			$this->Socket = $Socket;
-		}
+        /**
+         * @param SourceQueryBuffer $Buffer
+         * @param SourceQuerySocket $Socket
+         */
+        public function __construct( $Buffer, $Socket )
+        {
+            $this->Buffer = $Buffer;
+            $this->Socket = $Socket;
+        }
 		
-		public function Close( )
-		{
-			$this->RconChallenge = 0;
-			$this->RconRequestId = 0;
-			$this->RconPassword  = 0;
-		}
+        public function Close( )
+        {
+            $this->RconChallenge = 0;
+            $this->RconRequestId = 0;
+            $this->RconPassword  = 0;
+        }
 		
-		public function Open( )
-		{
-			//
-		}
+        public function Open( )
+        {
+            //
+        }
 		
-		/**
-		 * @param integer $Header
-		 */
-		public function Write( $Header, $String = '' )
-		{
-			$Command = Pack( 'cccca*', 0xFF, 0xFF, 0xFF, 0xFF, $String );
-			$Length  = StrLen( $Command );
+        /**
+         * @param integer $Header
+         */
+        public function Write( $Header, $String = '' )
+        {
+            $Command = Pack( 'cccca*', 0xFF, 0xFF, 0xFF, 0xFF, $String );
+            $Length  = StrLen( $Command );
 			
-			return $Length === FWrite( $this->Socket->Socket, $Command, $Length );
-		}
+            return $Length === FWrite( $this->Socket->Socket, $Command, $Length );
+        }
 
-		/**
-		 * @param int $Length
-		 * @throws AuthenticationException
-		 */
-		public function Read( $Length = 1400 )
-		{
-			// GoldSource RCON has same structure as Query
-			$this->Socket->Read( );
+        /**
+         * @param int $Length
+         * @throws AuthenticationException
+         */
+        public function Read( $Length = 1400 )
+        {
+            // GoldSource RCON has same structure as Query
+            $this->Socket->Read( );
 			
-			if( $this->Buffer->GetByte( ) !== SourceQuery :: S2A_RCON )
-			{
-				return false;
-			}
+            if( $this->Buffer->GetByte( ) !== SourceQuery :: S2A_RCON )
+            {
+                return false;
+            }
 			
-			$Buffer  = $this->Buffer->Get( );
-			$Trimmed = Trim( $Buffer );
+            $Buffer  = $this->Buffer->Get( );
+            $Trimmed = Trim( $Buffer );
 			
-			if($Trimmed === 'Bad rcon_password.')
-			{
-				throw new AuthenticationException($Trimmed, AuthenticationException::BAD_PASSWORD);
-			} else if($Trimmed === 'You have been banned from this server.')
-			{
-				throw new AuthenticationException($Trimmed, AuthenticationException::BANNED);
-			}
+            if($Trimmed === 'Bad rcon_password.')
+            {
+                throw new AuthenticationException($Trimmed, AuthenticationException::BAD_PASSWORD);
+            } else if($Trimmed === 'You have been banned from this server.')
+            {
+                throw new AuthenticationException($Trimmed, AuthenticationException::BANNED);
+            }
 			
-			$ReadMore = false;
+            $ReadMore = false;
 			
-			// There is no indentifier of the end, so we just need to continue reading
-			// TODO: Needs to be looked again, it causes timeouts
-			do
-			{
-				$this->Socket->Read( );
+            // There is no indentifier of the end, so we just need to continue reading
+            // TODO: Needs to be looked again, it causes timeouts
+            do
+            {
+                $this->Socket->Read( );
 				
-				$ReadMore = $this->Buffer->Remaining( ) > 0 && $this->Buffer->GetByte( ) === SourceQuery :: S2A_RCON;
+                $ReadMore = $this->Buffer->Remaining( ) > 0 && $this->Buffer->GetByte( ) === SourceQuery :: S2A_RCON;
 				
-				if( $ReadMore )
-				{
-					$Packet  = $this->Buffer->Get( );
-					$Buffer .= SubStr( $Packet, 0, -2 );
+                if( $ReadMore )
+                {
+                    $Packet  = $this->Buffer->Get( );
+                    $Buffer .= SubStr( $Packet, 0, -2 );
 					
-					// Let's assume if this packet is not long enough, there are no more after this one
-					$ReadMore = StrLen( $Packet ) > 1000; // use 1300?
-				}
-			}
-			while( $ReadMore );
+                    // Let's assume if this packet is not long enough, there are no more after this one
+                    $ReadMore = StrLen( $Packet ) > 1000; // use 1300?
+                }
+            }
+            while( $ReadMore );
 			
-			$this->Buffer->Set( Trim( $Buffer ) );
-		}
+            $this->Buffer->Set( Trim( $Buffer ) );
+        }
 		
-		public function Command( $Command )
-		{
-			if( !$this->RconChallenge )
-			{
-				return false;
-			}
+        public function Command( $Command )
+        {
+            if( !$this->RconChallenge )
+            {
+                return false;
+            }
 			
-			$this->Write( 0, 'rcon ' . $this->RconChallenge . ' "' . $this->RconPassword . '" ' . $Command . "\0" );
-			$this->Read( );
+            $this->Write( 0, 'rcon ' . $this->RconChallenge . ' "' . $this->RconPassword . '" ' . $Command . "\0" );
+            $this->Read( );
 			
-			return $this->Buffer->Get( );
-		}
+            return $this->Buffer->Get( );
+        }
 		
-		/**
-		 * @param string $Password
-		 */
-		public function Authorize( $Password )
-		{
-			$this->RconPassword = $Password;
+        /**
+         * @param string $Password
+         */
+        public function Authorize( $Password )
+        {
+            $this->RconPassword = $Password;
 			
-			$this->Write( 0, 'challenge rcon' );
-			$this->Socket->Read( );
+            $this->Write( 0, 'challenge rcon' );
+            $this->Socket->Read( );
 			
-			if( $this->Buffer->Get( 14 ) !== 'challenge rcon' )
-			{
-				return false;
-			}
+            if( $this->Buffer->Get( 14 ) !== 'challenge rcon' )
+            {
+                return false;
+            }
 			
-			$this->RconChallenge = Trim( $this->Buffer->Get( ) );
+            $this->RconChallenge = Trim( $this->Buffer->Get( ) );
 			
-			return true;
-		}
-	}
+            return true;
+        }
+    }

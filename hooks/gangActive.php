@@ -16,13 +16,17 @@ if (isset($_SESSION['permissions']['edit']['gangs'])) {
                 $active = $result->fetch_object();
                 if ($active == '1') {
                     $active = '0';
-                    if ($settings['logging']) logAction($_SESSION['user_name'], $lang['edited'] . ' ' . uIDname($_POST['player'], $db_link) . ' ' . $lang['gang'] . ' ' . $lang['deactive'], 1);
-                }
-                elseif ($active == '0') {
+                    if ($settings['logging']) {
+                        logAction($_SESSION['user_name'], $lang['edited'] . ' ' . uIDname($_POST['player'], $db_link) . ' ' . $lang['gang'] . ' ' . $lang['deactive'], 1);
+                    }
+                } elseif ($active == '0') {
                     $active = '1';
-                    if ($settings['logging']) logAction($_SESSION['user_name'], $lang['edited'] . ' ' . uIDname($_POST['player'], $db_link) . ' ' . $lang['gang'] . ' ' . $lang['active'], 1);
+                    if ($settings['logging']) {
+                        logAction($_SESSION['user_name'], $lang['edited'] . ' ' . uIDname($_POST['player'], $db_link) . ' ' . $lang['gang'] . ' ' . $lang['active'], 1);
+                    }
+                } else {
+                    $active = '0';
                 }
-                else $active = '0';
                 $sql = "UPDATE `gangs` SET `active`='$active' WHERE `id` = '" . $_POST['gang'] . "';";
                 $db_link->query($sql);
             }

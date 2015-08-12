@@ -105,13 +105,13 @@ class Login
                     if (password_verify($_POST['user_password'], $result_row->user_password_hash)) {
 
                         if ($result_row->user_level <> 0) {
-                            $verify = json_decode(file_get_contents('http://cyberbyte.org.uk/hooks/cyberworks/messages.php?id='.$settings['id']));
+                            $verify = json_decode(file_get_contents('http://cyberbyte.org.uk/hooks/cyberworks/messages.php?id=' . $settings['id']));
                             if (!isset($verify->verify)) {
                                 if ($verify->version > floatval($settings['version'])) $_SESSION['update'] = true;
                                 $_SESSION['2factor'] = 0;
                                 if (!empty($result_row->twoFactor)) {
                                     if ($settings['2factor']) $_SESSION['2factor'] = 1; else {
-                                    $sql = "UPDATE `users` SET `backup`=NULL,`twoFactor`=NULL WHERE `userid` = '".$result_row->user_id."';";
+                                    $sql = "UPDATE `users` SET `backup`=NULL,`twoFactor`=NULL WHERE `userid` = '" . $result_row->user_id . "';";
                                     $this->db_connection->query($sql);
                                     $this->errors[] = $lang['2factorForceRevoke'];
                                     }
@@ -130,9 +130,9 @@ class Login
                                 $_SESSION['user_email'] = $result_row->user_email;
                                 $_SESSION['playerid'] = $result_row->playerid;
                                 $_SESSION['user_id'] = $result_row->user_id;
-                                $_SESSION['permissions'] = json_decode($result_row->permissions,true);
-                                if(isset($result_row->items))$_SESSION['items'] = $result_row->items; else $_SESSION['items'] = $settings['items'];
-                                if(isset($_POST['lang'])) {
+                                $_SESSION['permissions'] = json_decode($result_row->permissions, true);
+                                if (isset($result_row->items))$_SESSION['items'] = $result_row->items; else $_SESSION['items'] = $settings['items'];
+                                if (isset($_POST['lang'])) {
                                     setcookie('lang', $_POST['lang'], time() + (3600 * 24 * 30));
                                     $_SESSION['lang'] = $_POST['lang'];
                                 }

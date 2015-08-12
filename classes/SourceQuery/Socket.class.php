@@ -28,16 +28,16 @@ use xPaw\SourceQuery\Exception\SocketException;
 		/**
 		 * @param SourceQueryBuffer $Buffer
 		 */
-		public function __construct( $Buffer )
+		public function __construct($Buffer)
 		{
 			$this->Buffer = $Buffer;
 		}
 		
 		public function Close( )
 		{
-			if( $this->Socket )
+			if ($this->Socket)
 			{
-				FClose( $this->Socket );
+				FClose($this->Socket);
 				
 				$this->Socket = null;
 			}
@@ -69,6 +69,9 @@ use xPaw\SourceQuery\Exception\SocketException;
 			return true;
 		}
 		
+		/**
+		 * @param integer $Header
+		 */
 		public function Write( $Header, $String = '' )
 		{
 			$Command = Pack( 'ccccca*', 0xFF, 0xFF, 0xFF, 0xFF, $Header, $String );
@@ -89,13 +92,15 @@ use xPaw\SourceQuery\Exception\SocketException;
 			
 			$Header = $this->Buffer->GetLong( );
 			
-			if ($Header === -1) // Single packet
+			if ($Header === -1) {
+			    // Single packet
 			{
 				 // We don't have to do anything
 			}
 			else if ($Header === -2) // Split packet
 			{
 				$Packets      = Array( );
+			}
 				$IsCompressed = false;
 				$ReadMore     = false;
 				
@@ -133,51 +138,51 @@ use xPaw\SourceQuery\Exception\SocketException;
 						}
 					}
 					
-					$Packets[ $PacketNumber ] = $this->Buffer->Get( );
+					$Packets[$PacketNumber] = $this->Buffer->Get( );
 					
-					$ReadMore = $PacketCount > sizeof( $Packets );
+					$ReadMore = $PacketCount > sizeof($Packets);
 				}
-				while( $ReadMore && $this->Sherlock( $Length ) );
+				while ($ReadMore && $this->Sherlock($Length));
 				
-				$Buffer = Implode( $Packets );
+				$Buffer = Implode($Packets);
 				
 				// TODO: Test this
-				if( $IsCompressed )
+				if ($IsCompressed)
 				{
 					// Let's make sure this function exists, it's not included in PHP by default
-					if( !Function_Exists( 'bzdecompress' ) )
+					if (!Function_Exists('bzdecompress'))
 					{
-						throw new RuntimeException( 'Received compressed packet, PHP doesn\'t have Bzip2 library installed, can\'t decompress.' );
+						throw new RuntimeException('Received compressed packet, PHP doesn\'t have Bzip2 library installed, can\'t decompress.');
 					}
 					
-					$Buffer = bzdecompress( $Buffer );
+					$Buffer = bzdecompress($Buffer);
 					
-					if( CRC32( $Buffer ) !== $PacketChecksum )
+					if (CRC32($Buffer) !== $PacketChecksum)
 					{
-						throw new InvalidPacketException( 'CRC32 checksum mismatch of uncompressed packet data.', InvalidPacketException::CHECKSUM_MISMATCH);
+						throw new InvalidPacketException('CRC32 checksum mismatch of uncompressed packet data.', InvalidPacketException::CHECKSUM_MISMATCH);
 					}
 				}
 				
-				$this->Buffer->Set( SubStr( $Buffer, 4 ) );
+				$this->Buffer->Set(SubStr($Buffer, 4));
 			} else
 			{
-				throw new InvalidPacketException( 'Socket read: Raw packet header mismatch. (0x' . DecHex( $Header ) . ')', InvalidPacketException::PACKET_HEADER_MISMATCH);
+				throw new InvalidPacketException('Socket read: Raw packet header mismatch. (0x' . DecHex($Header) . ')', InvalidPacketException::PACKET_HEADER_MISMATCH);
 			}
 		}
 		
 		/**
 		 * @param integer $Length
 		 */
-		private function Sherlock( $Length )
+		private function Sherlock($Length)
 		{
-			$Data = FRead( $this->Socket, $Length );
+			$Data = FRead($this->Socket, $Length);
 			
-			if( StrLen( $Data ) < 4 )
+			if (StrLen($Data) < 4)
 			{
 				return false;
 			}
 			
-			$this->Buffer->Set( $Data );
+			$this->Buffer->Set($Data);
 			
 			return $this->Buffer->GetLong( ) === -2;
 		}

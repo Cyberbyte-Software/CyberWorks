@@ -15,11 +15,11 @@ if (isset($_POST['emailed']) && $settings['passreset']) {
     if (formtoken::validateToken($_POST)) {
         $to = $_POST['emailed'];
         $token = tokenGen(32);
-        $sql = "SELECT  `user_id` FROM `users` WHERE  `user_email` =  '".$to."';";
+        $sql = "SELECT  `user_id` FROM `users` WHERE  `user_email` =  '" . $to . "';";
         $result = $db_connection->query($sql);
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
-            $sql = "UPDATE  `users` SET  `token` =  '".$token."' WHERE  `user_id` = '". $row['user_id'] ."';";
+            $sql = "UPDATE  `users` SET  `token` =  '" . $token . "' WHERE  `user_id` = '" . $row['user_id'] . "';";
             $result_of_query = $db_connection->query($sql);
     
             //Send the reset Email
@@ -42,11 +42,11 @@ if (isset($_GET['token']) && isset($_GET['uID']) && $settings['passreset']) {
         if ($_POST['user_password_new'] !== $_POST['user_password_repeat']) {
             $error = 'Password and password repeat are not the same';
         } else {
-            $sql = "SELECT `user_id` FROM `users` WHERE  `user_id` = '". $_GET['uID'] ."' AND `token` =  '".$_GET['token']."';";
+            $sql = "SELECT `user_id` FROM `users` WHERE  `user_id` = '" . $_GET['uID'] . "' AND `token` =  '" . $_GET['token'] . "';";
             $result_of_query = $db_connection->query($sql);
             if ($result_of_query->num_rows == 1) {
                 $user_password_hash = password_hash($_POST['user_password_new'], PASSWORD_DEFAULT);
-                $sql = "UPDATE `users` SET `user_password_hash` =  '".$user_password_hash."', `token` = '' WHERE  `user_id` = '". $_GET['uID'] ."' AND `token` =  '".$_GET['token']."';";
+                $sql = "UPDATE `users` SET `user_password_hash` =  '" . $user_password_hash . "', `token` = '' WHERE  `user_id` = '" . $_GET['uID'] . "' AND `token` =  '" . $_GET['token'] . "';";
                 $result_of_query = $db_connection->query($sql);
                 $message = 'Your password been updated';
             } else {
@@ -54,7 +54,7 @@ if (isset($_GET['token']) && isset($_GET['uID']) && $settings['passreset']) {
             }
         }
     } else {
-    $sql = "SELECT `user_id` FROM `users` WHERE  `user_id` = '". $_GET['uID'] ."' AND `token` =  '".$_GET['token']."';";
+    $sql = "SELECT `user_id` FROM `users` WHERE  `user_id` = '" . $_GET['uID'] . "' AND `token` =  '" . $_GET['token'] . "';";
     $result_of_query = $db_connection->query($sql);
     if ($result_of_query->num_rows == 1) {
 ?>
@@ -126,7 +126,9 @@ if (isset($_GET['token']) && isset($_GET['uID']) && $settings['passreset']) {
             <h2><a data-toggle="modal" href="#login"><i class="fa fa-lock"></i></a></h2>
 
             <h3>LOGIN</h3>
-            <?php if (isset($settings['steamAPI']) && $settings['steamlogin'] == 'true' && isset($settings['steamdomain'])) include 'classes/steamlogin.php';
+            <?php if (isset($settings['steamAPI']) && $settings['steamlogin'] == 'true' && isset($settings['steamdomain'])) {
+    include 'classes/steamlogin.php';
+}
             }
             //dont know why it needs to be true todo:change?>
             <?php if ($settings['passreset']) {?>
@@ -153,14 +155,20 @@ if (isset($_GET['token']) && isset($_GET['uID']) && $settings['passreset']) {
                                            autocapitalize="off" required>
                                     <br>
                                     <?php if ($settings['allowLang'] == 'true') {
-                                        if (isset($_COOKIE['lang'])) $tempLang = $_COOKIE['lang'];
-                                        elseif (isset($_SESSION['lang'])) $tempLang = $_SESSION['lang'];
-                                        else $tempLang = 'en';
+                                        if (isset($_COOKIE['lang'])) {
+                                            $tempLang = $_COOKIE['lang'];
+                                        } elseif (isset($_SESSION['lang'])) {
+                                            $tempLang = $_SESSION['lang'];
+                                        } else {
+                                            $tempLang = 'en';
+                                        }
                                         echo '<select id = "lang" name = "lang" class="form-control login_input" >';
                                         
                                         foreach ($settings['installedLanguage'] as $language) {
                                             echo '<option value = "' . $language[1] . '" ';
-                                            if ($tempLang == $language[1]) echo 'selected';
+                                            if ($tempLang == $language[1]) {
+                                                echo 'selected';
+                                            }
                                             echo '> ' . $language[0] . '</option>';
                                         }
                                     echo '</select><br>';

@@ -9,10 +9,14 @@ if (isset($_SESSION['user_name'])) {
         $isAvailable = false;
         $sql = "SELECT `user_password_hash` FROM `users` WHERE `user_name` = '" . $_SESSION['user_name'] . "' ";
         $user = $db_connection->query($sql)->fetch_object();
-        if (password_verify($_POST['current_password'], $user->user_password_hash)) $isAvailable = true;
+        if (password_verify($_POST['current_password'], $user->user_password_hash)) {
+            $isAvailable = true;
+        }
     }
     
-    if (isset($isAvailable)) echo json_encode(array(
+    if (isset($isAvailable)) {
+        echo json_encode(array(
         'valid' => $isAvailable,
     ));
-};
+    }
+    };
