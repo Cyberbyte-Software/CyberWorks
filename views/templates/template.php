@@ -16,8 +16,7 @@
         <b>Copyright &copy; 2015 Cyber Works <?php if (isset($settings['version'])) {
     echo $settings['version'];
 }
-?> by
-            Cyberbyte Studios</b></a>
+?> by Cyberbyte Studios</b></a>
 </header>
 
 <aside>

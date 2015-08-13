@@ -56,10 +56,6 @@ if (file_exists("plugins")) {
     }
 
     if (isset($_GET['activate'])) {
-        var_dump($_GET['activate']);
-        var_dump($settings['plugins']);
-        var_dump(in_array($_GET['activate'], $settings['plugins']));
-        
         if (!in_array($_GET['activate'], $settings['plugins'])) {
             array_push($settings['plugins'], $_GET['activate']);
             $json = json_decode(file_get_contents('plugins/' . $_GET['activate'] . '/plugin.json'), true);

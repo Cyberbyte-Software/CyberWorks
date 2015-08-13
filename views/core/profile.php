@@ -109,9 +109,7 @@ while ($row = mysqli_fetch_assoc($result_of_query)) {
                                 validKey: 'is_valid',
                                 message: 'The email is not valid'
                                 }
-                            <?php };
-}
-?>
+                            <?php } ?>
                         }
                     },
                     player_id: {
