@@ -1,6 +1,6 @@
 <?php
-//error_reporting(0);
-error_reporting(E_ALL); // Turn on for error messages
+error_reporting(0);
+//error_reporting(E_ALL); // Turn on for error messages
 require("classes/session.php");
 SessionManager::sessionStart('CyberWorks', 1814400);
 require_once("classes/csrf.php");
@@ -21,7 +21,7 @@ if (file_exists('config/settings.php')) {
     require_once("classes/googleAuth.php");
     $gauth = new PHPGangsta_GoogleAuthenticator();
 
-    include_once('config/lang.en.php');
+    include_once('config/english.php');
     foreach ($settings['plugins'] as &$plugin) {
         if (file_exists("plugins/" . $plugin . "/lang/lang.php")) {
             include("plugins/" . $plugin . "/lang/lang.php");
@@ -81,12 +81,17 @@ if (file_exists('config/settings.php')) {
         $key++;
     }
 
-    $_SESSION['multiDB'] = false;
-    $_SESSION['server_type'] = 'life';
-    $_SESSION['dbid'] = '2';
+
 
     if (!$db_connection->connect_errno) {
         if ($login->isUserLoggedIn() == true) {
+
+            //Errr I think I Fixed It By Removing The useless Query That Was Here
+           if ($_SESSION['multiDB'] && isset($_POST['dbid'])) {
+                $_SESSION['server_type'] = $_POST['type'];
+                $_SESSION['dbid'] = $_POST['dbid'];
+            }
+
             if (!isset($_SESSION['formtoken'])) {
                 formtoken::generateToken();
             }
@@ -95,25 +100,18 @@ if (file_exists('config/settings.php')) {
             }
             $_SESSION['formtoken'][1] = time();
 
-            if (isset($_POST['items'])) {
-                $sql = "UPDATE `users` SET `items` = " . $_POST['items'] . " WHERE `user_id` = '" . $_SESSION['user_id'] . "' ";
-                $db_connection->query($sql);
-                $_SESSION['items'] = intval($_POST['items']);
+            if (isset($_GET['items'])) {
+                if (in_array($_GET['items'],$settings['items'])) {
+                    $sql = "UPDATE `users` SET `items` = " . $_GET['items'] . " WHERE `user_id` = '" . $_SESSION['user_id'] . "' ";
+                    $db_connection->query($sql);
+                    $_SESSION['items'] = intval($_GET['items']);
+                }
             }
 
             $err = errorMessage(4, $lang);
             $page = "views/templates/error.php";
 
             if ($currentPage == '' || $currentPage == 'index' || $currentPage == 'dashboard') {
-                if ($_SESSION['multiDB'] && isset($_POST['dbid'])) {
-                    $sql = "SELECT `dbid`,`type` FROM `servers` WHERE `dbid`='" . $_POST['dbid'] . "';";
-                    $db = $db_connection->query($sql)->fetch_object();
-
-                    if ($db->num_rows == 1) {
-                        $_SESSION['server_type'] = $db->type;
-                        $_SESSION['dbid'] = $db > dbid;
-                    }
-                }
                 if (isset($_SESSION['server_type'])) {
                     if ($_SESSION['server_type'] == 'life') {
                         if ($_SESSION['steamsignon'] || $_SESSION['user_level'] == 1) {
@@ -496,6 +494,8 @@ if (file_exists('config/settings.php')) {
 
             if ($currentPage == '2factor' && isset($_SESSION['user_email'])) {
                 $page = 'views/core/2factor.php';
+            } elseif ($currentPage == 'donate') {
+                $page = 'views/core/donate.php';
             }
 
             if ($currentPage == 'profile') {
@@ -516,7 +516,7 @@ if (file_exists('config/settings.php')) {
                 if ($settings['force2factor'] == 'steam') {
                     if (!$_SESSION['steamsignon']) $_SESSION['2factor'] == 5;
                 } elseif ($settings['force2factor'] == 'all') $_SESSION['2factor'] == 5;
-                $page = 'views/core/2factor.php';
+                    $page = 'views/core/2factor.php';
                 } elseif ($_SESSION['2factor'] == 1 || $_SESSION['2factor'] == 3) {
                 if (isset($_POST['code'])) {
                     $sql = "SELECT `twoFactor` FROM `users` WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
@@ -525,8 +525,9 @@ if (file_exists('config/settings.php')) {
                     else {
                     $sql = "SELECT `backup` FROM `users` WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
                     $user = $db_connection->query($sql)->fetch_object();
-                    if ($user->backup == $_POST['backup']) $_SESSION['2factor'] = 2;
-                    else {
+                    if ($user->backup == $_POST['code']) {
+                        $_SESSION['2factor'] = 2;
+                    } else {
                         $_SESSION['2factor'] = 3;
                         $page = 'views/core/2factor.php';
                     }

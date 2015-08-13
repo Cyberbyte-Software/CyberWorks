@@ -24,9 +24,14 @@
         <ul class="sidebar-menu" id="nav-accordion">
             <p class="centered">
                 <?php if (!isset($_SESSION['profile_link'])) {
-                    echo '<a href="' . $settings['url'] . 'profile">';
-                    echo '<img src="' . $settings['url'] . 'assets/img/profile/' . $_SESSION['user_profile'] . '.jpg"';
-                    echo 'class="img-circle" width="60" height="60"></a></p>';
+                    if (isset($_SESSION['user_email']) && $settings['gravatar']) {
+                        echo '<a href="' . $settings['url'] . 'profile">';
+                        echo '<img src="' . get_gravatar($_SESSION['user_email'],64,'retro') . '" class="img-circle" width="60" height="60"></a></p>';
+                    } else {
+                        echo '<a href="' . $settings['url'] . 'profile">';
+                        echo '<img src="' . $settings['url'] . 'assets/img/profile/' . $_SESSION['user_profile'] . '.jpg"';
+                        echo 'class="img-circle" width="60" height="60"></a></p>';
+                    }
                 } else {
                     echo '<a href="' . $_SESSION['profile_link'] . '" target="_blank">';
                     echo '<img src="' . $_SESSION['user_profile'] . '"';

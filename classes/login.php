@@ -130,6 +130,7 @@ class Login
                                 $_SESSION['user_email'] = $result_row->user_email;
                                 $_SESSION['playerid'] = $result_row->playerid;
                                 $_SESSION['user_id'] = $result_row->user_id;
+                                $_SESSION['steamsignon'] = false;
                                 $_SESSION['permissions'] = json_decode($result_row->permissions, true);
                                 if (isset($result_row->items))$_SESSION['items'] = $result_row->items; else $_SESSION['items'] = $settings['items'];
                                 if (isset($_POST['lang'])) {

@@ -11,6 +11,8 @@ if (isset($_GET['backup']) && $_SESSION['2factor'] == 2) {
 } elseif (isset($_GET['revoke']) && $_SESSION['2factor'] == 2) {
     $sql = "UPDATE `users` SET `backup`=NULL,`twoFactor`=NULL,`token`=NULL WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
     $db_connection->query($sql);
+    unset($_COOKIE['token']);
+    setcookie('token', '', time() - 3600, '/');
     $_SESSION['2factor'] = 0;
     message($lang['2factorRevoke']);
 } elseif (isset($_GET['remember']) && $_SESSION['2factor'] == 2 && !isset($_COOKIE['token'])) {
@@ -68,10 +70,11 @@ if ($_SESSION['2factor'] == 1 || $_SESSION['2factor'] == 5 || $_SESSION['2factor
     echo '</a>';
 
 } elseif ($_SESSION['2factor'] == 0 || $_SESSION['2factor'] == 5) {
-    if ($_SESSION['2factor'] == 5) echo "";
-    echo "<div class='alert alert-danger alert-dismissable'>";
-    echo "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
-    echo "<i class='fa fa-info-circle'></i> " . $lang['2factorForce'] . "</div></div>";
+    if ($_SESSION['2factor'] == 5) {
+        echo "<div class='alert alert-danger alert-dismissable'>";
+        echo "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
+        echo "<i class='fa fa-info-circle'></i> " . $lang['2factorForce'] . "</div></div>";
+    }
     $secret = $gauth->createSecret();
     if (isset($settings['communityName'])) $name = urlencode(str_replace(' ', '', $settings['communityName']) . "CyberWorks");
     else $name = 'CyberWorks';

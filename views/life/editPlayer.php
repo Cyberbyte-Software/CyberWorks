@@ -1,5 +1,4 @@
 <?php
-var_dump($uID);
 require_once(realpath($settings['url']) . "config/carNames.php");
 require_once(realpath($settings['url']) . "config/images.php");
 require_once(realpath($settings['url']) . "config/license.php");
@@ -370,7 +369,7 @@ if ($result->num_rows > 0) {
                             echo '<h4>' . errorMessage(382, $lang) . '</h4>';
                         } ?>
                     </div>
-                <?php } 
+                <?php }
                 if ($_SESSION['permissions']['view']['houses'] || $player->playerid == $_SESSION['playerid']) { ?>
                     <div class="tab-pane fade" id="house">
                         <div class="table-responsive">
@@ -434,7 +433,7 @@ if ($result->num_rows > 0) {
                         ?>
                         </div>
                     </div>
-                <?php } 
+                <?php }
                 if ($_SESSION['permissions']['view']['notes']) { ?>
                     <div class="tab-pane fade" id="notes">
                         <div class="table-responsive">

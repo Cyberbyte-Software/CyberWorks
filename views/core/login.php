@@ -217,7 +217,7 @@ if (isset($_GET['token']) && isset($_GET['uID']) && $settings['passreset']) {
 </div>
 
 <script src="<?php echo $settings['url'] ?>assets/js/jquery.js"></script>
-<script src="<?php echo $settings['url'] ?>assets/js/bootstrap.min.js"></script>
+<script src="<?php echo $settings['url'] ?>assets/js/main.min.js"></script>
 
 <script type="text/javascript" src="<?php echo $settings['url'] ?>assets/js/jquery.backstretch.min.js"></script>
 <script>

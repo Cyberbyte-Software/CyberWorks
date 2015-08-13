@@ -1,7 +1,6 @@
 <?php
 $total_pages = ceil($total_records / $_SESSION['items']);
 if ($total_pages > 1) { ?>
-
 <center>
 <nav>
   <ul class="pagination ">

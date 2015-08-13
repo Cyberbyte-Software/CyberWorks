@@ -26,13 +26,13 @@ class user
                 if ($openid->validate()) {
                     preg_match("/^http:\/\/steamcommunity\.com\/openid\/id\/(7[0-9]{15,25}+)$/", $openid->identity, $matches);
                     $_SESSION['playerid'] = $matches[1];
-    
+
                     $db_connection = masterConnect();
-    
+
                     $sql = "SELECT user_name, user_email, user_level, user_profile, permissions, user_password_hash, user_id
                             FROM users WHERE playerid = '" . $_SESSION['playerid'] . "';";
                     $result_of_login_check = $db_connection->query($sql);
-    
+
                     if ($result_of_login_check->num_rows == 1) {
                         $result_row = $result_of_login_check->fetch_object();
                         if ($result_row->user_level <> 0) {
@@ -53,7 +53,7 @@ class user
                             $_SESSION['user_login_status'] = 1;
                             $_SESSION['steamsignon'] = false; //used to determine if its a single sign on with no account
                             multiDB();
-    
+
                             logAction($_SESSION['user_name'], 'Successful Steam Login (' . $_SERVER['REMOTE_ADDR'] . ')', 2);
                         } else {
                             $this->errors[] = "User is banned.";
@@ -72,7 +72,7 @@ class user
                             $_SESSION['profile_link'] = $steam->profileurl;
                             $_SESSION['steamsignon'] = true; //used to determine if its a single sign on with no account
                             multiDB();
-        
+
                             logAction($_SESSION['user_name'], 'Successful Steam Login (' . $_SERVER['REMOTE_ADDR'] . ')', 2);
                         } else {
                             errorMessage(7);

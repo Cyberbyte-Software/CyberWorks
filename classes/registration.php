@@ -90,7 +90,7 @@ class Registration
                     $playerid = $this->db_connection->real_escape_string(strip_tags($_POST['player_id'], ENT_QUOTES));
                 }
                 $user_password = $_POST['user_password_new'];
-                $user_profile = $_POST['profile_pic'];
+                $user_pic = $_POST['profile_pic'];
                 $user_lvl = $_POST['user_lvl'];
 
                 // Ecrypt the user's password with PHP 5.5's password_hash() function, results in a 60 character
@@ -111,8 +111,9 @@ class Registration
                     $userPerms = json_encode($permissions[$user_lvl]);
                     // write new user's data into database
                     if (!empty($playerid)) {
+
                         $sql = "INSERT INTO `users` (`user_name`, `user_password_hash`, `user_email`, `playerid`, `user_level`, `permissions`, `user_profile`) VALUES
-                    ('" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "', '" . $user_pid . "', '" . $user_lvl . "', '" . $userPerms . "', '" . $user_pic . "');";
+                    ('" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "', '" . $playerid . "', '" . $user_lvl . "', '" . $userPerms . "', '" . $user_pic . "');";
                     } else {
                         $sql = "INSERT INTO `users` (`user_name`, `user_password_hash`, `user_email`, `user_level`, `permissions`, `user_profile`) VALUES
                     ('" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "', '" . $user_lvl . "', '" . $userPerms . "', '" . $user_pic . "');";

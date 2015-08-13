@@ -202,7 +202,7 @@ function errorMessage($code, $lang)
         case 6:
             return $lang['banned']; //User Banned
         case 7:
-            return $lang['pluginNF']; //User Banned
+            return $lang['pluginNF']; //Pulgin Not Found
         case 8:
             return $lang['noID']; //No ID
         case 9:
@@ -275,9 +275,10 @@ function multiDB()
     }
 
     $sql = "SELECT `sid`,`dbid`,`type`,`name` FROM `servers`;";
-    $db = $db_connection->query($sql)->fetch_object(); ;
+    $results = $db_connection->query($sql);
+    $db = $results->fetch_object();
 
-    if ($db->num_rows <= 1) {
+    if ($db->num_rows === 1) {
         $_SESSION['multiDB'] = false;
         $_SESSION['server_type'] = $db->type;
         $_SESSION['dbid'] = $db->dbid;
@@ -364,7 +365,7 @@ function after($this, $inthat)
     if (!is_bool(strpos($inthat, $this))) {
             return substr($inthat, strpos($inthat, $this) + strlen($this));
     }
-    }
+}
 
 function communityBanned($GUID)
 {

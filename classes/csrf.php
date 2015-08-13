@@ -1,13 +1,13 @@
 <?php
 /**
-     * PHP Class for quickly securing forms against CSRF attacks
-     *
-     * @author Sam Collins
-     * @copyright 2015 Sam Collins
-     * @link https://gist.github.com/MightySCollins/0096d193fdc4160565b3
-     */
- 
-class formtoken
+ * PHP Class for quickly securing forms against CSRF attacks
+ *
+ * @author Sam Collins
+ * @copyright 2015 Sam Collins
+ * @link https://gist.github.com/MightySCollins/0096d193fdc4160565b3
+ */
+
+class formToken
 {
     /**
      * Makes hidden form input using session form token.
@@ -18,7 +18,7 @@ class formtoken
     {
         return "<input name='token' value='" . $_SESSION['formtoken'][0] . "' type='hidden' />";
     }
- 
+
         /**
          * Makes sure token in session is valid
          *
@@ -37,7 +37,7 @@ class formtoken
             }
         }
     }
-	
+
     /**
      * Sets token in session.
      */

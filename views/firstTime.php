@@ -114,6 +114,8 @@ RewriteRule . '.$base . 'index.php [L]\n';
         $settings['refresh'] = 30;
         $settings['communityBansTest'] = false;
         $settings['communityBansAPI'] = '';
+        
+        $settings['items'] = array(5,10,15,25,50);
 
         $settings['installedLanguage']=array();
         $lang = array('English','en');

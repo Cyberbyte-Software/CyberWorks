@@ -108,8 +108,8 @@ class GuestReg
 
                     // write new user's data into database
                         $sql = "INSERT INTO `users` (`user_name`, `user_password_hash`, `user_email`, `playerid`, `user_level`, `permissions`, `user_profile`) VALUES
-                    ('" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "', '" . $_SESSION['playerid'] . "', '1', '" . $userPerms . "', '" . $user_pic . "');";
-                    
+                    ('" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "', '" . $_SESSION['playerid'] . "', '1', '" . $userPerms . "', '1');";
+
                     $query_new_user_insert = $this->db_connection->query($sql);
 
                     // if user has been added successfully

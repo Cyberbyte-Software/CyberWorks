@@ -49,28 +49,27 @@ if ($result_of_query->num_rows > 0) {
                 <hr class="hidden-xs">
                 <thead>
                 <tr>
-                    <th><i class="fa fa-user"></i><?php echo " " . $lang['name']; ?></th>
-                    <th><i class="fa fa-eye"></i><?php echo " " . $lang['playerID']; ?></th>
+                    <th><i class="fa fa-user"></i> <?php echo $lang['name']; ?></th>
+                    <th><i class="fa fa-eye"></i> <?php echo $lang['playerID']; ?></th>
                     <th class="hidden-xs"><i class="fa fa-money"></i> <?php echo $lang['cash']; ?></th>
                     <th class="hidden-xs"><i class="fa fa-bank"></i> <?php echo $lang['bank']; ?></th>
                     <th class="hidden-xs"><i class="fa fa-taxi"></i> <?php echo $lang['cop']; ?></th>
                     <th class="hidden-xs"><i class="fa fa-ambulance"></i> <?php echo $lang['medic']; ?></th>
                     <th class="hidden-xs"><i class="fa fa-cogs"></i> <?php echo $lang['admin']; ?></th>
                     <?php if ($_SESSION['permissions']['edit']['player']) {
-    echo '<th class="hidden-xs"><i class="fa fa-pencil"></i> ' .
-                        $lang['edit'] . '</th>';
-} else {
+                            echo '<th class="hidden-xs"><i class="fa fa-pencil"></i> ' . $lang['edit'] . '</th>';
+                        } else {
                             echo '<th class="hidden-xs"><i class="fa fa-eye"></i>' . $lang['view'] . '</th>';
                         }
                     if ($_SESSION['permissions']['view']['steam'] && $steamPlayers > 0) {
-                        echo '<th class="hidden-xs"><i class="fa fa-fw fa-steam"></i> Steam</th>'?>
+                        echo '<th class="hidden-xs"><i class="fa fa-fw fa-steam"></i> Steam</th>';
+                        } ?>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
                 while ($row = mysqli_fetch_assoc($result_of_query)) {
                     $playersID = $row["playerid"];
-                    }
                     echo "<tr>";
                     echo "<td>" . $row["name"] . "</td>";
                     echo "<td>" . $playersID . "</td>";
@@ -102,9 +101,8 @@ if ($result_of_query->num_rows > 0) {
                     echo '</td>';
                     }
                     echo "</tr>";
-                };
+                }
                 echo "</tbody></table>";
-
                 include("views/templates/page.php");
                 ?>
         </div>
