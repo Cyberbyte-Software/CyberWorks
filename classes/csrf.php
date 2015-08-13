@@ -16,7 +16,7 @@ class formtoken
      */
     public static function getField()
     {
-        return "<input name='token' value='".$_SESSION['formtoken'][0]."' type='hidden' />";
+        return "<input name='token' value='" . $_SESSION['formtoken'][0] . "' type='hidden' />";
     }
  
         /**
@@ -27,10 +27,14 @@ class formtoken
          */
     public static function validateToken($curToken)
     {
-        if (!isset($_SESSION['formtoken']) || !isset($curToken['token'])) return false;
-        else {
-            if ($_SESSION['formtoken'][0] == $curToken['token']) return true;
-            else return false;
+        if (!isset($_SESSION['formtoken']) || !isset($curToken['token'])) {
+            return false;
+        } else {
+            if ($_SESSION['formtoken'][0] == $curToken['token']) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 	
@@ -39,6 +43,6 @@ class formtoken
      */
     public static function generateToken()
     {
-        $_SESSION['formtoken'] = array(sha1(mt_rand(0, 1000000)),time());
+        $_SESSION['formtoken'] = array(sha1(mt_rand(0, 1000000)), time());
     }
 }

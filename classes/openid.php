@@ -262,14 +262,14 @@ class LightOpenID
         return $headers;
     }
 
-    protected function request_streams($url, $method='GET', $params=array(), $update_claimed_id)
+    protected function request_streams($url, $method = 'GET', $params = array(), $update_claimed_id)
     {
-        if(!$this->hostExists($url)) {
+        if (!$this->hostExists($url)) {
             throw new ErrorException("Could not connect to $url.", 404);
         }
 
         $params = http_build_query($params, '', '&');
-        switch($method) {
+        switch ($method) {
             case 'GET':
                 $opts = array(
                     'http' => array(
@@ -312,12 +312,12 @@ class LightOpenID
                 );
 
                 $url = $url . ($params ? '?' . $params : '');
-                $headers = get_headers ($url);
-                if(!$headers) {
+                $headers = get_headers($url);
+                if (!$headers) {
                     return array();
                 }
 
-                if(intval(substr($headers[0], strlen('HTTP/1.1 '))) == 405) {
+                if (intval(substr($headers[0], strlen('HTTP/1.1 '))) == 405) {
                     # The server doesn't support HEAD, so let's emulate it with
                     # a GET.
                     $args = func_get_args();
@@ -370,14 +370,14 @@ class LightOpenID
 
         $url = $parts + $url;
         $url = $url['scheme'] . '://'
-                . (empty($url['username'])?''
-                 :(empty($url['password'])? "{$url['username']}@"
+                . (empty($url['username']) ? ''
+                 :(empty($url['password']) ? "{$url['username']}@"
                  :"{$url['username']}:{$url['password']}@"))
                 . $url['host']
-                . (empty($url['port'])?'':":{$url['port']}")
-                . (empty($url['path'])?'':$url['path'])
-                . (empty($url['query'])?'':"?{$url['query']}")
-                . (empty($url['fragment'])?'':"#{$url['fragment']}");
+                . (empty($url['port']) ? '' : ":{$url['port']}")
+                . (empty($url['path']) ? '' : $url['path'])
+                . (empty($url['query']) ? '' : "?{$url['query']}")
+                . (empty($url['fragment']) ? '' : "#{$url['fragment']}");
         return $url;
     }
 
@@ -447,7 +447,9 @@ class LightOpenID
                         # OpenID 2
                         $ns = preg_quote('http://specs.openid.net/auth/2.0/', '#');
                         if (preg_match('#<Type>\s*' . $ns . '(server|signon)\s*</Type>#s', $content, $type)) {
-                            if ($type[1] == 'server') $this->identifier_select = true;
+                            if ($type[1] == 'server') {
+                                $this->identifier_select = true;
+                            }
 
                             preg_match('#<URI.*?>(.*)</URI>#', $content, $server);
                             preg_match('#<(Local|Canonical)ID>(.*)</\1ID>#', $content, $delegate);

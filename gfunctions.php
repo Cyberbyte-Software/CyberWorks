@@ -154,6 +154,10 @@ function IDname($name, $db_link)
     }
     }
 
+/**
+ * @param string $action
+ * @param integer $level
+ */
 function logAction($user, $action, $level)
 {
     $settings = require('config/settings.php');
@@ -178,6 +182,9 @@ function error($errno, $errstr, $errfile, $errline)
     echo '<h4><b>PHP ERROR ' . $errno . '</b> ' . $errstr . ' - ' . $errfile . ':' . $errline . '</h4>';
 }
 
+/**
+ * @param integer $code
+ */
 function errorMessage($code, $lang)
 {
     switch ($code)
@@ -251,15 +258,21 @@ function steamBanned($PID)
     if (!empty($settings['steamAPI'])) {
         $api = "http://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key=" . $settings['steamAPI'] . "&steamids=" . $PID;
         $bans = json_decode(file_get_contents($api), true);
-        if ($bans['players']['0']['VACBanned']) return '<h4><span class="label label-danger" style="margin-left:3px; line-height:2;">VAC BANNED</span></h4>'; //todo:formatting
+        if ($bans['players']['0']['VACBanned']) {
+            return '<h4><span class="label label-danger" style="margin-left:3px; line-height:2;">VAC BANNED</span></h4>';
+        }
+        //todo:formatting
     }
 }
 
 function multiDB()
 {
     $settings = require('config/settings.php');
-    if (isset($settings['db']['port'])) $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']), decrypt($settings['db']['port']));
-    else $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']));
+    if (isset($settings['db']['port'])) {
+        $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']), decrypt($settings['db']['port']));
+    } else {
+        $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']));
+    }
 
     $sql = "SELECT `sid`,`dbid`,`type`,`name` FROM `servers`;";
     $db = $db_connection->query($sql)->fetch_object(); ;
@@ -313,20 +326,39 @@ function stripArray($input, $type)
 
 function clean($input, $type)
 {
-    if ($type == 'string') return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_STRING);
-    elseif ($type == 'int') {$input = filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_NUMBER_INT); if ($input < 0) return 0; else return $input; }
-    elseif ($type == 'url') return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_URL);
-    elseif ($type == 'email') return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_EMAIL);
-    elseif ($type == 'boolean') return ($input === 'true');
-    elseif ($type == 'intbool') if ($input == 1 || $input == 0) return $input; else return 0;
-}
+    if ($type == 'string') {
+        return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_STRING);
+    } elseif ($type == 'int') {$input = filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_NUMBER_INT); if ($input < 0) {
+        return 0;
+    } else {
+        return $input;
+    }
+    } elseif ($type == 'url') {
+        return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_URL);
+    } elseif ($type == 'email') {
+        return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_EMAIL);
+    } elseif ($type == 'boolean') {
+        return ($input === 'true');
+    } elseif ($type == 'intbool') {
+        if ($input == 1 || $input == 0) return $input;
+    } else {
+        return 0;
+    }
+    }
 
+/**
+ * @param string $this
+ * @param string|null $inthat
+ */
 function before($this, $inthat)
 {
     return substr($inthat, 0, strpos($inthat, $this));
 }
 
 
+/**
+ * @param string $this
+ */
 function after($this, $inthat)
 {
     if (!is_bool(strpos($inthat, $this))) {

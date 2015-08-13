@@ -133,33 +133,61 @@ if ($licenseLang == 'en') {
 function licName($lic, $license)
 {
     // Civ
-    if ($lic == 'license_civ_driver') return $license['driver'];
-    elseif ($lic == 'license_civ_boat') return $license['boat'];
-    elseif ($lic == 'license_civ_pilot') return $license['pilot'];
-    elseif ($lic == 'license_civ_gun') return $license['gun'];
-    elseif ($lic == 'license_civ_dive') return $license['dive'];
-    elseif ($lic == 'license_civ_oil') return $license['oil'];
-    elseif ($lic == 'license_civ_heroin') return $license['heroin'];
-    elseif ($lic == 'license_civ_marijuana') return $license['marijuana'];
-    elseif ($lic == 'license_civ_rebel') return $license['rebel'];
-    elseif ($lic == 'license_civ_trucking') return $license['trucking'];
-    elseif ($lic == 'license_civ_diamond') return $license['diamond'];
-    elseif ($lic == 'license_civ_salt') return $license['salt'];
-    elseif ($lic == 'license_civ_cocaine') return $license['cocaine'];
-    elseif ($lic == 'license_civ_sand') return $license['sand'];
-    elseif ($lic == 'license_civ_iron') return $license['iron'];
-    elseif ($lic == 'license_civ_copper') return $license['copper'];
-    elseif ($lic == 'license_civ_cement') return $license['cement'];
-    elseif ($lic == 'license_civ_home') return $license['home'];
-    elseif ($lic == 'license_civ_air') return $license['pilot'];
-    elseif ($lic == 'license_civ_truck') return $license['truck'];
+    if ($lic == 'license_civ_driver') {
+        return $license['driver'];
+    } elseif ($lic == 'license_civ_boat') {
+        return $license['boat'];
+    } elseif ($lic == 'license_civ_pilot') {
+        return $license['pilot'];
+    } elseif ($lic == 'license_civ_gun') {
+        return $license['gun'];
+    } elseif ($lic == 'license_civ_dive') {
+        return $license['dive'];
+    } elseif ($lic == 'license_civ_oil') {
+        return $license['oil'];
+    } elseif ($lic == 'license_civ_heroin') {
+        return $license['heroin'];
+    } elseif ($lic == 'license_civ_marijuana') {
+        return $license['marijuana'];
+    } elseif ($lic == 'license_civ_rebel') {
+        return $license['rebel'];
+    } elseif ($lic == 'license_civ_trucking') {
+        return $license['trucking'];
+    } elseif ($lic == 'license_civ_diamond') {
+        return $license['diamond'];
+    } elseif ($lic == 'license_civ_salt') {
+        return $license['salt'];
+    } elseif ($lic == 'license_civ_cocaine') {
+        return $license['cocaine'];
+    } elseif ($lic == 'license_civ_sand') {
+        return $license['sand'];
+    } elseif ($lic == 'license_civ_iron') {
+        return $license['iron'];
+    } elseif ($lic == 'license_civ_copper') {
+        return $license['copper'];
+    } elseif ($lic == 'license_civ_cement') {
+        return $license['cement'];
+    } elseif ($lic == 'license_civ_home') {
+        return $license['home'];
+    } elseif ($lic == 'license_civ_air') {
+        return $license['pilot'];
+    } elseif ($lic == 'license_civ_truck') {
+        return $license['truck'];
+    }
 	
     // Medic
-    elseif ($lic == 'license_med_mAir') return $license['pilot'];
+    elseif ($lic == 'license_med_mAir') {
+        return $license['pilot'];
+    }
 
     // Cop
-    elseif ($lic == 'license_cop_cAir') return $license['pilot'];
-    elseif ($lic == 'license_cop_coastguard') return $license['coastguard'];
-    elseif ($lic == 'license_cop_swat') return $license['swat'];
-    else return $lic;
-}
+    elseif ($lic == 'license_cop_cAir') {
+        return $license['pilot'];
+    } elseif ($lic == 'license_cop_coastguard') {
+        return $license['coastguard'];
+    } elseif ($lic == 'license_cop_swat') {
+        return $license['swat'];
+    } else {
+        return $lic;
+    }
+    }
