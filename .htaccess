@@ -2,3 +2,7 @@ RewriteEngine On
 RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule . /index.php [L]
+
+
+
+php_value file_get_contents 1

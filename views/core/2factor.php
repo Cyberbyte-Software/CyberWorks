@@ -19,12 +19,12 @@ if (isset($_GET['backup']) && $_SESSION['2factor'] == 2) {
     $sql = "SELECT `token` FROM `users` WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
     $token = $db_connection->query($sql)->fetch_object()->token;
     if (empty($token)) {
-    $key = $gauth->createSecret(32);
-    $sql = "UPDATE `users` SET `token`='" . encrypt($key) . "' WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
-    $db_connection->query($sql);
-    setcookie('token', $random, time() + 5184000, "/");
+        $key = $gauth->createSecret(32);
+        $sql = "UPDATE `users` SET `token`='" . encrypt($key) . "' WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
+        $db_connection->query($sql);
+        setcookie('token', $key, time() + 5184000, "/");
     } else {
-    setcookie('token', decrypt($token), time() + 5184000, "/");
+        setcookie('token', decrypt($token), time() + 5184000, "/");
     }
     message($lang['2factorRemember']);
 } elseif (isset($_GET['revokeDevice']) && $_SESSION['2factor'] == 2 && isset($_COOKIE['token'])) {

@@ -9,7 +9,7 @@ if (file_exists("plugins")) {
         if ($file) {
             $newf = fopen($newfname, "wb");
             if ($newf) {
-                            while (!feof($file)) {
+                while (!feof($file)) {
                     fwrite($newf, fread($file, 1024 * 8), 1024 * 8);
             }
                 }
@@ -62,6 +62,12 @@ if (file_exists("plugins")) {
             if (isset($json['language']) && isset($json['short'])) {
                 $lang = array($json['language'], $json['short']);
                 array_push($settings['installedLanguage'], $lang);
+            }
+            if (isset($json['defaultSettings'])) {
+                foreach ($json['defaultSettings'] as $key => $setting) {
+                    $settings[$key] = $setting;
+
+                }
             }
             file_put_contents('config/settings.php', '<?php return ' . var_export($settings, true) . ';');
             message($lang['pluginActivated']);

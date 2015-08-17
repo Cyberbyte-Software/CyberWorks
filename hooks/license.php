@@ -1,7 +1,14 @@
 <?php
-require("../classes/session.php");
-SessionManager::sessionStart('CyberWorks');
-require_once("../config/lang/module.php");
+session_name('CyberWorks');
+session_set_cookie_params(1209600);
+session_start();
+
+include_once('config/english.php');
+foreach ($settings['plugins'] as &$plugin) {
+    if (file_exists("plugins/" . $plugin . "/lang/lang.php")) {
+        include("plugins/" . $plugin . "/lang/lang.php");
+    }
+}
 
 if (isset($_SESSION['permissions']['edit']['licences'])) {
     if ($_SESSION['permissions']['edit']['licences'] && isset($_POST['player']) && isset($_POST['id'])) {

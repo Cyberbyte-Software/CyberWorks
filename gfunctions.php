@@ -14,6 +14,7 @@ function decrypt($text)
 function masterConnect()
 {
     $settings = require('config/settings.php');
+
     if (isset($settings['db']['port'])) {
         $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']), decrypt($settings['db']['port']));
     } else {
@@ -22,6 +23,7 @@ function masterConnect()
     if (!$db_connection->set_charset("utf8")) {
         $db_connection->errors[] = $db_connection->error;
     }
+
     return $db_connection;
 }
 
@@ -31,13 +33,8 @@ function serverConnect($dbid = NULL)
         $dbid = $_SESSION['dbid'];
     }
     $settings = require('config/settings.php');
-
-    if (isset($settings['db']['port'])) {
-        $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']), decrypt($settings['db']['port']));
-    } else {
-        $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']));
-    }
-
+    $db_connection = masterConnect();
+    
     $sql = "SELECT `sql_host`,`sql_name`,`sql_pass`,`sql_user` FROM `db` WHERE `dbid` = '" . $dbid . "';";
     $server = $db_connection->query($sql);
 
@@ -46,9 +43,9 @@ function serverConnect($dbid = NULL)
         $host = decrypt($server->sql_host);
 
         if (strpos($host, ":")) {
-            $SQL_ip = explode(":", $host);
-            $host = $SQL_ip['0'];
-            $port = $SQL_ip['1'];
+            $SQL = explode(":", $host);
+            $host = $SQL['0'];
+            $port = $SQL['1'];
         }
 
         if (isset($port)) {
@@ -92,14 +89,14 @@ function yesNo($input, $lang)
     } else {
         return $lang['error'];
     }
-    }
+}
 
 function select($val, $row)
 {
     if ($row == $val) {
         return 'selected';
     }
-    }
+}
 
 function nameID($pId, $db_link)
 {
@@ -113,7 +110,7 @@ function nameID($pId, $db_link)
     } else {
         return $pId;
     }
-    }
+}
 
 function uID($pId, $db_link)
 {
@@ -126,7 +123,7 @@ function uID($pId, $db_link)
     } else {
         return $pId;
     }
-    }
+}
 
 function uIDname($uID, $db_link)
 {
@@ -139,7 +136,7 @@ function uIDname($uID, $db_link)
     } else {
         return $uID;
     }
-    }
+}
 
 function IDname($name, $db_link)
 {
@@ -152,7 +149,7 @@ function IDname($name, $db_link)
     } else {
         return $name;
     }
-    }
+}
 
 /**
  * @param string $action
@@ -267,18 +264,13 @@ function steamBanned($PID)
 
 function multiDB()
 {
-    $settings = require('config/settings.php');
-    if (isset($settings['db']['port'])) {
-        $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']), decrypt($settings['db']['port']));
-    } else {
-        $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']));
-    }
+    $db_connection = masterConnect();
 
-    $sql = "SELECT `sid`,`dbid`,`type`,`name` FROM `servers`;";
-    $results = $db_connection->query($sql);
-    $db = $results->fetch_object();
+    $sql = "SELECT `sid`,`dbid`,`type` FROM `servers`;";
+    $db = $db_connection->query($sql);
 
-    if ($db->num_rows === 1) {
+    if ($db->num_rows == 1) {
+        $db->fetch_object();
         $_SESSION['multiDB'] = false;
         $_SESSION['server_type'] = $db->type;
         $_SESSION['dbid'] = $db->dbid;
@@ -392,7 +384,7 @@ function communityBanned($GUID)
  * @source http://gravatar.com/site/implement/images/php/
  */
 function get_gravatar( $email, $s = 80, $d = 'mm', $r = 'x', $img = false, $atts = array() ) {
-    $url = 'http://www.gravatar.com/avatar/';
+    $url = 'https://www.gravatar.com/avatar/';
     $url .= md5( strtolower( trim( $email ) ) );
     $url .= "?s=$s&d=$d&r=$r";
     if ( $img ) {

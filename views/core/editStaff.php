@@ -65,7 +65,8 @@ if ($result_of_query->num_rows > 0) {
             $sql = "UPDATE `users` SET `permissions`='" . $userPerms . "' WHERE `user_id` ='" . $uId . "';";
             $result_of_query = $db_connection->query($sql);
             message("Permissions Updated");
-            if($_SESSION['user_id'] == $uId) SessionManager::regenerateSession();
+            session_destroy();
+            session_start();
         } else message($lang['expired']);
     }
     ?>
@@ -73,7 +74,7 @@ if ($result_of_query->num_rows > 0) {
         <div class="col-lg-12">
             <h1 class="page-header">
                 <?php echo $lang['staff']; ?>
-                <small><?php echo " " . $lang['editor']; ?></small>
+                <small> <?php echo $lang['editor']; ?></small>
             </h1>
         </div>
     </div>

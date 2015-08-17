@@ -17,7 +17,7 @@ if ($settings['version'] < 0.4) {
     $settings['2factor'] = true;
     $settings['force2factor'] = 'none';
     $settings['version'] = 0.4;
-    $settings['items'] = array(5,10,15,25,50);
+    $settings['item'] = array(5,10,15,25,50);
     file_put_contents('config/settings.php', '<?php return ' . var_export($settings, true) . ';');
     $updated = true;
 }

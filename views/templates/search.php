@@ -14,7 +14,7 @@
     </form>
     <select style="margin-right:15px;" onchange="if (this.value) window.location.href='?items='+this.value" id='items' class="form-control" name='items'>
         <?php
-        foreach ($settings['items'] as $item) {
+        foreach ($settings['item'] as $item) {
             echo '<option value="'.$item.'"';
             if ($item == $_SESSION['items']) echo ' selected';
             echo '>'.$item.'</option>';

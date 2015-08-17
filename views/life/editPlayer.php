@@ -611,7 +611,7 @@ if ($result->num_rows > 0) {
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"><i class="fa fa-pencil"></i>
-                    <?php echo " " . $lang['new'] . " " . $lang['note']; ?>
+                    <?php echo $lang['new'] . " " . $lang['note']; ?>
                 </h4>
             </div>
             <?php if ($_SESSION['permissions']['edit']['notes']) { ?>
@@ -644,7 +644,7 @@ if ($result->num_rows > 0) {
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"><i class="fa fa-pencil"></i>
-                    <?php echo " " . $lang['edit'] . " " . $lang['player']; ?>
+                    <?php echo $lang['edit'] . " " . $lang['player']; ?>
                 </h4>
             </div>
             <?php if ($_SESSION['permissions']['edit']['player']) { ?>

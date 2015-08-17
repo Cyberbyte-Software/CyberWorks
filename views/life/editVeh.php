@@ -210,7 +210,7 @@ if ($result_of_query->num_rows > 0) {
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-default" data-dismiss="modal" type="reset"><?php echo $lang['close']; ?></button>
-                            <button class="btn btn-primary" type="submit"><?php echo $lang['subChange']; ?></button>
+                            <button class="btn btn-primary" type="submit"><?php echo $lang['subChange'] ?></button>
                         </div>
                     </form>
             </div>
@@ -239,7 +239,7 @@ if ($result_of_query->num_rows > 0) {
                     <div class="modal-footer">
                         <button class="btn btn-danger" type="submit"><?php echo $lang['yes']; ?></button>
                         <button class="btn btn-primary" data-dismiss="modal"
-                                type="reset"><?php echo $lang['no']; ?></button>
+                                type="reset"><?php echo $lang['no'] ?></button>
                     </div>
                 </form>
             </div>

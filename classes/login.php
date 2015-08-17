@@ -48,8 +48,7 @@ class Login
             logAction($_SESSION['user_name'], 'Logged Out', 1);
         }
         $_SESSION = array();
-        //session_destroy();
-        SessionManager:: regenerateSession();
+        session_destroy();
         // return a little feeedback message
         $this->messages[] = 'You have been logged out';
 

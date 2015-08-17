@@ -45,7 +45,7 @@ if ($result_of_query->num_rows > 0) {
     <table class="table table-striped table-advance table-hover">
         <h4>
             <i class="fa fa-sitemap fa-fw"></i>
-            <?php echo " " . $lang['gangs'];
+            <?php echo $lang['gangs'];
             include("views/templates/search.php"); ?>
         </h4>
         <hr class='hidden-xs'>

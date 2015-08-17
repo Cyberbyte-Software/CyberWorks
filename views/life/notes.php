@@ -99,15 +99,15 @@ $result_of_query = $db_link->query($sql);
         <table class="table table-striped table-advance table-hover">
             <thead>
             <tr>
-                <th><i class="fa fa-eye"></i><?php echo " " . $lang['owner'] ?></th>
-                <th><i class="fa fa-car"></i><?php echo " " . $lang['class'];
+                <th><i class="fa fa-eye"> </i><?php echo $lang['owner'] ?></th>
+                <th><i class="fa fa-car"> </i><?php echo $lang['class'];
 }
 ?></th>
-                <th class="hidden-xs"><i class="fa fa-car"></i><?php echo " " . $lang['type']; ?></th>
-                <th class="hidden-xs"><i class="fa fa-car"></i><?php echo " " . $lang['plate']; ?></th>
-                <th class="hidden-xs"><i class="fa fa-car"></i><?php echo " " . $lang['alive']; ?></th>
-                <th class="hidden-xs"><i class="fa fa-info"></i><?php echo " " . $lang['active']; ?></th>
-                <?php if ($_SESSION['user_level'] >= P_EDIT_VEHICLES) {
+                <th class="hidden-xs"><i class="fa fa-car"></i> <?php echo $lang['type']; ?></th>
+                <th class="hidden-xs"><i class="fa fa-car"></i> <?php echo $lang['plate']; ?></th>
+                <th class="hidden-xs"><i class="fa fa-car"></i> <?php echo $lang['alive']; ?></th>
+                <th class="hidden-xs"><i class="fa fa-info"></i> <?php echo $lang['active']; ?></th>
+                <?php if ($_SESSION['user_level'] >= $_SESSION['permission']['edit']['playet']) {
     echo '<th><i class="fa fa-pencil"></i><div class="hidden-xs"> ' . $lang['edit'] . '</div></th>';
 }
 ?>

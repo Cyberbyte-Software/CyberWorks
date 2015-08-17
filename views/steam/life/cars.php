@@ -26,7 +26,7 @@ if ($result_of_query->num_rows > 0) {  ?>
     <div class="col-lg-12">
         <h1 class="page-header">
             <?php echo $lang['vehicles']; ?>
-            <small><?php echo " " . $lang['overview']; ?></small>
+            <small> <?php echo $lang['overview']; ?></small>
         </h1>
     </div>
 </div>
@@ -34,20 +34,20 @@ if ($result_of_query->num_rows > 0) {  ?>
     <div class="content-panel">
         <h4>
             <i class="fa fa-car"></i>
-            <?php echo " " . $lang['vehicles'];
+            <?php echo $lang['vehicles'];
             include("views/templates/search.php"); ?>
         </h4>
         <hr class="hidden-xs">
         <table class="table table-striped table-advance table-hover">
             <thead>
             <tr>
-                <th><i class="fa fa-eye"></i> <?php echo " " . $lang['owner'] ?></th>
-                <th><i class="fa fa-car"></i> <?php echo " " . $lang['class']; ?></th>
-                <th class="hidden-xs"><i class="fa fa-car"> </i><?php echo " " . $lang['type']; ?></th>
-                <th class="hidden-xs"><i class="fa fa-car"> </i><?php echo " " . $lang['plate']; ?></th>
-                <th class="hidden-xs"><i class="fa fa-car"> </i><?php echo " " . $lang['alive']; ?></th>
-                <th class="hidden-xs"><i class="fa fa-info"> </i><?php echo " " . $lang['active']; ?></th>
-                <th class="hidden-xs"><i class="fa fa-pencil"> </i><?php echo " " . $lang['view']; ?></th>
+                <th><i class="fa fa-eye"></i> <?php echo $lang['owner'] ?></th>
+                <th><i class="fa fa-car"></i> <?php echo $lang['class']; ?></th>
+                <th class="hidden-xs"><i class="fa fa-car"> </i><?php echo $lang['type']; ?></th>
+                <th class="hidden-xs"><i class="fa fa-car"> </i><?php echo $lang['plate']; ?></th>
+                <th class="hidden-xs"><i class="fa fa-car"> </i><?php echo $lang['alive']; ?></th>
+                <th class="hidden-xs"><i class="fa fa-info"> </i><?php echo $lang['active']; ?></th>
+                <th class="hidden-xs"><i class="fa fa-pencil"> </i><?php echo $lang['view']; ?></th>
             </tr>
             </thead>
             <tbody>

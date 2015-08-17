@@ -76,8 +76,8 @@
         </div>
     </div>
 </div>
-<script src="<?php echo $settings['url'] ?>assets/js/main.min.js"></script>
-<?php if (isset($_SESSION['forum_lang'])) echo '<script type="text/javascript" src="' . $settings["url"] . 'assets/js/language/' . $_SESSION['forum_lang'] . '.js"></script>'; ?>
+<script async src="<?php echo $settings['url'] ?>assets/js/main.min.js"></script>
+<?php if (isset($_SESSION['forum_lang'])) echo '<script async type="text/javascript" src="' . $settings["url"] . 'assets/js/language/' . $_SESSION['forum_lang'] . '.js"></script>'; ?>
 <script>
     function searchpage() {
         sn = document.getElementById('searchText').value;

@@ -2,7 +2,7 @@
 if (isset($registration)) {
     if ($registration->errors) {
         foreach ($registration->errors as $error) {
-            message($message);
+            message($error);
         }
     }
     if ($registration->messages) {

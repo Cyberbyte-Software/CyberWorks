@@ -26,7 +26,7 @@ if (isset($_POST['user_name'])) {
     $settings['url'] = 'http://' . $_SERVER['HTTP_HOST'] . $last;
     $base = substr($last, 1);
     $settings['base'] = substr_count($settings['url'], "/") - 2;
-    
+
     $hta = 'RewriteEngine On\n
 RewriteBase '.$base . '\n
 RewriteCond %{REQUEST_FILENAME} !-f\n
@@ -114,8 +114,8 @@ RewriteRule . '.$base . 'index.php [L]\n';
         $settings['refresh'] = 30;
         $settings['communityBansTest'] = false;
         $settings['communityBansAPI'] = '';
-        
-        $settings['items'] = array(5,10,15,25,50);
+
+        $settings['item'] = array(5,10,15,25,50);
 
         $settings['installedLanguage']=array();
         $lang = array('English','en');
@@ -174,7 +174,7 @@ RewriteRule . '.$base . 'index.php [L]\n';
       `items` int(2) NULL,
       `twoFactor` VARCHAR(25) NULL,
       `backup` VARCHAR(25) NULL,
-      `backup` VARCHAR(255) NULL 
+      `backup` VARCHAR(255) NULL
     ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data';") or die('1: ' . mysqli_error($link));
 
         if (isset($_POST['user_pid'])) {
@@ -325,9 +325,7 @@ RewriteRule . '.$base . 'index.php [L]\n';
 
                             <select id='user_pic' name='user_pic' class=" form-control login_input">
                             <?php
-                            for ($icon = 1;
-}
-$icon < 7; $icon++) {
+                            for ($icon = 1; $icon < 7; $icon++) {
                                 echo '<option value="' . $icon . '"';
                                 if (isset($_POST['user_pic'])) {
                                     if ($icon == $_POST['user_pic']) echo ' selected';

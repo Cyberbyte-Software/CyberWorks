@@ -40,12 +40,12 @@ if ($result_of_query->num_rows > 0) {
                 <hr class="hidden-xs">
                 <thead>
                 <tr>
-                    <th class="hidden-xs"><i class="fa fa-eye"></i><?php echo " " . $lang['id']; ?></th>
-                    <th><i class="fa fa-user"></i><?php echo " " . $lang['name']; ?></th>
-                    <th><i class="fa fa-user"></i><?php echo " " . $lang['crimes']; ?></th>
-                    <th class="hidden-xs"><i class="fa fa-user"></i><?php echo " " . $lang['bounty']; ?></th>
-                    <th class="hidden-xs"><i class="fa fa-user"></i><?php echo " " . $lang['active']; ?></th>
-                    <th><?php echo " " . $lang['edit']; ?></th>
+                    <th class="hidden-xs"><i class="fa fa-eye"></i> <?php echo $lang['id']; ?></th>
+                    <th><i class="fa fa-user"></i> <?php echo $lang['name']; ?></th>
+                    <th><i class="fa fa-user"></i> <?php echo $lang['crimes']; ?></th>
+                    <th class="hidden-xs"><i class="fa fa-user"></i> <?php echo $lang['bounty']; ?></th>
+                    <th class="hidden-xs"><i class="fa fa-user"></i> <?php echo $lang['active']; ?></th>
+                    <th> <?php echo $lang['edit'] ?></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -61,8 +61,6 @@ if ($result_of_query->num_rows > 0) {
                     echo "</tr>";
                 };
                 echo "</tbody></table>";
-
-
                 ?>
                 </tbody>
                 <br>

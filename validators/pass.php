@@ -1,6 +1,7 @@
 <?php
-require("../classes/session.php");
-SessionManager::sessionStart('CyberWorks');
+session_name('CyberWorks');
+session_set_cookie_params(1209600);
+session_start();
 require_once("../gfunctions.php");
 
 if (isset($_SESSION['user_name'])) {

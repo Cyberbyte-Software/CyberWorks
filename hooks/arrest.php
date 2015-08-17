@@ -1,6 +1,7 @@
 <?php
-require("../classes/session.php");
-SessionManager::sessionStart('CyberWorks');
+session_name('CyberWorks');
+session_set_cookie_params(1209600);
+session_start();
 
 if (isset($_SESSION['permissions']['edit']['player'])) {
     if ($_SESSION['permissions']['edit']['player'] && isset($_POST['player']) && isset($_POST['id'])) {

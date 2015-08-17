@@ -26,7 +26,7 @@ if ($result_of_query->num_rows > 0) {  ?>
     <div class="col-lg-12">
         <h1 class="page-header">
             <?php echo $lang['vehicles']; ?>
-            <small><?php echo " " . $lang['overview']; ?></small>
+            <small> <?php echo $lang['overview']; ?></small>
         </h1>
     </div>
 </div>
@@ -34,7 +34,7 @@ if ($result_of_query->num_rows > 0) {  ?>
     <div class="content-panel">
         <h4>
             <i class="fa fa-car"></i>
-            <?php echo " " . $lang['vehicles'];
+            <?php echo $lang['vehicles'];
             include("views/templates/search.php"); ?>
         </h4>
         <hr class="hidden-xs">

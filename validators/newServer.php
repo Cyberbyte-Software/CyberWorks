@@ -1,6 +1,7 @@
 <?php
-require("../classes/session.php");
-SessionManager::sessionStart('CyberWorks');
+session_name('CyberWorks');
+session_set_cookie_params(1209600);
+session_start();
 
 if (isset($_SESSION['permissions']['edit']['staff']) && isset($_SESSION['user_login_status'])) {
     if ($_SESSION['permissions']['edit']['staff'] && $_SESSION['user_login_status'] && isset($_POST['type']) && isset($_POST['server_name'])) {

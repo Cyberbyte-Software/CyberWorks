@@ -1,8 +1,11 @@
 <?php
 error_reporting(0);
-//error_reporting(E_ALL); // Turn on for error messages
-require("classes/session.php");
-SessionManager::sessionStart('CyberWorks', 1814400);
+error_reporting(E_ALL); // Turn on for error messages
+
+session_name('CyberWorks');
+session_set_cookie_params(1209600);
+session_start();
+        
 require_once("classes/csrf.php");
 ob_start();
 
@@ -101,7 +104,7 @@ if (file_exists('config/settings.php')) {
             $_SESSION['formtoken'][1] = time();
 
             if (isset($_GET['items'])) {
-                if (in_array($_GET['items'],$settings['items'])) {
+                if (in_array($_GET['items'],$settings['item'])) {
                     $sql = "UPDATE `users` SET `items` = " . $_GET['items'] . " WHERE `user_id` = '" . $_SESSION['user_id'] . "' ";
                     $db_connection->query($sql);
                     $_SESSION['items'] = intval($_GET['items']);
