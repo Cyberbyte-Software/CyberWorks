@@ -5,7 +5,7 @@ error_reporting(E_ALL); // Turn on for error messages
 session_name('CyberWorks');
 session_set_cookie_params(1209600);
 session_start();
-        
+
 require_once("classes/csrf.php");
 ob_start();
 
@@ -83,8 +83,6 @@ if (file_exists('config/settings.php')) {
         }
         $key++;
     }
-
-
 
     if (!$db_connection->connect_errno) {
         if ($login->isUserLoggedIn() == true) {

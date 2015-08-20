@@ -27,15 +27,13 @@ if (isset($_POST['user_name'])) {
     $base = substr($last, 1);
     $settings['base'] = substr_count($settings['url'], "/") - 2;
 
-    $hta = 'RewriteEngine On\n
-RewriteBase '.$base . '\n
-RewriteCond %{REQUEST_FILENAME} !-f\n
-RewriteRule . '.$base . 'index.php [L]\n';
+    $hta = 'RewriteEngine On
+RewriteBase /'.$base . '
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule . /'.$base . 'index.php [L]
 
-    $htaccess = fopen(".htaccess", "w") or die("Unable to make .htaccess");
-    fwrite($htaccess, $hta);
-    fclose($htaccess);
-
+php_value file_get_contents 1';
+    file_put_contents('.htaccess',$hta);
     if (isset($_POST['user_pid'])) $verify = str_replace(" ", "%20", 'http://cyberbyte.org.uk/hooks/cyberworks/getid.php?url=' . $settings['url'] . '&name=' . $_POST['community_name'] . '&pid=' . $_POST['user_pid']);
     else $verify = str_replace(" ", "%20", 'http://cyberbyte.org.uk/hooks/cyberworks/getid.php?url=' . $settings['url'] . '&name=' . $_POST['community_name']);
     $verify = json_decode(file_get_contents($verify));
@@ -252,7 +250,7 @@ RewriteRule . '.$base . 'index.php [L]\n';
         file_put_contents('config/settings.php', '<?php return ' . var_export($settings, true) . ';');
         $settings = include 'config/settings.php';
 
-        header("Location: index.php?setup=1");
+        header("Location: index?setup=1");
     }
 }
 ?>
@@ -261,26 +259,20 @@ RewriteRule . '.$base . 'index.php [L]\n';
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CyberWorks Server Admin Panel">
+    <meta name="description" content="CyberWorks Server Admin Panel needs to be installed">
     <meta name="keyword" content="CyberWorks, Server, Admin Panel">
 
-    <title>Cyber Works</title>
+    <title>Cyber Works Installer</title>
 
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-
-    <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
-
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/style-responsive.css" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ruda:400,700,900">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
     <!--Copyright CyberByte 2015 http://cyberbyte.org.uk/-->
 </head>
 
 <body>
 <section id="container">
     <header class="header black-bg">
-        <a href="index.php" class="logo"><b>Cyber Works installer</b></a>
+        <a href="http://cyberworks.org.uk" class="logo"><b>Cyber Works installer</b></a>
     </header>
         <section class="wrapper">
                 <div class="row">
@@ -292,13 +284,13 @@ RewriteRule . '.$base . 'index.php [L]\n';
                 </div>
 
                 <div class="col-sm-4" style="float: none; margin: 0 auto;">
-                    <form method="post" action="index" name="setupform">
+                    <form method="post" action="index.php" name="setupform">
                         <div class="form-group">
                             <p style="text-align: center;">Use this installer to
                             setup the Cyber Works server admin panel. If you need
                             any help feel free to contact support at
                             <a href="http://cyberbyte.org.uk">http://cyberbyte.org.uk</a>.</p>
-                            <p style="text-align: center;"> If you just need to fix you
+                            <p style="text-align: center;"> If you just need to fix you can use our
                             <a href="gensettings.php">RECOVERY INSTALLER</a>.</p>
                             <br>
                             <label for="community_name">Community Name: </label>
@@ -382,12 +374,12 @@ RewriteRule . '.$base . 'index.php [L]\n';
                             </select><br>
 
                             <label for="server_port">Server Query Port: </label>
-                            <input placeholder="Server Query Port" id="server_port"
+                            <input placeholder="Server Query Port (Default: 2302)" id="server_port"
                                    class="form-control login_input" type="text" name="server_port"
                                 <?php if (isset($_POST['server_port'])) echo 'value="' . $_POST['server_port'] . '"'?>>
 
                             <label for="server_IP">Server Query IP: </label>
-                            <input placeholder="Server Query IP (Default: 2302)" id="server_IP"
+                            <input placeholder="Server Query IP" id="server_IP"
                                    class="form-control login_input" type="text" name="server_IP"
                                 <?php if (isset($_POST['server_IP'])) echo 'value="' . $_POST['server_IP'] . '"'?>>
 
@@ -403,9 +395,6 @@ RewriteRule . '.$base . 'index.php [L]\n';
                 </div>
         </section>
 </section>
-
-<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/formValidation.min.js"></script>
 
 </body>
 </html>
