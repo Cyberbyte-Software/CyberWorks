@@ -34,7 +34,7 @@ function serverConnect($dbid = NULL)
     }
     $settings = require('config/settings.php');
     $db_connection = masterConnect();
-    
+
     $sql = "SELECT `sql_host`,`sql_name`,`sql_pass`,`sql_user` FROM `db` WHERE `dbid` = '" . $dbid . "';";
     $server = $db_connection->query($sql);
 
@@ -268,12 +268,11 @@ function multiDB()
 
     $sql = "SELECT `sid`,`dbid`,`type` FROM `servers`;";
     $db = $db_connection->query($sql);
-
     if ($db->num_rows == 1) {
-        $db->fetch_object();
+        $iamDB = $db->fetch_object();
         $_SESSION['multiDB'] = false;
-        $_SESSION['server_type'] = $db->type;
-        $_SESSION['dbid'] = $db->dbid;
+        $_SESSION['server_type'] = $iamDB->type;
+        $_SESSION['dbid'] = $iamDB->dbid;
     } else {
         $_SESSION['multiDB'] = true;
     }

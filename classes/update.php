@@ -10,7 +10,7 @@ if ($settings['version'] < 0.3) {
     $updated = true;
 }
 if ($settings['version'] < 0.4) {
-    $sql = 'ALTER TABLE  `users` ADD  `twoFactor` VARCHAR( 25 ) NULL ,
+    $sql = 'ALTER TABLE  `users` ADD  `twoFactor` VARCHAR(25) NULL ,
     ADD  `token` VARCHAR(64) NULL;
     ADD  `backup` VARCHAR(255) NULL;';
     $db_connection->query($sql);

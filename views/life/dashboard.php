@@ -16,7 +16,7 @@ if ($db_link->connect_error) {
             </h1>
         </div>
     </div>
-    <?php if (isset($_SESSION['update'])) echo '<div class="alert alert-info" role="alert">' . $land['updateMessage'] . ' (' . $_SESSION['message']->version . ')</div>'; ?>
+    <?php if (isset($_SESSION['update'])) echo '<div class="alert alert-info" role="alert">' . $land['updateMessage'] . ' (' . $_SESSION['message']->version . ') <a href="https://github.com/Cyberbyte-Studios/CyberWorks/releases">Download Section</a</div>'; ?>
     <div class="row">
         <div class="col-lg-4">
             <div class="content-panel">

@@ -1,32 +1,40 @@
 <?php
 $id = clean($id, "int");
+if (isset($_POST['del']) && $id != 1) {
+    $sql = "DELETE FROM `db` WHERE `dbid`='" . $id . "';";
+    $result_of_query = $db_connection->query($sql);
+    $sql = "DELETE FROM `servers` WHERE `dbid`='" . $id . "';";
+    $result_of_query = $db_connection->query($sql);
 
-if (isset($_POST['sql_host'])) {
-    if ($_SESSION['permissions']['super_admin']) {
-        if (formtoken::validateToken($_POST)) {
-            $host = encrypt(clean($_POST['sql_host'], "string"));
-            $user = encrypt(clean($_POST['sql_user'], "string"));
-            $pass = encrypt(clean($_POST['sql_pass'], "string"));
-            $name = encrypt(clean($_POST['sql_name'], "string"));
+}
+elseif (isset($_POST['edit'])) {
+    if (isset($_POST['sql_host'])) {
+        if ($_SESSION['permissions']['super_admin']) {
+            if (formtoken::validateToken($_POST)) {
+                $host = encrypt(clean($_POST['sql_host'], "string"));
+                $user = encrypt(clean($_POST['sql_user'], "string"));
+                $pass = encrypt(clean($_POST['sql_pass'], "string"));
+                $name = encrypt(clean($_POST['sql_name'], "string"));
 
-            $sql = "UPDATE `db` SET `sql_host` = '" . $host . "',`sql_name` = '" . $name . "',`sql_pass` = '" . $pass . "',`sql_user` = '" . $user . "' WHERE `dbid`='" . $id . "';";
-            $result_of_query = $db_connection->query($sql);
+                $sql = "UPDATE `db` SET `sql_host` = '" . $host . "',`sql_name` = '" . $name . "',`sql_pass` = '" . $pass . "',`sql_user` = '" . $user . "' WHERE `dbid`='" . $id . "';";
+                $result_of_query = $db_connection->query($sql);
 
-            $type = clean($_POST['type'], "string");
-            $name = clean($_POST['name'], "string");
+                $type = clean($_POST['type'], "string");
+                $name = clean($_POST['name'], "string");
 
-            $usegsq = clean($_POST['usegsq'], "int");
-            if ($_POST['usegsq'] == 1) {
-                $sq_ip = encrypt(clean($_POST['sq_ip'], "string"));
-                $sq_port = encrypt(clean($_POST['sq_port'], "string"));
-                $rcon_pass = encrypt(clean($_POST['rcon_pass'], "string"));
-                $sql = "UPDATE `servers` SET `name`= '" . $name . "',`type`= '" . $type . "',`use_sq`= '" . $usegsq . "',`sq_port`= '" . $sq_port . "',`sq_ip`= '" . $sq_ip . "',`rcon_pass`= '" . $rcon_pass . "' WHERE `dbid`='" . $id . "';";
-            } else {
-                $sql = "UPDATE `servers` SET `name`= '" . $name . "',`type`= '" . $type . "',`use_sq`= '" . $usegsq . "' WHERE `dbid`='" . $id . "';";
-            }
-            $result_of_query = $db_connection->query($sql);
-        } else message($lang['expired']);
-    } else logAction($_SESSION['user_name'], $lang['failedUpdate'] . ' ' . $lang['gsq'], 3);
+                $usegsq = clean($_POST['usegsq'], "int");
+                if ($_POST['usegsq'] == 1) {
+                    $sq_ip = encrypt(clean($_POST['sq_ip'], "string"));
+                    $sq_port = encrypt(clean($_POST['sq_port'], "string"));
+                    $rcon_pass = encrypt(clean($_POST['rcon_pass'], "string"));
+                    $sql = "UPDATE `servers` SET `name`= '" . $name . "',`type`= '" . $type . "',`use_sq`= '" . $usegsq . "',`sq_port`= '" . $sq_port . "',`sq_ip`= '" . $sq_ip . "',`rcon_pass`= '" . $rcon_pass . "' WHERE `dbid`='" . $id . "';";
+                } else {
+                    $sql = "UPDATE `servers` SET `name`= '" . $name . "',`type`= '" . $type . "',`use_sq`= '" . $usegsq . "' WHERE `dbid`='" . $id . "';";
+                }
+                $result_of_query = $db_connection->query($sql);
+            } else message($lang['expired']);
+        } else logAction($_SESSION['user_name'], $lang['failedUpdate'] . ' ' . $lang['gsq'], 3);
+    }
 }
     $sql = "SELECT * FROM `servers` WHERE `dbid`='" . $id . "';";
     $result_of_query = $db_connection->query($sql);
@@ -100,6 +108,9 @@ if (isset($_POST['sql_host'])) {
         </div>
         <br>
         <input class='btn btn-primary' type='submit'  name='edit' value='<?php echo $lang['subChange'] ?>'>
+        <?php if ($db->dbid != 1) {?>
+        <input class='btn btn-danger' type='submit'  name='del' value='<?php echo $lang['delete'] ?>'>
+        <?php }?>
         <?php echo formtoken::getField() ?>
     </form>
 
