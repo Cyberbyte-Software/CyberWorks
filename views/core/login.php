@@ -1,5 +1,5 @@
 <?php
-    include("views/templates/head.php");
+include("views/templates/head.php");
 
 if (isset($_GET['setup'])) {
     if ($_GET['setup'] == 1) {
@@ -9,7 +9,7 @@ if (isset($_GET['setup'])) {
     } else {
         $message = $_GET['setup'];
     }
-    }
+}
 
 if (isset($_POST['emailed']) && $settings['passreset']) {
     if (formtoken::validateToken($_POST)) {
@@ -21,7 +21,7 @@ if (isset($_POST['emailed']) && $settings['passreset']) {
             $row = $result->fetch_assoc();
             $sql = "UPDATE  `users` SET  `token` =  '" . $token . "' WHERE  `user_id` = '" . $row['user_id'] . "';";
             $result_of_query = $db_connection->query($sql);
-    
+
             //Send the reset Email
             $subject = "Password Reset";
             $headers = "MIME-Version: 1.0" . "\r\n";
@@ -30,7 +30,7 @@ if (isset($_POST['emailed']) && $settings['passreset']) {
             $headers .= "From: " . $settings['community'] . " Panel <" . $email . ">\r\n" . "Reply-To: " . $email . "\r\n";
             $msg = "Password reset<br/> token: " . $token . " <br/> url: <a href='" . $settings['url'] . "?token=" . $token . "&uID=" . $row['user_id'] . "'>" . $settings['url'] . "?token=" . $token . "&uID=" . $row['user_id'] . "</a>";
             $mail = mail($to, $subject, $msg, $headers);
-    
+
             $message = "Your password has been reset please check your email";
             //$message = $settings['url']."?token=".$token."&uID=".$row['user_id']; // DEBUG ONLY
         }
@@ -96,8 +96,6 @@ if (isset($_GET['token']) && isset($_GET['uID']) && $settings['passreset']) {
     }
 }
 
-
-
 ?>
 
 <body onload="getTime()">
@@ -119,21 +117,19 @@ if (isset($_GET['token']) && isset($_GET['uID']) && $settings['passreset']) {
             } elseif (isset($error)) {
                 echo '<div style="margin-top: 120px;" class="alert alert-danger animated infinite bounce" role="alert">' . $error . '</div>';
             } else {
-                echo '<div style="margin-top: 190px;"></div>' ?>
-
+                echo '<div style="margin-top: 190px;"></div>';
+            } ?>
 
             <div id="showtime"></div>
             <h2><a data-toggle="modal" href="#login"><i class="fa fa-lock"></i></a></h2>
 
             <h3>LOGIN</h3>
             <?php if (isset($settings['steamAPI']) && $settings['steamlogin'] == 'true' && isset($settings['steamdomain'])) {
-    include 'classes/steamlogin.php';
-}
+                include 'classes/steamlogin.php';
             }
-            //dont know why it needs to be true todo:change?>
-            <?php if ($settings['passreset']) {?>
-                <a data-toggle="modal" href="#pass"> <span>Password Reset</span>  </a>
-            <?php }?>
+            if ($settings['passreset']) {
+                echo '<a data-toggle="modal" href="#pass"> <span>Password Reset</span></a>';
+            } ?>
             <div aria-hidden="true" aria-labelledby="login" role="dialog" tabindex="-1" id="login" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -163,7 +159,7 @@ if (isset($_GET['token']) && isset($_GET['uID']) && $settings['passreset']) {
                                             $tempLang = 'en';
                                         }
                                         echo '<select id = "lang" name = "lang" class="form-control login_input" >';
-                                        
+
                                         foreach ($settings['installedLanguage'] as $language) {
                                             echo '<option value = "' . $language[1] . '" ';
                                             if ($tempLang == $language[1]) {
@@ -225,7 +221,7 @@ if (isset($_GET['token']) && isset($_GET['uID']) && $settings['passreset']) {
         "<?php echo $settings['url'] ?>assets/img/bg/3.jpg",
         "<?php echo $settings['url'] ?>assets/img/bg/4.jpg",
         "<?php echo $settings['url'] ?>assets/img/bg/5.jpg"
-    ], {duration: 10000, fade: 900});
+    ], {duration: 10000, fade: 800});
 </script>
 <script>
     function getTime() {

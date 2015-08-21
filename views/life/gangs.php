@@ -60,12 +60,12 @@ if ($result_of_query->num_rows > 0) {
             } else {
                 echo '<th><i class="fa fa-user"></i> ' . $lang['members'] . '</th>';
             }?>
-            <th class="hidden-xs"><i class="fa fa-user"></i> <?php echo $lang['maxmembers']; ?></th>
+            <th class="hidden-xs"><i class="fa fa-user"></i> <?php echo $lang['maxMembers']; ?></th>
             <th class="hidden-xs"><i class="fa fa-user"></i> <?php echo $lang['active']; ?></th>
             <?php if ($_SESSION['permissions']['edit']['gangs']) {
-    echo '<th><i class="fa fa-pencil"></i>' . $lang['edit'] . '</th>';
-}
-?>
+                echo '<th><i class="fa fa-pencil"></i>' . $lang['edit'] . '</th>';
+            }
+            ?>
         </tr>
         </thead>
         <tbody>

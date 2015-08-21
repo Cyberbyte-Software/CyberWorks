@@ -87,8 +87,7 @@ if (file_exists('config/settings.php')) {
     if (!$db_connection->connect_errno) {
         if ($login->isUserLoggedIn() == true) {
 
-            //Errr I think I Fixed It By Removing The useless Query That Was Here
-           if ($_SESSION['multiDB'] && isset($_POST['dbid'])) {
+           if ($_SESSION['multiDB'] && isset($_POST['dbid']) && isset($_POST['type'])) {
                 $_SESSION['server_type'] = $_POST['type'];
                 $_SESSION['dbid'] = $_POST['dbid'];
             }

@@ -207,9 +207,7 @@ if ($result->num_rows > 0) {
                             }
                         ?>
                     </div>
-                <?php } ?>
-
-                <?php if ($player->playerid == $_SESSION['playerid']) { ?>
+                <?php } if ($player->playerid == $_SESSION['playerid']) { ?>
                     <div class="tab-pane fade well" id="civ_inv">
                         <h4 style="centred"><?php echo $lang['civ'] . " " . $lang['gear']; ?> </h4>
                         <?php
@@ -246,9 +244,7 @@ if ($result->num_rows > 0) {
                         } ?>
                         <br>
                     </div>
-                <?php } ?>
-
-                <?php if ($player->playerid == $_SESSION['playerid']) { ?>
+                <?php } if ($player->playerid == $_SESSION['playerid']) { ?>
                     <div class="tab-pane fade" id="house">
                         <div class="table-responsive">
                             <?php
@@ -279,9 +275,7 @@ if ($result->num_rows > 0) {
                             } else echo $lang['noHouse'] ?>
                         </div>
                     </div>
-                <?php } ?>
-
-                <?php if ($player->playerid == $_SESSION['playerid']) { ?>
+                <?php } if ($player->playerid == $_SESSION['playerid']) { ?>
                     <div class="tab-pane fade" id="veh">
                         <div class="table-responsive">
                         <?php

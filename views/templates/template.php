@@ -35,7 +35,8 @@
                 } else {
                     echo '<a href="' . $_SESSION['profile_link'] . '" target="_blank">';
                     echo '<img src="' . $_SESSION['user_profile'] . '"';
-                    echo 'class="img-circle" width="64" height="64"></a></p>'; }
+                    echo 'class="img-circle" width="64" height="64"></a></p>';
+                }
                 ?>
             <h5 class="centered">
                 <?php

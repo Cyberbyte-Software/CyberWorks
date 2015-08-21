@@ -60,7 +60,7 @@ $lang['not'] = 'Not';
 
 $lang['error'] = 'Error';
 $lang['404'] = '404';
-$lang['dbError'] = 'Database connection problem.';
+$lang['dbError'] = 'Database connection problem';
 $lang['noPerm'] = 'Sorry you do not have permission to view this page';
 $lang['noHouse'] = 'No Houses';
 $lang['banned'] = 'Login Failed Reason: Banned';
@@ -361,3 +361,8 @@ $lang['useGravatar'] = 'Use Gravatar';
 $lang['none'] = 'Not forced';
 $lang['steam'] = 'All users except Steam Sign On';
 $lang['all'] = 'All users';
+
+$lang['gravatarProfile'] = 'Using Gravatar Image';
+$lang['steamProfile'] = 'Using Steam Image';
+$lang['themeProfile'] = 'Using Theme Image';
+$lang['passChanged'] = 'Your password has been reset';

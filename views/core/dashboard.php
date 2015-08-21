@@ -17,50 +17,38 @@
 		  <div class="panel-body">
 			  <div class="task-content">
 				  <ul id="sortable" class="task-list ui-sortable">
-<?php
-    $sql = "SELECT `sid`,`dbid`,`type`,`name` FROM `servers`;";
-    $result_of_query = $db_connection->query($sql);
-
-    if ($result_of_query->num_rows >= 1) {
-        while ($row = mysqli_fetch_assoc($result_of_query)) {
-            if ($row['type'] == 'life'){
-?>
-						<li class="list-primary">
-							<i class=" fa fa-ellipsis-v"></i>
-							<div class="task-title">
-								<span class="task-title-sp"><?php echo $row['name']; ?></span>
-								<span class="badge bg-theme">Life</span>
-								<div style="float:right; padding-right: 15px;">
-									<form method="post" action="<?php echo $settings['url'] ?>dashboard">
-										<input type="hidden" name="type" value="<?php echo $row['type']; ?>">
-										<input type="hidden" name="dbid" value="<?php echo $row['dbid']; ?>">
-										<button class="btn btn-success btn-sm fa fa-eye" type="submit"></button>
-									</form>
-								</div>
+			<?php
+			    $sql = "SELECT `sid`,`dbid`,`type`,`name` FROM `servers`;";
+			    $result_of_query = $db_connection->query($sql);
+			
+			    if ($result_of_query->num_rows >= 1) {
+			        while ($row = mysqli_fetch_assoc($result_of_query)) {
+			?>
+					<li class="list-primary">
+						<i class=" fa fa-ellipsis-v"></i>
+						<div class="task-title">
+							<span class="task-title-sp"><?php echo $row['name']; ?></span>
+							<?php
+							if ($row['type'] == 'life'){
+								echo '<span class="badge bg-theme">Life</span>';
+							} elseif ($row['type'] == 'waste') {
+								echo '<span class="badge bg-important">Wasteland</span>';
+							}
+							?>
+							<div style="float:right; padding-right: 15px;">
+								<form method="post" action="<?php echo $settings['url'] ?>dashboard">
+									<input type="hidden" name="type" value="<?php echo $row['type']; ?>">
+									<input type="hidden" name="dbid" value="<?php echo $row['dbid']; ?>">
+									<button class="btn btn-success btn-sm fa fa-eye" type="submit"></button>
+								</form>
 							</div>
-						</li>
-<?php
-            }elseif ($row['type'] == 'waste'){
-?>
-						<li class="list-danger">
-							<i class=" fa fa-ellipsis-v"></i>
-							<div class="task-title">
-								<span class="task-title-sp"><?php echo $row['name']; ?></span>
-								<span class="badge bg-important">Wasteland</span>
-								<div class="pull-right hidden-phone">
-									<form method="post" action="<?php echo $settings['url'] ?>dashboard">
-										<input type="hidden" name="type" value="<?php echo $row['type']; ?>">
-										<input type="hidden" name="dbid" value="<?php echo $row['dbid']; ?>">
-										<button class="btn btn-success btn-sm fa fa-eye" type="submit"></button>
-									</form>
-							</div>
-						</li>
-<?php
-            }
-        }
-        echo '</select>';
-    }
-?>
+						</div>
+					</li>
+					<?php
+			        }
+			        echo '</select>';
+			    }
+			?>
 				  </ul>
 			  </div>
 		  </div>

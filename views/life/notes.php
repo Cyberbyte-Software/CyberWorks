@@ -99,10 +99,8 @@ $result_of_query = $db_link->query($sql);
         <table class="table table-striped table-advance table-hover">
             <thead>
             <tr>
-                <th><i class="fa fa-eye"> </i><?php echo $lang['owner'] ?></th>
-                <th><i class="fa fa-car"> </i><?php echo $lang['class'];
-}
-?></th>
+                <th><i class="fa fa-eye"></i> <?php echo $lang['owner']; ?></th>
+                <th><i class="fa fa-car"></i> <?php echo $lang['class']; ?></th>
                 <th class="hidden-xs"><i class="fa fa-car"></i> <?php echo $lang['type']; ?></th>
                 <th class="hidden-xs"><i class="fa fa-car"></i> <?php echo $lang['plate']; ?></th>
                 <th class="hidden-xs"><i class="fa fa-car"></i> <?php echo $lang['alive']; ?></th>

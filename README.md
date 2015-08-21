@@ -7,7 +7,7 @@ CyberWorks is developed and maintained by Cyberbyte Studios.
 
 Donations are more than welcome ;)
 
-Visit our [wiki](https://github.com/Cyberbyte-Studios/CyberWorks/wiki/)
+Visit our [wiki](https://github.com/Cyberbyte-Studios/CyberWorks/wiki/) for more infomation
 
 ## Credits
 erdknuffel aka jastend for giving me some ideas and fixes for the original Life-Control.
