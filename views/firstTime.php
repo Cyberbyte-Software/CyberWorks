@@ -94,7 +94,7 @@ php_value file_get_contents 1';
         $settings['language'] = 'en';
         $settings['allowLang'] = true;
         $settings['wanted'] = false;
-        $settings['version'] = '0.3';
+        $settings['version'] = '0.4';
         $settings['staffRanks'] = 5;
         $settings['logging'] = true;
 
