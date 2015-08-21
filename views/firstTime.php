@@ -171,7 +171,7 @@ php_value file_get_contents 1';
       `user_profile` varchar(255) NOT NULL,
       `items` int(2) NULL,
       `twoFactor` VARCHAR(25) NULL,
-      `backup` VARCHAR(25) NULL,
+      `backup` VARCHAR(255) NULL,
       `token` VARCHAR(64) NULL
     ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data';") or die('1: ' . mysqli_error($link));
 
