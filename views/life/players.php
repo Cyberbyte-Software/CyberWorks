@@ -8,14 +8,14 @@ if (isset($search)) {
     $result_of_query = $db_link->query($sql);
     $total_records = mysqli_num_rows($result_of_query);
     if ($pageNum > $total_records) $pageNum = $total_records;
-    $sql = "SELECT `playerid`,`name`,`bankacc`,`cash`,`coplevel`,`mediclevel`,`adminlevel`,`uid` FROM `players` WHERE `uid` LIKE '" . $search . "' OR `name` LIKE '" . $search . "' OR `playerid` LIKE '" . $search . "'" . $max . " ;";
+    $sql = "SELECT `playerid`,`name`,`bankacc`,`cash`,`coplevel`,`mediclevel`,`adaclevel`,`adminlevel`,`uid` FROM `players` WHERE `uid` LIKE '" . $search . "' OR `name` LIKE '" . $search . "' OR `playerid` LIKE '" . $search . "'" . $max . " ;";
     logAction($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['players'], 1);
 } else {
     $sql = "SELECT `uid` FROM `players`;";
     $result_of_query = $db_link->query($sql);
     $total_records = mysqli_num_rows($result_of_query);
     if ($pageNum > $total_records) $pageNum = $total_records;
-    $sql = "SELECT `playerid`,`name`,`bankacc`,`cash`,`coplevel`,`mediclevel`,`adminlevel`,`uid` FROM `players` " . $max . " ;";
+    $sql = "SELECT `playerid`,`name`,`bankacc`,`cash`,`coplevel`,`mediclevel`,`adaclevel`,`adminlevel`,`uid` FROM `players` " . $max . " ;";
 }
 
 $result_of_query = $db_link->query($sql);
@@ -55,6 +55,7 @@ if ($result_of_query->num_rows > 0) {
                     <th class="hidden-xs"><i class="fa fa-bank"></i> <?php echo $lang['bank']; ?></th>
                     <th class="hidden-xs"><i class="fa fa-taxi"></i> <?php echo $lang['cop']; ?></th>
                     <th class="hidden-xs"><i class="fa fa-ambulance"></i> <?php echo $lang['medic']; ?></th>
+                    <th class="hidden-xs"><i class="fa fa-gear"></i> <?php echo $lang['adac']; ?></th>
                     <th class="hidden-xs"><i class="fa fa-cogs"></i> <?php echo $lang['admin']; ?></th>
                     <?php if ($_SESSION['permissions']['edit']['player']) {
                             echo '<th class="hidden-xs"><i class="fa fa-pencil"></i> ' . $lang['edit'] . '</th>';
@@ -77,6 +78,7 @@ if ($result_of_query->num_rows > 0) {
                     echo "<td class='hidden-xs'>" . $row["bankacc"] . "</td>";
                     echo "<td class='hidden-xs'>" . $row["coplevel"] . "</td>";
                     echo "<td class='hidden-xs'>" . $row["mediclevel"] . "</td>";
+                    echo "<td class='hidden-xs'>" . $row["adaclevel"] . "</td>";
                     echo "<td class='hidden-xs'>" . $row["adminlevel"] . "</td>";
                     if ($_SESSION['permissions']['edit']['player']) {
                         echo "<td><a class='btn btn-primary btn-xs' href='" . $settings['url'] . "editPlayer/" . $row["uid"] . "'>";
