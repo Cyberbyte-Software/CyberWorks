@@ -149,6 +149,8 @@ if ($result->num_rows > 0) {
             <?php
                 $alias = str_replace('"[`', "", $player->aliases);
                 $alias = str_replace('`]"', "", $alias);
+                $alias = str_replace('[["', "", $alias);
+				$alias = str_replace('"]]', "", $alias);
 
                 echo '<center><img alt="' . $alias . '" src="' . $settings['url'] . 'assets/img/uniform/' . getPlayerSkin($player->civ_gear, $playerSkins) . '.jpg">';
                 if ($_SESSION['permissions']['view']['steam'] && $settings['vacTest']) {
@@ -475,14 +477,14 @@ if ($result->num_rows > 0) {
                                     </table>
                                 <?php
                                     if ($_SESSION['permissions']['edit']['notes']) {
-                                                                                echo '<a data-toggle="modal" href="#add_note" class="btn btn-primary btn-xs" style="float: right; margin-right:5px; margin-bottom:5px;">
-                                                    <i class="fa fa-file-o"></i></a>';
+                                        echo '<a data-toggle="modal" href="#add_note" class="btn btn-primary btn-xs" style="float: right; margin-right:5px; margin-bottom:5px;">
+                                        <i class="fa fa-file-o"></i></a>';
                                     }
                                     } else {
                                         echo '<h1>' . $lang['noNotes'] . '</h1>';
                                         if ($_SESSION['permissions']['edit']['notes']) {
-                                                                                    echo '<a data-toggle="modal" href="#add_note" class="btn btn-primary btn-xs" style="float: right; margin-right:5px; margin-bottom:5px;">
-                                                    <i class="fa fa-file-o"></i></a>';
+                                            echo '<a data-toggle="modal" href="#add_note" class="btn btn-primary btn-xs" style="float: right; margin-right:5px; margin-bottom:5px;">
+                                            <i class="fa fa-file-o"></i></a>';
                                         }
                                     };
                                 ?>

@@ -125,6 +125,12 @@ if (file_exists('config/settings.php')) {
                         } else {
                             $page = "views/waste/dashboard.php";
                         }
+                    } elseif ($_SESSION['server_type'] == 'exile') {
+                        if ($_SESSION['steamsignon'] || $_SESSION['user_level'] == 1) {
+                            $page = "views/steam/exile/dashboard.php";
+                        } else {
+                            $page = "views/exile/dashboard.php";
+                        }
                     } elseif (isset($_SESSION['user_email'])) {
                         if ($_SESSION['user_level'] == 1) {
                             $page = "views/steam/dashboard.php";
@@ -356,8 +362,121 @@ if (file_exists('config/settings.php')) {
                             $page = "views/templates/error.php";
                         }
                     }
+
+                } elseif ($_SESSION['server_type'] == 'exile' && !$_SESSION['steamsignon']) {
+                    if ($currentPage == 'players') {
+                        if ($_SESSION['permissions']['view']['player']) {
+                            if ($query) {
+                                $search = $url['path'][$settings['base'] + 1];
+                            }
+                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                            $page = "views/exile/players.php";
+                        } else {
+                            $err = errorMessage(5, $lang);
+                            $page = "views/templates/error.php";
+                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'players'", 3);
+                        }
+                    } elseif ($currentPage == 'editplayer') {
+                        if ($_SESSION['permissions']['edit']['player']) {
+                            if ($query) {
+                                $uID = $url['path'][$settings['base'] + 1];
+                                logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                                $page = "views/exile/editPlayer.php";
+                            } else {
+                                $err = errorMessage(8, $lang);
+                                $page = "views/templates/error.php";
+                            }
+                        } else {
+                            $err = errorMessage(5, $lang);
+                            $page = "views/templates/error.php";
+                        }
+
+                    } elseif ($currentPage == 'vehicles') {
+                        if ($_SESSION['permissions']['view']['vehicles']) {
+                            if ($query) {
+                                $search = $url['path'][$settings['base'] + 1];
+                            }
+                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                            $page = "views/exile/vehicles.php";
+                        } else {
+                            $err = errorMessage(5, $lang);
+                            $page = "views/templates/error.php";
+                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'vehicles'", 3);
+                        }
+                    } elseif ($currentPage == 'editveh') {
+                        if ($_SESSION['permissions']['edit']['vehicles']) {
+                            if ($query) {
+                                $vehID = $url['path'][$settings['base'] + 1];
+                                logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                                $page = "views/exile/editVeh.php";
+                            } else {
+                                $err = errorMessage(8, $lang);
+                                $page = "views/templates/error.php";
+                            }
+                        } else {
+                            $err = errorMessage(5, $lang);
+                            $page = "views/templates/error.php";
+                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'editVeh'", 3);
+                        }
+                    }  elseif ($currentPage == 'territory') {
+                        if ($_SESSION['permissions']['view']['territory']) {
+                            if ($query) {
+                                $search = $url['path'][$settings['base'] + 1];
+                            }
+                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                            $page = "views/exile/territory.php";
+                        } else {
+                            $err = errorMessage(5, $lang);
+                            $page = "views/templates/error.php";
+                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'territory'", 3);
+                        }
+                    } elseif ($currentPage == 'editterritory') {
+                        if ($_SESSION['permissions']['edit']['territory']) {
+                            if ($query) {
+                                $hID = $url['path'][$settings['base'] + 1];
+                                logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                                $page = "views/life/editterritory.php";
+                            } else {
+                                $err = errorMessage(8, $lang);
+                                $page = "views/templates/error.php";
+                            }
+                        } else {
+                            $err = errorMessage(5, $lang);
+                            $page = "views/templates/error.php";
+                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'editterritory'", 3);
+                        }
+                    } elseif ($currentPage == 'clan') {
+                        if ($_SESSION['permissions']['view']['clan']) {
+                            if ($query) {
+                                $search = $url['path'][$settings['base'] + 1];
+                            }
+                            logAction($_SESSION['user_name'], $lang['visited'] . " 'clans'", 1);
+                            $page = "views/exile/clan.php";
+                        } else {
+                            $err = errorMessage(5, $lang);
+                            $page = "views/templates/error.php";
+                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'clans'", 3);
+                        }
+                    } elseif ($currentPage == 'editclan') {
+                        if ($_SESSION['permissions']['edit']['clan']) {
+                            if ($query) {
+                                $gID = $url['path'][$settings['base'] + 1];
+                                logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                                $page = "views/exile/editClan.php";
+                            } else {
+                                $err = errorMessage(8, $lang);
+                                $page = "views/templates/error.php";
+                            }
+                        } else {
+                            $err = errorMessage(5, $lang);
+                            $page = "views/templates/error.php";
+                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'editClan'", 3);
+                        }
+                    }
                 }
             }
+
+
             if ($currentPage == 'newdb' || $currentPage == 'newserver' || $currentPage == 'settings' || $currentPage == 'editstaff' || $currentPage == 'staff' || $currentPage == 'pluginstore' || $currentPage == 'newuser' || $currentPage == 'logs') {
                 if (isset($_POST['passTest'])) {
                     $sql = "SELECT user_password_hash FROM users WHERE user_id = '" . $_SESSION['user_id'] . "';";
@@ -513,26 +632,32 @@ if (file_exists('config/settings.php')) {
             }
             if ($settings['2factor']) {
                 if ($_SESSION['2factor'] == 0) {
-                if ($settings['force2factor'] == 'steam') {
-                    if (!$_SESSION['steamsignon']) $_SESSION['2factor'] == 5;
-                } elseif ($settings['force2factor'] == 'all') $_SESSION['2factor'] == 5;
-                    $page = 'views/core/2factor.php';
-                } elseif ($_SESSION['2factor'] == 1 || $_SESSION['2factor'] == 3) {
-                if (isset($_POST['code'])) {
-                    $sql = "SELECT `twoFactor` FROM `users` WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
-                    $user = $db_connection->query($sql)->fetch_object();
-                    if ($gauth->verifyCode($user->twoFactor, $_POST['code'])) $_SESSION['2factor'] = 2;
-                    else {
-                    $sql = "SELECT `backup` FROM `users` WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
-                    $user = $db_connection->query($sql)->fetch_object();
-                    if ($user->backup == $_POST['code']) {
-                        $_SESSION['2factor'] = 2;
-                    } else {
-                        $_SESSION['2factor'] = 3;
+                    if ($settings['force2factor'] == 'steam') {
+                        if (!$_SESSION['steamsignon']) { 
+                            $_SESSION['2factor'] == 5;
+                        }
+                    } elseif ($settings['force2factor'] == 'all') { $_SESSION['2factor'] == 5;
                         $page = 'views/core/2factor.php';
                     }
+                } elseif ($_SESSION['2factor'] == 1 || $_SESSION['2factor'] == 3) {
+                    if (isset($_POST['code'])) {
+                        $sql = "SELECT `twoFactor` FROM `users` WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
+                        $user = $db_connection->query($sql)->fetch_object();
+                        if ($gauth->verifyCode($user->twoFactor, $_POST['code'])) {
+                            $_SESSION['2factor'] = 2;
+                        } else {
+                            $sql = "SELECT `backup` FROM `users` WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
+                            $user = $db_connection->query($sql)->fetch_object();
+                            if ($user->backup == $_POST['code']) {
+                                $_SESSION['2factor'] = 2;
+                            } else {
+                                $_SESSION['2factor'] = 3;
+                                $page = 'views/core/2factor.php';
+                            }
+                        }
+                    } else {
+                        $page = 'views/core/2factor.php';
                     }
-                } else $page = 'views/core/2factor.php';
                 }
             }
 

@@ -18,7 +18,8 @@ if (isset($_POST['db_host'])) {
             $settings['vacTest'] = $_POST['vacTest'];
             $settings['performance'] = $_POST['performance'];
             $settings['notifications'] = $_POST['notifications'];
-            
+            $settings['colour'] = $_POST['colour'];
+
             $settings['2factor'] = $_POST['2factor'];
             $settings['force2factor'] = $_POST['force2factor'];
             $settings['gravatar'] = $_POST['gravatar'];
@@ -46,26 +47,30 @@ if (isset($_POST['db_host'])) {
         </h1>
     </div>
 </div>
+<style>
+.colorpicker-saturation{float:left;width:100px;height:100px;cursor:crosshair;background-image:url("<?php echo $settings['url']; ?>assets/img/picker/saturation.png")}.colorpicker-saturation i{position:absolute;top:0;left:0;display:block;width:5px;height:5px;margin:-4px 0 0 -4px;border:1px solid #000;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px}.colorpicker-saturation i b{display:block;width:5px;height:5px;border:1px solid #fff;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px}.colorpicker-hue,.colorpicker-alpha{float:left;width:15px;height:100px;margin-bottom:4px;margin-left:4px;cursor:row-resize}.colorpicker-hue i,.colorpicker-alpha i{position:absolute;top:0;left:0;display:block;width:100%;height:1px;margin-top:-1px;background:#000;border-top:1px solid #fff}.colorpicker-hue{background-image:url("<?php echo $settings['url']; ?>assets/img/picker/hue.png")}.colorpicker-alpha{display:none;background-image:url("<?php echo $settings['url']; ?>assets/img/picker/alpha.png")}.colorpicker-saturation,.colorpicker-hue,.colorpicker-alpha{background-size:contain}.colorpicker{top:0;left:0;z-index:2500;min-width:130px;padding:4px;margin-top:1px;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;*zoom:1}.colorpicker:before,.colorpicker:after{display:table;line-height:0;content:""}.colorpicker:after{clear:both}.colorpicker:before{position:absolute;top:-7px;left:6px;display:inline-block;border-right:7px solid transparent;border-bottom:7px solid #ccc;border-left:7px solid transparent;border-bottom-color:rgba(0,0,0,0.2);content:''}.colorpicker:after{position:absolute;top:-6px;left:7px;display:inline-block;border-right:6px solid transparent;border-bottom:6px solid #fff;border-left:6px solid transparent;content:''}.colorpicker div{position:relative}.colorpicker.colorpicker-with-alpha{min-width:140px}.colorpicker.colorpicker-with-alpha .colorpicker-alpha{display:block}.colorpicker-color{height:10px;margin-top:5px;clear:both;background-image:url("<?php echo $settings['url']; ?>assets/img/picker/alpha.png");background-position:0 100%}.colorpicker-color div{height:10px}.colorpicker-selectors{display:none;height:10px;margin-top:5px;clear:both}.colorpicker-selectors i{float:left;width:10px;height:10px;cursor:pointer}.colorpicker-selectors i+i{margin-left:3px}.colorpicker-element .input-group-addon i,.colorpicker-element .add-on i{display:inline-block;width:16px;height:16px;vertical-align:text-top;cursor:pointer}.colorpicker.colorpicker-inline{position:relative;z-index:auto;display:inline-block;float:none}.colorpicker.colorpicker-horizontal{width:110px;height:auto;min-width:110px}.colorpicker.colorpicker-horizontal .colorpicker-saturation{margin-bottom:4px}.colorpicker.colorpicker-horizontal .colorpicker-color{width:100px}.colorpicker.colorpicker-horizontal .colorpicker-hue,.colorpicker.colorpicker-horizontal .colorpicker-alpha{float:left;width:100px;height:15px;margin-bottom:4px;margin-left:0;cursor:col-resize}.colorpicker.colorpicker-horizontal .colorpicker-hue i,.colorpicker.colorpicker-horizontal .colorpicker-alpha i{position:absolute;top:0;left:0;display:block;width:1px;height:15px;margin-top:0;background:#fff;border:0}.colorpicker.colorpicker-horizontal .colorpicker-hue{background-image:url("<?php echo $settings['url']; ?>assets/img/picker/hue-horizontal.png")}.colorpicker.colorpicker-horizontal .colorpicker-alpha{background-image:url("<?php echo $settings['url']; ?>assets/img/picker/alpha-horizontal.png")}.colorpicker.colorpicker-hidden{display:none}.colorpicker.colorpicker-visible{display:block}.colorpicker-inline.colorpicker-visible{display:inline-block}.colorpicker-right:before{right:6px;left:auto}.colorpicker-right:after{right:7px;left:auto}
+</style>
 <div id='text'></div>
 <div class="col-md-6">
     <form method='post' action='settings' id='settings' name='settingsEdit'>
-        <?php
-        echo formtoken::getField();
-        echo "<h3>" . $lang['database'] . "</h3>";
-        echo "<div class='form-group'><label for='db_host'>" . $lang['database'] . " " . $lang['host'] . ": </label><input class='form-control' id='db_host' type='text' name='db_host' value='" . decrypt($settings['db']['host']) . "' readonly></div>";
-        echo "<div class='form-group'><label for='db_user'>" . $lang['database'] . " " . $lang['user'] . ": </label><input class='form-control' id='db_user' type='text' name='db_user' value='" . decrypt($settings['db']['user']) . "' readonly></div>";
-        echo "<div class='form-group'><div class='input-group'><label for='db_pass'>" . $lang['database'] . " " . $lang['password'] . ": </label><input class='form-control pwd' id='db_pass' type='password' name='db_pass' value='" . decrypt($settings['db']['pass']) . "' readonly>";
-        echo "<span class='input-group-btn'><button style='margin-top: 21px; background-color: #eee;' ";
-        echo "class='btn btn-default reveal' type='button'><i class='fa fa-eye-slash'></i></button></span></div></div>";
-        echo "<div class='form-group'><label for='db_name'>" . $lang['database'] . " " . $lang['name'] . ": </label><input class='form-control' id='db_name' type='text' name='db_name' value='" . decrypt($settings['db']['name']) . "' readonly></div>";
-        ?>
+    <?php
+    echo formtoken::getField();
+    echo "<h3>" . $lang['database'] . "</h3>";
+    echo "<div class='form-group'><label for='db_host'>" . $lang['database'] . " " . $lang['host'] . ": </label><input class='form-control' id='db_host' type='text' name='db_host' value='" . decrypt($settings['db']['host']) . "' readonly></div>";
+    echo "<div class='form-group'><label for='db_user'>" . $lang['database'] . " " . $lang['user'] . ": </label><input class='form-control' id='db_user' type='text' name='db_user' value='" . decrypt($settings['db']['user']) . "' readonly></div>";
+    echo "<div class='form-group'><div class='input-group'><label for='db_pass'>" . $lang['database'] . " " . $lang['password'] . ": </label><input class='form-control pwd' id='db_pass' type='password' name='db_pass' value='" . decrypt($settings['db']['pass']) . "' readonly>";
+    echo "<span class='input-group-btn'><button style='margin-top: 21px; background-color: #eee;' ";
+    echo "class='btn btn-default reveal' type='button'><i class='fa fa-eye-slash'></i></button></span></div></div>";
+    echo "<div class='form-group'><label for='db_name'>" . $lang['database'] . " " . $lang['name'] . ": </label><input class='form-control' id='db_name' type='text' name='db_name' value='" . decrypt($settings['db']['name']) . "' readonly></div>";
+    ?>
 
     <h3><?php echo $lang['panel']?></h3>
     <div class='form-group'><label for='max_cop'> <?php echo $lang['community'] ?>: </label>
     <input class='form-control' id='community' type='text' name='community' value='<?php echo $settings['community']; ?>'></div>
 
     <?php if (count($settings['installedLanguage']) > 1) { ?>
-    <div class='form-group'><label for="language"><?php echo $lang['language'] ?>: </label>
+    <div class='form-group'>
+        <label for="language"><?php echo $lang['language'] ?>: </label>
         <select name="language" id="language" class="form-control">
             <?php
             foreach ($settings['installedLanguage'] as $language) {
@@ -73,16 +78,19 @@ if (isset($_POST['db_host'])) {
                 if ($settings['language'] == $language[1]) echo 'selected';
                 echo '> ' . $language[0] . '</option>';
             } ?>
-        </select></div>
+        </select>
+    </div>
 
-    <div class='form-group'><label for="allowLang"><?php echo $lang['allowLang'] ?>: </label>
+    <div class='form-group'>
+        <label for="allowLang"><?php echo $lang['allowLang'] ?>: </label>
         <select name="allowLang" id="allowLang" class="form-control">
             <option value="true"<?php echo select(true, $settings['allowLang']) . '>' . $lang['yes'] ?></option>
             <option value="false"<?php echo select(false, $settings['allowLang']) . '>' . $lang['no'] ?></option>
-        </select></div>
-        
+        </select>
+    </div>
+
     <?php } ?>
-        
+
     <div class='form-group'><label for="performance"><?php echo $lang['performance'] ?>: </label>
         <select name="performance" id="performance" class="form-control">
             <option value="true"
@@ -158,6 +166,14 @@ if (isset($_POST['db_host'])) {
         <?php echo select(false, $settings['vacTest']) . '>' . $lang['no'] ?></option>
     </select></div>
 
+    <div class='form-group'>
+        <label for="colour"><?php echo $lang['colour'] ?>: </label>
+        <div class="input-group colourPicker">
+            <input type="text" name="colour" id="colour" value="<?php echo $settings['colour']; ?>" class="form-control" />
+            <span class="input-group-addon"><i></i></span>
+        </div>
+    </div>
+
     <div class='form-group'><label for="communityBansTest"><?php echo $lang['useCommunityBans'] ?>: </label>
         <select name="communityBansTest" id="communityBansTest" class="form-control">
         <option value="true"
@@ -165,7 +181,7 @@ if (isset($_POST['db_host'])) {
         <option value="false"
         <?php echo select(false, $settings['communityBansTest']) . '>' . $lang['no'] ?></option>
     </select></div>
-    
+
     <div class='form-group'><label for="2factor"><?php echo $lang['use2factor'] ?>: </label>
         <select name="2factor" id="2factor" class="form-control">
         <option value="true"
@@ -173,7 +189,7 @@ if (isset($_POST['db_host'])) {
         <option value="false"
         <?php echo select(false, $settings['2factor']) . '>' . $lang['no'] ?></option>
     </select></div>
-    
+
     <div class='form-group'><label for="force2factor"><?php echo $lang['force2factor'] ?>: </label>
         <select name="force2factor" id="force2factor" class="form-control">
         <option value="none"
@@ -183,7 +199,7 @@ if (isset($_POST['db_host'])) {
         <option value="all"
         <?php echo select("all", $settings['force2factor']) . '>' . $lang['all'] ?></option>
     </select></div>
-    
+
     <div class='form-group'><label for="gravatar"><?php echo $lang['useGravatar'] ?>: </label>
         <select name="gravatar" id="gravatar" class="form-control">
         <option value="true"
@@ -208,8 +224,11 @@ if (isset($_POST['db_host'])) {
 </div>
 </form>
 
+<script src="<?php echo $settings['url'] ?>assets/js/colorpicker.min.js"></script>
+
 <script>
 $(document).ready(function() {
+    $('.colourPicker').colorpicker();
     $(".reveal").mousedown(function() {
         $(this).closest('.input-group').find('.pwd').attr('type', 'text');
     })

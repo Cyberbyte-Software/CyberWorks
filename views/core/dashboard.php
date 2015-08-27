@@ -20,7 +20,7 @@
 			<?php
 			    $sql = "SELECT `sid`,`dbid`,`type`,`name` FROM `servers`;";
 			    $result_of_query = $db_connection->query($sql);
-			
+
 			    if ($result_of_query->num_rows >= 1) {
 			        while ($row = mysqli_fetch_assoc($result_of_query)) {
 			?>
@@ -33,6 +33,8 @@
 								echo '<span class="badge bg-theme">Life</span>';
 							} elseif ($row['type'] == 'waste') {
 								echo '<span class="badge bg-important">Wasteland</span>';
+							} elseif ($row['type'] == 'exile') {
+								echo '<span class="badge bg-theme04">Exile</span>';
 							}
 							?>
 							<div style="float:right; padding-right: 15px;">

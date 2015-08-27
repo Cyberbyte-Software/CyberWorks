@@ -319,23 +319,23 @@ function stripArray($input, $type)
 function clean($input, $type)
 {
     if ($type == 'string') {
-        return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_STRING);
-    } elseif ($type == 'int') {$input = filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_NUMBER_INT); if ($input < 0) {
-        return 0;
-    } else {
-        return $input;
-    }
-    } elseif ($type == 'url') {
-        return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_URL);
-    } elseif ($type == 'email') {
-        return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_EMAIL);
-    } elseif ($type == 'boolean') {
-        return ($input === 'true');
-    } elseif ($type == 'intbool') {
-        if ($input == 1 || $input == 0) return $input;
-    } else {
-        return 0;
-    }
+            return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_STRING);
+        } elseif ($type == 'int') {$input = filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_NUMBER_INT); if ($input < 0) {
+            return 0;
+        } else {
+            return $input;
+        }
+        } elseif ($type == 'url') {
+            return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_URL);
+        } elseif ($type == 'email') {
+            return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_EMAIL);
+        } elseif ($type == 'boolean') {
+            return ($input === 'true');
+        } elseif ($type == 'intbool') {
+            if ($input == 1 || $input == 0) return $input;
+        } else {
+            return 0;
+        }
     }
 
 /**

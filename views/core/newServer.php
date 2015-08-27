@@ -52,14 +52,15 @@ if (isset($_POST['server_name']) && isset($_POST['server_type']) && isset($_POST
                 <label for="server_name">Server Name: </label>
                 <input placeholder="Server Name" id="server_name" class=" form-control login_input" type="text" name="server_name"
                     <?php if (isset($_POST['server_name'])) {
-    echo 'value="' . $_POST['server_name'] . '"' ?>
-                       autocorrect="off" required>
+                        echo 'value="' . $_POST['server_name'] . '"';
+                     ?> autocorrect="off" required>
                 </div>
                 <div class="form-group">
                     <label for="server_type">Server type: </label>
                     <select id="server_type" class=" form-control login_input" name="server_type">
                         <option value="life">Altis Life</option>
-                        <option value="wasteland">Wasteland</option>
+                        <!--<option value="wasteland">Wasteland</option>-->
+                        <option value="exile">Exile</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -89,10 +90,10 @@ if (isset($_POST['server_name']) && isset($_POST['server_type']) && isset($_POST
                             <input placeholder="RCON Password" id="server_RCON_pass" class=" form-control login_input" type="password" name="server_RCON_pass"
                                 <?php if (isset($_POST['server_RCON_pass'])) echo 'value="' . $_POST['server_RCON_pass'] . '"' ?> autocorrect="off" autocapitalize="off" autocomplete="off">
                             </div>
-                            </div>
-                            <?php
+                        </div>
+                <?php
                 $sql = "SELECT `dbid`,`sql_name` FROM `db`;";
-}
+                }
                 $result_of_query = $db_connection->query($sql);
                 if ($result_of_query->num_rows >= 1) {
                     echo '<div class="form-group"><label for="server_dbid">Database: </label>';

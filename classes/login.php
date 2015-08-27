@@ -107,6 +107,7 @@ class Login
                             $verify = json_decode(file_get_contents('http://cyberbyte.org.uk/hooks/cyberworks/messages.php?id=' . $settings['id']));
                             if (!isset($verify->verify)) {
                                 if ($verify->version > floatval($settings['version'])) $_SESSION['update'] = true;
+                                
                                 $_SESSION['2factor'] = 0;
                                 if (!empty($result_row->twoFactor)) {
                                     if ($settings['2factor']) $_SESSION['2factor'] = 1; else {

@@ -4,7 +4,7 @@ $db_link = serverConnect();
 $max = 'LIMIT ' . ($pageNum - 1) * $_SESSION['items'] . ',' . $_SESSION['items'];
 
 if (isset($search)) {
-    $sql = "SELECT count(`logid`) FROM `logs` WHERE `logid` LIKE '" . $search . "' OR `user` LIKE '%" . $search . "%' OR `action` LIKE '%" . $search . "%' OR `level` LIKE '" . $search . "';";
+    $sql = "SELECT `logid` FROM `logs` WHERE `logid` LIKE '" . $search . "' OR `user` LIKE '%" . $search . "%' OR `action` LIKE '%" . $search . "%' OR `level` LIKE '" . $search . "';";
     $total_records = $db_link->query($sql);
     if ($pageNum > $total_records) {
         $pageNum = $total_records;
@@ -13,8 +13,7 @@ if (isset($search)) {
     logAction($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['logs'], 2);
 } else {
     $sql = "SELECT `logid` FROM `logs`;";
-    $result_of_query = $db_link->query($sql);
-    $total_records = mysqli_num_rows($result_of_query);
+    $total_records = $db_link->query($sql)->num_rows;
     if ($pageNum > $total_records) {
         $pageNum = $total_records;
     }

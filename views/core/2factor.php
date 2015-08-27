@@ -55,7 +55,7 @@ if (isset($_GET['backup']) && $_SESSION['2factor'] == 2) {
 if ($_SESSION['2factor'] == 1 || $_SESSION['2factor'] == 5 || $_SESSION['2factor'] == 3) {
     if ($_SESSION['2factor'] == 3) message($lang['2factorError2']);
     echo '<form method="post" action="' . $currentPage . '" class="form-inline">
-  <label for="code">'.$lang['2factorSetup3'] . '<div class="form-group"></label><input class="form-control" id="code" type="text" name="code"></div>
+  <label for="code">'.$lang['2factorSetup3'] . '<div class="form-group"></label><input class="form-control" id="code" type="text" name="code" autofocus></div>
   <button type="submit" class="btn btn-default">Verify</button></form>';
 } elseif ($_SESSION['2factor'] == 2) {
     echo $lang['2factor1'] . '<br><br><a href="?backup" class="btn btn-default">';

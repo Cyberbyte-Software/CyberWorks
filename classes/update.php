@@ -18,6 +18,7 @@ if ($settings['version'] < 0.4) {
     $settings['force2factor'] = 'none';
     $settings['version'] = 0.4;
     $settings['item'] = array(5,10,15,25,50);
+    $settings['colour'] = '#5FBFFF';
     file_put_contents('config/settings.php', '<?php return ' . var_export($settings, true) . ';');
     $updated = true;
 }

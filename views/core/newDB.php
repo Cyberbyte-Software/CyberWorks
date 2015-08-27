@@ -2,10 +2,10 @@
 if (isset($_POST['db_type']) && isset($_POST['SQL_host']) && isset($_POST['SQL_user']) && isset($_POST['SQL_pass']) && isset($_POST['SQL_name'])) {
     if (formtoken::validateToken($_POST)) {
         $db_type = $_POST['db_type'];
-    
+
         $sql = "INSERT INTO `db` (`type`, `sql_host`, `sql_user`, `sql_pass`, `sql_name`) VALUES ('" . $db_type . "', '" . encrypt($_POST['SQL_host']) . "', '" . encrypt($_POST['SQL_user']) . "', '" . encrypt($_POST['SQL_pass']) . "', '" . encrypt($_POST['SQL_name']) . "');";
         $result_of_query = $db_connection->query($sql);
-    
+
         message($lang['newdb']);
     } else {
         message($lang['expired']);
@@ -23,7 +23,7 @@ if (isset($_POST['db_type']) && isset($_POST['SQL_host']) && isset($_POST['SQL_u
                 <label for="db_type">Server type: </label>
                 <select id="db_type" class=" form-control login_input" name="db_type">
                     <option value="life">Altis Life</option>
-                    <option value="wasteland">Wasteland</option>
+                    <option value="exile">Exile</option>
                 </select>
             </div>
             <div class="form-group">

@@ -4,24 +4,24 @@ $db_link = serverConnect();
 $max = 'LIMIT ' . ($pageNum - 1) * $_SESSION['items'] . ',' . $_SESSION['items'];
 
 if (isset($search)) {
-    $sql = "SELECT `uid` FROM `players` WHERE `uid` LIKE '" . $search . "' OR `name` LIKE '" . $search . "' OR `playerid` LIKE '" . $search . "';";
+    $sql = "SELECT `uid` FROM `account` WHERE `uid` LIKE '" . $search . "' OR `name` LIKE '%" . $search . "%';";
     $result_of_query = $db_link->query($sql);
     $total_records = mysqli_num_rows($result_of_query);
     if ($pageNum > $total_records) $pageNum = $total_records;
-    $sql = "SELECT `playerid`,`name`,`bankacc`,`cash`,`coplevel`,`mediclevel`,`adminlevel`,`uid` FROM `players` WHERE `uid` LIKE '" . $search . "' OR `name` LIKE '" . $search . "' OR `playerid` LIKE '" . $search . "'" . $max . " ;";
+    $sql = "SELECT * FROM `account` WHERE `uid` LIKE '" . $search . "' OR `name` LIKE '%" . $search . "%' " . $max . " ;";
     logAction($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['players'], 1);
 } else {
-    $sql = "SELECT `uid` FROM `players`;";
+    $sql = "SELECT `uid` FROM `account`;";
     $result_of_query = $db_link->query($sql);
     $total_records = mysqli_num_rows($result_of_query);
     if ($pageNum > $total_records) $pageNum = $total_records;
-    $sql = "SELECT `playerid`,`name`,`bankacc`,`cash`,`coplevel`,`mediclevel`,`adminlevel`,`uid` FROM `players` " . $max . " ;";
+    $sql = "SELECT * FROM `account` " . $max . " ;";
 }
 
 $result_of_query = $db_link->query($sql);
 if ($result_of_query->num_rows > 0) {
     while ($row = mysqli_fetch_assoc($result_of_query)) {
-            $pids[] = $row['playerid'];
+            $pids[] = $row['uid'];
         }
         $pids = implode(',', $pids);
     if ($settings['steamAPI'] && $_SESSION['permissions']['view']['steam'] && !$settings['performance'] && $settings['vacTest']) {
@@ -50,12 +50,13 @@ if ($result_of_query->num_rows > 0) {
                 <thead>
                 <tr>
                     <th><i class="fa fa-user"></i> <?php echo $lang['name']; ?></th>
-                    <th><i class="fa fa-eye"></i> <?php echo $lang['playerID']; ?></th>
-                    <th class="hidden-xs"><i class="fa fa-money"></i> <?php echo $lang['cash']; ?></th>
-                    <th class="hidden-xs"><i class="fa fa-bank"></i> <?php echo $lang['bank']; ?></th>
-                    <th class="hidden-xs"><i class="fa fa-taxi"></i> <?php echo $lang['cop']; ?></th>
-                    <th class="hidden-xs"><i class="fa fa-ambulance"></i> <?php echo $lang['medic']; ?></th>
-                    <th class="hidden-xs"><i class="fa fa-cogs"></i> <?php echo $lang['admin']; ?></th>
+                    <th><i class="fa fa-eye"></i> <?php echo $lang['uid']; ?></th>
+                    <th class="hidden-xs"><i class="fa fa-money"></i> <?php echo $lang['money']; ?></th>
+                    <th class="hidden-xs"><i class="fa fa-line-chart"></i> <?php echo $lang['score']; ?></th>
+                    <th class="hidden-xs"><i class="fa fa-eye"></i> <?php echo $lang['deaths']; ?></th>
+                    <th class="hidden-xs"><i class="fa fa-user-times"></i> <?php echo $lang['kills']; ?></th>
+                    <th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php echo $lang['first_connect_at']; ?></th>
+                    <th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php echo $lang['last_connect_at']; ?></th>
                     <?php if ($_SESSION['permissions']['edit']['player']) {
                             echo '<th class="hidden-xs"><i class="fa fa-pencil"></i> ' . $lang['edit'] . '</th>';
                         } else {
@@ -69,34 +70,23 @@ if ($result_of_query->num_rows > 0) {
                 <tbody>
                 <?php
                 while ($row = mysqli_fetch_assoc($result_of_query)) {
-                    $playersID = $row["playerid"];
-                    echo "<tr>";
-                    echo "<td>" . $row["name"] . "</td>";
-                    echo "<td>" . $playersID . "</td>";
-                    echo "<td class='hidden-xs'>" . $row["cash"] . "</td>";
-                    echo "<td class='hidden-xs'>" . $row["bankacc"] . "</td>";
-                    echo "<td class='hidden-xs'>" . $row["coplevel"] . "</td>";
-                    echo "<td class='hidden-xs'>" . $row["mediclevel"] . "</td>";
-                    echo "<td class='hidden-xs'>" . $row["adminlevel"] . "</td>";
-
-                    /*
-                    echo '<td><a class="btn btn-primary btn-xs" href="' . $settings['url'] . 'editPlayer/' . str_replace(' ','-',$row['name']) . '">';
-                    echo '<i class="fa ';
-                    if ($_SESSION['permissions']['edit']['player']) {
-                        echo 'fa-pencil';
-                    } else {
-                        echo 'fa-eye';
-                    }
-                    echo '"></i></a></td>';
-                    */
-
-                    if ($_SESSION['permissions']['edit']['player']) {
-                        echo "<td><a class='btn btn-primary btn-xs' href='" . $settings['url'] . "editPlayer/" . $row["uid"] . "'>";
-                        echo "<i class='fa fa-pencil'></i></a></td>";
-                    } else {
-                        echo "<td><a class='btn btn-primary btn-xs' href='" . $settings['url'] . "editPlayer/" . $row["uid"] . "'>";
-                        echo "<i class='fa fa-eye'></i></a></td>";
-                    }
+                    echo '<tr>';
+                    echo '<td>' . $row["name"] . '</td>';
+                    echo '<td>' . $row["uid"] . '</td>';
+                    echo '<td class="hidden-xs">' . $row['money'] . '</td>';
+                    echo '<td class="hidden-xs">' . $row['score'] . '</td>';
+                    echo '<td class="hidden-xs">' . $row['deaths'] . '</td>';
+                    echo '<td class="hidden-xs">' . $row['kills'] . '</td>';
+                    echo '<td class="hidden-xs">' . $row['first_connect_at'] . '</td>';
+                    echo '<td class="hidden-xs">' . $row['last_connect_at'] . '</td>';
+                        echo '<td><a class="btn btn-primary btn-xs" href="' . $settings['url'] . 'editPlayer/' . str_replace(' ','-',$row['name']) . '">';
+                        echo '<i class="fa ';
+                        if ($_SESSION['permissions']['edit']['player']) {
+                            echo 'fa-pencil';
+                        } else {
+                            echo 'fa-eye';
+                        }
+                        echo '"></i></a></td>';
                     if ($_SESSION['permissions']['view']['steam'] && $steamPlayers > 0) {
                         echo "<td><a href='http://steamcommunity.com/profiles/" . $row["playerid"] . "' ";
                         for ($player = 0; $player <= $steamPlayers; $player++) {

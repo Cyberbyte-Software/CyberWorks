@@ -10,92 +10,6 @@ if (isset($_GET['setup'])) {
         $message = $_GET['setup'];
     }
 }
-
-if (isset($_POST['emailed']) && $settings['passreset']) {
-    if (formtoken::validateToken($_POST)) {
-        $to = $_POST['emailed'];
-        $token = tokenGen(32);
-        $sql = "SELECT  `user_id` FROM `users` WHERE  `user_email` =  '" . $to . "';";
-        $result = $db_connection->query($sql);
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $sql = "UPDATE  `users` SET  `token` =  '" . $token . "' WHERE  `user_id` = '" . $row['user_id'] . "';";
-            $result_of_query = $db_connection->query($sql);
-
-            //Send the reset Email
-            $subject = "Password Reset";
-            $headers = "MIME-Version: 1.0" . "\r\n";
-            $headers .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
-            //$headers .= "From: Password Reset <no-reply@cyberbyte.org.uk>\r\n";
-            $headers .= "From: " . $settings['community'] . " Panel <" . $email . ">\r\n" . "Reply-To: " . $email . "\r\n";
-            $msg = "Password reset<br/> token: " . $token . " <br/> url: <a href='" . $settings['url'] . "?token=" . $token . "&uID=" . $row['user_id'] . "'>" . $settings['url'] . "?token=" . $token . "&uID=" . $row['user_id'] . "</a>";
-            $mail = mail($to, $subject, $msg, $headers);
-
-            $message = "Your password has been reset please check your email";
-            //$message = $settings['url']."?token=".$token."&uID=".$row['user_id']; // DEBUG ONLY
-        }
-    }
-}
-
-if (isset($_GET['token']) && isset($_GET['uID']) && $settings['passreset']) {
-    if (isset($_POST['user_password_new']) && isset($_POST['user_password_repeat'])) {
-        if ($_POST['user_password_new'] !== $_POST['user_password_repeat']) {
-            $error = 'Password and password repeat are not the same';
-        } else {
-            $sql = "SELECT `user_id` FROM `users` WHERE  `user_id` = '" . $_GET['uID'] . "' AND `token` =  '" . $_GET['token'] . "';";
-            $result_of_query = $db_connection->query($sql);
-            if ($result_of_query->num_rows == 1) {
-                $user_password_hash = password_hash($_POST['user_password_new'], PASSWORD_DEFAULT);
-                $sql = "UPDATE `users` SET `user_password_hash` =  '" . $user_password_hash . "', `token` = '' WHERE  `user_id` = '" . $_GET['uID'] . "' AND `token` =  '" . $_GET['token'] . "';";
-                $result_of_query = $db_connection->query($sql);
-                $message = 'Your password been updated';
-            } else {
-                $error = 'User not found or token invalid';
-            }
-        }
-    } else {
-    $sql = "SELECT `user_id` FROM `users` WHERE  `user_id` = '" . $_GET['uID'] . "' AND `token` =  '" . $_GET['token'] . "';";
-    $result_of_query = $db_connection->query($sql);
-    if ($result_of_query->num_rows == 1) {
-?>
-   <script>$(document).ready(function () { $('#memberModal').modal('show'); });</script>
-
-   <div class="modal fade" id="memberModal" tabindex="-1" role="dialog" aria-labelledby="memberModalLabel" aria-hidden="true">
-    	<div class="modal-dialog">
-    		<div  class="modal-content">
-    			<div class="modal-header">
-    				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    				<h4 class="modal-title">Password Reset</h4>
-    			</div>
-    			<form method="post" action="<?php echo $settings['url'] ?>?token=<?php echo $_GET['token']?>&uID=<?php echo $_GET['uID']?>">
-    				<div class="modal-body">
-                        <div class="form-group">
-                            <p>Password:</p>
-                            <input id="user_password_new" placeholder="Password"
-                                   class=" form-control login_input" type="password"
-                                   name="user_password_new" required autocorrect="off" autocapitalize="off" autocomplete="off">
-                        </div>
-                        <div class="form-group">
-                            <p>Repeat Password:</p>
-                            <input id="user_password_repeat" placeholder="Repeat Password" class=" form-control login_input" type="password" name="user_password_repeat" required autocorrect="off" autocapitalize="off" autocomplete="off">
-                        </div>
-    				</div>
-    				<div class="modal-footer centered">
-    					<button data-dismiss="modal" class="btn btn-theme04" type="button">Cancel</button>
-    					<button class="btn btn-theme03" href="index" type="submit" name="pass">Reset Password</button>
-    				</div>
-    			</form>
-    		</div>
-    	</div>
-    </div>
-<?php
-        } else {
-            $error = 'User not found or token invalid';
-            logAction($_POST['email'], ' ' . $lang['passreset'], 3);
-        }
-    }
-}
-
 ?>
 
 <body onload="getTime()">
@@ -126,10 +40,7 @@ if (isset($_GET['token']) && isset($_GET['uID']) && $settings['passreset']) {
             <h3>LOGIN</h3>
             <?php if (isset($settings['steamAPI']) && $settings['steamlogin'] == 'true' && isset($settings['steamdomain'])) {
                 include 'classes/steamlogin.php';
-            }
-            if ($settings['passreset']) {
-                echo '<a data-toggle="modal" href="#pass"> <span>Password Reset</span></a>';
-            } ?>
+            }?>
             <div aria-hidden="true" aria-labelledby="login" role="dialog" tabindex="-1" id="login" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">

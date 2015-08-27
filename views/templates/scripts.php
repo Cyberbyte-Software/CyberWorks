@@ -21,14 +21,20 @@
 
                             if ($result_of_query->num_rows > 1) {
                                 while ($row = mysqli_fetch_assoc($result_of_query)) {
-                                    if ($row['type'] == 'life') {
                                         ?>
                                         <li class="list-primary">
                                             <i class=" fa fa-ellipsis-v"></i>
 
                                             <div class="task-title">
                                                 <span class="task-title-sp"><?php echo $row['name']; ?></span>
-                                                <span class="badge bg-theme">Life</span>
+                                                <?php
+                                                if ($row['type'] == 'life'){
+                    								echo '<span class="badge bg-theme">Life</span>';
+                    							} elseif ($row['type'] == 'waste') {
+                    								echo '<span class="badge bg-important">Wasteland</span>';
+                    							} elseif ($row['type'] == 'exile') {
+                    								echo '<span class="badge bg-theme04">Exile</span>';
+                    							} ?>
 
                                                 <div class="pull-right hidden-phone">
                                                     <form method="post" action="<?php echo $settings['url'] ?>dashboard">
@@ -42,29 +48,8 @@
                                                 </div>
                                             </div>
                                         </li>
-                                    <?php
-                                    } elseif ($row['type'] == 'waste') {
-                                        ?>
-                                        <li class="list-danger">
-                                            <i class=" fa fa-ellipsis-v"></i>
-
-                                            <div class="task-title">
-                                                <span class="task-title-sp"><?php echo $row['name']; ?></span>
-                                                <span class="badge bg-important">Wasteland</span>
-
-                                                <div class="pull-right hidden-phone">
-                                                    <form method="post" action="<?php echo $settings['url'] ?>dashboard">
-                                                        <input type="hidden" name="type"
-                                                               value="<?php echo $row['type']; ?>">
-                                                        <input type="hidden" name="dbid"
-                                                               value="<?php echo $row['dbid']; ?>">
-                                                        <button class="btn btn-success btn-sm fa fa-eye"
-                                                                type="submit" style="margin-right: 8px;  margin-bottom: 15px;"></button>
-                                                    </form>
-                                                </div>
-                                        </li>
-                                    <?php
-                                    }
+                                    
+                                <?php
                                 }
                                 echo '</select>';
                             }
@@ -87,10 +72,8 @@
 </script>
 <script type="text/javascript">
     $('#myTab a').click(function (e) {
-        console.log('clicked ' + this);
         if ($(this).parent('li').hasClass('active')) {
             var target_pane = $(this).attr('href');
-            console.log('pane: ' + target_pane);
             $(target_pane).toggle(!$(target_pane).is(":visible"));
         }
     });

@@ -1,13 +1,8 @@
 <?php
-if ($settings['url'] == "/") {
-    require_once("config/carNames.php");
-    require_once("config/images.php");
-} else {
-    require_once(realpath($settings['url']) . "config/carNames.php");
-    require_once(realpath($settings['url']) . "config/images.php");
-}
-
 $db_link = serverConnect();
+
+require_once("config/carNames.php");
+require_once("config/images.php");
 
 if (isset($_POST["editType"])) {
     if ($_SESSION['permissions']['edit']['vehicles']) {
@@ -67,52 +62,72 @@ if (isset($_POST["editType"])) {
     }
 }
 
-$sql = "SELECT * FROM `vehicles` INNER JOIN `players` ON vehicles.pid=players.playerid WHERE `id` ='" . $vehID . "';";
-
+$sql = "SELECT * FROM `vehicle` INNER JOIN `account` ON vehicle.account_uid=account.uid WHERE `id` ='" . $vehID . "';";
 $result_of_query = $db_link->query($sql);
 if ($result_of_query->num_rows > 0) {
     $veh = $result_of_query->fetch_object();
-    $car = carName($veh->classname);
+    $car = carName($veh->class)
 ?>
-<div class="col-md-4" style="float:left;  padding-top:20px;">
+<style>
+    .state, .state-full { cursor: pointer; }
+    .state-full { display: none; }
+    .state span { float: left; }
+    div { overflow: hidden; }
+</style>
+<script>
+function fill() {
+$.post( "<?php echo $settings['url']; ?>hooks/car.php", { type: "fuel", vehID: "<?php echo $veh->id ?>" } );
+    var $fuel = $('#fill');
+    $fuel.width('100%');
+    $fuel.text('100%');
+}
+function fix() {
+$.post( "<?php echo $settings['url']; ?>hooks/car.php", { type: "repair", vehID: "<?php echo $veh->id ?>" } );
+    var $fix = $('#fix');
+    $fix.width('0%');
+    $fix.text('0%');
+}
+</script>
+<div class="col-md-4" style="float:left; padding-top:20px;">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h2 class="panel-title"><i class="fa fa-taxi fa-fw"></i><?php echo $veh->name . "'s " . $car; ?></h2>
+            <h2 class="panel-title"><i class="fa fa-taxi fa-fw"></i><?php echo $veh->name . "'s " . $car; ?>
+            </h2>
         </div>
         <div class="panel-body">
-            <?php $carPic = getPic($veh->classname);
-            echo '<center><img src="' . $settings['url'] . 'assets/img/cars/' . $carPic . '.jpg" class="img-responsive" alt="' . $veh->classname . '">'; ?>
+            <?php $carPic = getPic($veh->class);
+            echo '<center><img src="' . $settings['url'] . 'assets/img/cars/' . $carPic . '.jpg" class="img-responsive" alt="' . $veh->class . '">'; ?>
             <?php
-            echo "<h4>" . $lang['owner'] . ": <a href='" . $settings['url'] . "editPlayer/" . $veh->uid . "'>" . $veh->name . "</a></h4>";
+            echo "<h4>" . $lang['owner'] . ": <a href='" . $settings['url'] . "editPlayer/" . str_replace(' ','-',$veh->name) . "'>" . $veh->name . "</a></h4>";
             echo "<h4>" . $lang['class'] . ": " . $car . "</h4>";
-            echo "<h4>" . $lang['plate'] . ": " . $veh->plate . "</h4>";
-
-            if ($veh->alive == false) {
-                echo "<h4><span class='label label-danger'>" . $lang["not"] . " " . $lang["alive"] . "</span> ";
-            } else {
-                echo "<h4><span class='label label-success'>" . $lang["alive"] . "</span> ";
-            }
-
-            if ($veh->active == false) {
-                echo " <span class='label label-danger'>" . $lang["not"] . " " . $lang["active"] . "</span></h4>";
-            } else {
-                echo " <span class='label label-success'>" . $lang["active"] . "</span></h4>";
-            }
-            if ($_SESSION['permissions']['edit']['vehicles']) {
-                echo '
-                <div style="float: right;">
-                    <a data-toggle="modal" href="#edit_veh" class="btn btn-primary btn-xs" style="margin-right:3px">
-                        <i class="fa fa-pencil"></i>
-                    </a>
-                    <a data-toggle="modal" href="#store_veh" class="btn btn-warning btn-xs" style="margin-right:3px">
-                        <i class="fa fa-wrench"></i>
-                    </a>
-                    <a data-toggle="modal" href="#del_veh" class="btn btn-danger btn-xs" style="margin-right:3px">
-                        <i class="fa fa-exclamation-triangle"></i>
-                    </a>
-                </div>';
-            }
+            $width = $veh->fuel * 100;
             ?>
+            <div class="col-md-10">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success" id="fill" role="progressbar"  aria-valuemin="0" aria-valuemax="100" aria-valuenow="<?php echo $width; ?>" style="width:<?php echo $width; ?>%">
+                        <?php if ($width > 0) echo $width . '%'; else echo $lang['noFuel']; ?>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-primary btn-xs" onclick="fill()"><i class="fa fa-filter"></i></button>
+            </div>
+            <?php
+                $width = $veh->damage * 100;
+            ?>
+            <div class="col-md-10">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-danger" id="fix" role="progressbar"  aria-valuemin="0" aria-valuemax="100" aria-valuenow="<?php echo $width; ?>" style="width:<?php echo $width; ?>%">
+                        <?php if ($width < 100) echo $width . '%'; else echo $lang['broken']; ?>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-primary btn-xs" onclick="fix()"><i class="fa fa-wrench"></i></button>
+            </div>
+            <div class="col-md-5">
+                <h4>Pin Code: <span class="pin">••••</span></h4>
+            </div>
         </div>
     </div>
 </div>
@@ -272,7 +287,6 @@ if ($result_of_query->num_rows > 0) {
                                 type="reset"><?php echo $lang['no']; ?></button>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
@@ -321,4 +335,12 @@ if ($result_of_query->num_rows > 0) {
             </div>
         </div>
     </div>
+<?php if ($_SESSION['permissions']['super_admin']) { ?>
+<script>
+$('.pin').hover(function() {
+    if ($(this).text() == '••••'){ $(this).text('<?php echo $veh->pin_code ?>'); }
+    else { $(this).text('••••') }
+});
+</script>
+<?php } ?>
 <?php } else echo "<h1>" . errorMessage(32, $lang) . "</h1>";

@@ -18,28 +18,27 @@
 
     if ($result_of_query->num_rows >= 1) {
         while ($row = mysqli_fetch_assoc($result_of_query)) {
-            if ($row['type'] == 'life'){
-?>
-						<li class="list-primary">
-							<i class=" fa fa-ellipsis-v"></i>
-							<div class="task-title">
-								<span class="task-title-sp"><?php echo $row['name']; ?></span>
-								<span class="badge bg-theme">Life</span>
-								<div style="float:right; padding-right: 15px;">
-                                    <a href="<?php echo $settings['url'] ?>editServer/<?php echo $row['dbid'] ?>" class="btn btn-success btn-sm fa fa-pencil" type="submit"></a>
-								</div>
-							</div>
-						</li>
-					<?php }elseif ($row['type'] == 'waste') { ?>
-						<li class="list-danger">
-							<i class=" fa fa-ellipsis-v"></i>
-							<div class="task-title">
-								<span class="task-title-sp"><?php echo $row['name']; ?></span>
-								<span class="badge bg-important">Wasteland</span>
-								<div class="pull-right hidden-phone">
-                                    <a href="<?php echo $settings['url'] ?>editServer/<?php echo $row['dbid'] ?>" class="btn btn-success btn-sm fa fa-pencil" type="submit"></a>
-							    </div>
-						</li>
+            if ($row['type'] == 'life') {  ?>
+				<li class="list-primary">
+					<i class=" fa fa-ellipsis-v"></i>
+					<div class="task-title">
+						<span class="task-title-sp"><?php echo $row['name']; ?></span>
+						<span class="badge bg-theme">Life</span>
+						<div style="float:right; padding-right: 15px;">
+                            <a href="<?php echo $settings['url'] ?>editServer/<?php echo $row['dbid'] ?>" class="btn btn-success btn-sm fa fa-pencil" type="submit"></a>
+						</div>
+					</div>
+				</li>
+	<?php   }   elseif ($row['type'] == 'exile') { ?>
+				<li class="list-danger">
+					<i class=" fa fa-ellipsis-v"></i>
+					<div class="task-title">
+						<span class="task-title-sp"><?php echo $row['name']; ?></span>
+						<span class="badge bg-important">Exile</span>
+						<div class="pull-right hidden-phone">
+                            <a href="<?php echo $settings['url'] ?>editServer/<?php echo $row['dbid'] ?>" class="btn btn-success btn-sm fa fa-pencil" type="submit"></a>
+					    </div>
+				</li>
 <?php
             }
         }

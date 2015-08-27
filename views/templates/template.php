@@ -1,6 +1,6 @@
 <?php include("views/templates/head.php"); ?>
 <body>
-<header class="header black-bg">
+<header class="header" style="background: <?php if (isset($settings['colour'])) echo $settings['colour']; else echo '#5FBFFF'; ?>;">
     <div class="sidebar-toggle-box">
         <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
     </div>
@@ -11,7 +11,12 @@
 }
 ?>
     </b></a>
-
+    <?php if (isset($settings['colour'])) {
+        echo '<style>
+        ul.sidebar-menu li a.active,ul.sidebar-menu li a:hover,ul.sidebar-menu li a:focus {background: '.$settings['colour'].';}
+        .modal-header {background: '.$settings['colour'].';}
+            </style>';
+    } ?>
     <a class="logosmall pull-right hidden-xs">
         <b>Copyright &copy; 2015 Cyber Works <?php if (isset($settings['version'])) {
     echo $settings['version'];
@@ -58,6 +63,10 @@
                     {
                         case 'life':
                             include("views/life/nav.php");
+                            break;
+                        case 'exile':
+                            include("views/exile/nav.php");
+                            break;
                     }
                 }
 
@@ -202,9 +211,9 @@
                 <a href="<?php echo $settings['url'] ?>index?logout"><i class="fa fa-fw fa-power-off"></i> <?php echo $lang['navLogOut']; ?></a>
             </li>
             <?php if ($debug) {
-    include("views/debug/nav.php");
-}
-?>
+                include("views/debug/nav.php");
+            }
+            ?>
         </ul>
     </div>
 </aside>

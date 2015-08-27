@@ -97,6 +97,9 @@ php_value file_get_contents 1';
         $settings['version'] = '0.4';
         $settings['staffRanks'] = 5;
         $settings['logging'] = true;
+        $settings['2factor'] = true;
+        $settings['gravatar'] = true;
+        $settings['force2factor'] = 'none';
 
         $settings['steamAPI'] = '';
         $settings['vacTest'] = false;
@@ -110,6 +113,7 @@ php_value file_get_contents 1';
         $settings['passreset'] = false;
         $settings['performance'] = false;
         $settings['refresh'] = 30;
+        $settings['colour'] = '#5FBFFF';
         $settings['communityBansTest'] = false;
         $settings['communityBansAPI'] = '';
 
@@ -331,6 +335,7 @@ php_value file_get_contents 1';
                             <label for="SQL_type">Server type: </label>
                             <select id="SQL_type" class=" form-control login_input" name="SQL_type">
                                 <option value="life">Altis Life</option>
+                                <option value="exile">Exile</option>
                                 <!--<option value="wasteland">Wasteland</option>-->
                             </select>
 
