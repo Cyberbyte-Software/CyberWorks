@@ -1,5 +1,5 @@
 <?php
-$sql = "SELECT `sid` FROM `servers` WHERE `use_sq` = 1 AND `sid` = " . $sid. ";";
+$sql = "SELECT `sid` FROM `servers` WHERE `use_sq` = 1 AND `sid` = " . $sid . ";";
 $result_of_query = $db_connection->query($sql);
 if ($result_of_query->num_rows == 1) { ?>
 <div class="row">
@@ -99,4 +99,7 @@ function getPlayers() {
 </div>
 
 <?php
-} else echo errorMessage(11,$lang);;
+} else {
+    echo errorMessage(11, $lang);
+}
+;

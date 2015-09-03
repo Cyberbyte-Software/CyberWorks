@@ -21,7 +21,7 @@ if (isset($_POST["editType"])) {
         case "house_del":
             $sql = "DELETE FROM `houses` WHERE `houses`.`id` = '" . $hID . "'";
             $db_link->query($sql);
-            header("location: ".$settings['url']."houses");
+            header("location: " . $settings['url'] . "houses");
             break;
 
         case "house_details":
@@ -45,17 +45,18 @@ if ($result_of_query->num_rows > 0) {
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="panel-title"><i
-                    class="fa fa-child fa-fw"></i><?php echo nameID($house->pid,$db_link) . "'s " . $lang['house']; ?>
+                    class="fa fa-child fa-fw"></i><?php echo nameID($house->pid, $db_link) . "'s " . $lang['house']; ?>
             </h2>
         </div>
         <div class="panel-body">
             <?php
             echo '<center><img class="img-responsive" src="' . $settings['url'] . 'assets/img/house/1.jpg"/>';
 
-            echo "<h4>" . $lang['owner'] . ": <a href='" . $settings['url'] . "editPlayer/" . uID($house->pid,$db_link) . "'>" . nameID($house->pid,$db_link) . "</a></h4>";
+            echo "<h4>" . $lang['owner'] . ": <a href='" . $settings['url'] . "editPlayer/" . uID($house->pid, $db_link) . "'>" . nameID($house->pid, $db_link) . "</a></h4>";
             echo "<h4>" . $lang['position'] . ": " . $house->pos . "</h4>";
 
-            if ($_SESSION['permissions']['edit']['houses']) echo '
+            if ($_SESSION['permissions']['edit']['houses']) {
+                echo '
                 <div style="float: right;">
                     <a data-toggle="modal" href="#edit_house" class="btn btn-primary btn-xs" style="margin-right:3px">
                         <i class="fa fa-pencil"></i>
@@ -64,6 +65,7 @@ if ($result_of_query->num_rows > 0) {
                         <i class="fa fa-exclamation-triangle"></i>
                     </a>
                 </div>';
+            }
             echo "</center>";
             ?>
         </div>
@@ -114,11 +116,10 @@ if ($result_of_query->num_rows > 0) {
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><span
-                        class="glyphicon glyphicon-pencil"></span><?php echo " " . $lang['edit'] . " " . $lang['house'] . " " . $lang['inventory']; ?>
+                <h4 class="modal-title"><span class="glyphicon glyphicon-pencil"></span><?php echo $lang['edit'] . " " . $lang['house'] . " " . $lang['inventory'] ?>
                 </h4>
             </div>
-                <form method="post" action="<?php echo $settings['url']."editHouse/" . $hID ?>" role="form">
+                <form method="post" action="<?php echo $settings['url'] . "editHouse/" . $hID ?>" role="form">
                     <div class="modal-body">
                         <div class="form-group">
                             <input type="hidden" name="editType" value="house_inv"/>
@@ -145,10 +146,10 @@ if ($result_of_query->num_rows > 0) {
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">
                     <span
-                        class="glyphicon glyphicon-pencil"></span><?php echo " " . $lang['edit'] . " " . $lang['house'] . " " . $lang['containers']; ?>
+                        class="glyphicon glyphicon-pencil"></span> <?php echo $lang['edit'] . " " . $lang['house'] . " " . $lang['containers'] ?>
                 </h4>
             </div>
-                <form method="post" action="<?php echo $settings['url']."editHouse/" . $hID ?>" role="form">
+                <form method="post" action="<?php echo $settings['url'] . "editHouse/" . $hID ?>" role="form">
                     <div class="modal-body">
                         <div class="form-group">
                             <input type="hidden" name="editType" value="house_cont"/>
@@ -172,11 +173,10 @@ if ($result_of_query->num_rows > 0) {
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><span
-                        class="glyphicon glyphicon-pencil"></span><?php echo " " . $lang['DELETE'] . " " . $lang['house']; ?>
+                <h4 class="modal-title"><span class="glyphicon glyphicon-pencil"></span> <?php echo $lang['DELETE'] . " " . $lang['house'] ?>
                 </h4>
             </div>
-            <form method="post" action="<?php echo $settings['url']."editHouse/" . $hID ?>" role="form">
+            <form method="post" action="<?php echo $settings['url'] . "editHouse/" . $hID ?>" role="form">
                 <div class="modal-body">
                     <div class="form-group">
                         <input type="hidden" name="editType" value="house_del"/>
@@ -201,11 +201,10 @@ if ($result_of_query->num_rows > 0) {
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">
-                    <span
-                        class="glyphicon glyphicon-pencil"></span><?php echo " " . $lang['edit'] . " " . $lang['house']; ?>
+                    <span class="glyphicon glyphicon-pencil"></span> <?php echo $lang['edit'] . " " . $lang['house'] ?>
                 </h4>
             </div>
-                <form method="post" action="<?php echo $settings['url']."editHouse/" . $hID ?>" role="form">
+                <form method="post" action="<?php echo $settings['url'] . "editHouse/" . $hID ?>" role="form">
                     <div class="modal-body">
                         <div class="form-group">
                             <input type="hidden" name="editType" value="house_details"/>
@@ -228,10 +227,10 @@ if ($result_of_query->num_rows > 0) {
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-default" data-dismiss="modal" type="reset">Close</button>
-                        <button class="btn btn-primary" type="submit"><?php echo $lang['subChange']; ?></button>
+                        <button class="btn btn-primary" type="submit"><?php echo $lang['subChange'] ?></button>
                     </div>
                 </form>
         </div>
     </div>
 </div>
-<?php } else errorMessage(3,$lang);?>
+<?php } else errorMessage(3, $lang); ?>

@@ -67,13 +67,13 @@ class GuestReg
             && !empty($_POST['user_password_repeat'])
             && ($_POST['user_password_new'] === $_POST['user_password_repeat'])
         ) {
-			$temp_host = decrypt($settings['db']['host']);
-			$temp_user = decrypt($settings['db']['user']);
-			$temp_pass = decrypt($settings['db']['pass']);
-			$temp_name = decrypt($settings['db']['name']);
+            $temp_host = decrypt($settings['db']['host']);
+            $temp_user = decrypt($settings['db']['user']);
+            $temp_pass = decrypt($settings['db']['pass']);
+            $temp_name = decrypt($settings['db']['name']);
 
             // create a database connection, using the constants from config/config.php (which we loaded in index.php)
-            $this->db_connection = new mysqli($temp_host,$temp_user,$temp_pass,$temp_name);
+            $this->db_connection = new mysqli($temp_host, $temp_user, $temp_pass, $temp_name);
 
             // change character set to utf8 and check it
             if (!$this->db_connection->set_charset("utf8")) {
@@ -87,7 +87,7 @@ class GuestReg
                 $user_name = $this->db_connection->real_escape_string(strip_tags($_POST['user_name'], ENT_QUOTES));
                 $user_email = $this->db_connection->real_escape_string(strip_tags($_POST['user_email'], ENT_QUOTES));
                 $user_password = $_POST['user_password_new'];
-				$user_profile = $_POST['profile_pic'];
+                $user_profile = $_POST['profile_pic'];
 
                 // crypt the user's password with PHP 5.5's password_hash() function, results in a 60 character
                 // hash string. the PASSWORD_DEFAULT constant is defined by the PHP 5.5, or if you are using
@@ -104,12 +104,12 @@ class GuestReg
                 } else {
 
                     $permissions = include 'config/permissions.php';
-                	$userPerms = json_encode($permissions[1]);
+                    $userPerms = json_encode($permissions[1]);
 
                     // write new user's data into database
                         $sql = "INSERT INTO `users` (`user_name`, `user_password_hash`, `user_email`, `playerid`, `user_level`, `permissions`, `user_profile`) VALUES
-                    ('" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "', '" . $_SESSION['playerid'] . "', '1', '".$userPerms."', '" . $user_pic . "');";
-                    
+                    ('" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "', '" . $_SESSION['playerid'] . "', '1', '" . $userPerms . "', '1');";
+
                     $query_new_user_insert = $this->db_connection->query($sql);
 
                     // if user has been added successfully

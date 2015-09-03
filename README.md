@@ -1,29 +1,30 @@
-# CyberWorks 0.1
-Welcome to CyberWorks our new server administration panel.
+# CyberWorks 0.4
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Cyberbyte-Studios/CyberWorks/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Cyberbyte-Studios/CyberWorks/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/Cyberbyte-Studios/CyberWorks/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Cyberbyte-Studios/CyberWorks/build-status/master) [![Code Climate](https://codeclimate.com/github/Cyberbyte-Studios/CyberWorks/badges/gpa.svg)](https://codeclimate.com/github/Cyberbyte-Studios/CyberWorks) ![Developer](https://img.shields.io/badge/Developer-CyberByte%20Studios-blue.svg)
 
-Life-Control is developed by Cyberbyte Studios. 
+Welcome to CyberWorks our server administration panel.
+This version is a large rewrite of the original Life Control with a completely new database system.
+CyberWorks is developed and maintained by Cyberbyte Studios.
+
+Donations are more than welcome ;)
+
+Visit our [wiki](https://github.com/Cyberbyte-Studios/CyberWorks/wiki/) for more infomation
 
 ## Credits
-	
-erdknuffel aka jastend for giving me some ideas and fixes for Life-Control and letting me merge some of them in to the base file from his custom one.
+erdknuffel aka jastend for giving me some ideas and fixes for the original Life-Control.
 Provokan for his continued support and ideas.
 ###Translations
-We would like to thank the following users for there translations
+We would like to thank the following users for their translations
 menko008 - Dutch
 provokan - German
 erdknuffel - German
 
 ## Installation
 Installation is simple, just 
-1. Download the latest files (for mostly-stable versions, please visit our [releases section](https://github.com/cammygames/Life-Control/releases))
-2. Unpack everything
-3. Gently congratulate yourself with a hot beverage of your choice and it will guide you through the setup process
-If you every need any help free to send us a message at 
+1. Download the latest files, for mostly-stable versions, please visit our [releases section](https://github.com/Cyberbyte-Studios/CyberWorks/releases)
+2. Unpack everything and make sure it is in a directory accessible on a running web server
+3. Gently congratulate yourself with a hot beverage of your choice (I recommend Tea) and it will guide you through the setup process as soon as you visit the url in a browser
+4. 
+If you ever need any help free to send us a message at scollins@cyberbyte.org or cammy@cyberbyte.org.uk
 
-## Rank system
-We now have a per user permission system. You can use this to set permsisions for eveyrone and control what people do on your server. By defult anyone can login 
-
-## Settings
-Our new settings system uses a page to 
-
-
+## Plugins
+Plugin store will be launched soon allowing people to publish their own plugins.

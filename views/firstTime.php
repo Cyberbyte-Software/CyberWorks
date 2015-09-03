@@ -22,11 +22,20 @@ function decrypt($text, $salt)
 }
 
 if (isset($_POST['user_name'])) {
-    $settings['url'] = $_POST['url'];
-    $settings['base'] = substr_count($settings['url'],"/")-2;
+    $last = str_replace(strrchr($_SERVER['REQUEST_URI'], '/'), '', $_SERVER['REQUEST_URI']) . '/';
+    $settings['url'] = 'http://' . $_SERVER['HTTP_HOST'] . $last;
+    $base = substr($last, 1);
+    $settings['base'] = substr_count($settings['url'], "/") - 2;
 
-    if (isset($_POST['user_pid'])) $verify = str_replace (" ","%20",'http://cyberbyte.org.uk/hooks/cyberworks/getid.php?url='.$settings['url'].'&name='.$_POST['community_name'].'&pid='.$_POST['user_pid']);
-    else $verify = str_replace (" ","%20",'http://cyberbyte.org.uk/hooks/cyberworks/getid.php?url='.$settings['url'].'&name='.$_POST['community_name']);
+    $hta = 'RewriteEngine On
+RewriteBase /'.$base . '
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule . /'.$base . 'index.php [L]
+
+php_value file_get_contents 1';
+    file_put_contents('.htaccess',$hta);
+    if (isset($_POST['user_pid'])) $verify = str_replace(" ", "%20", 'http://cyberbyte.org.uk/hooks/cyberworks/getid.php?url=' . $settings['url'] . '&name=' . $_POST['community_name'] . '&pid=' . $_POST['user_pid']);
+    else $verify = str_replace(" ", "%20", 'http://cyberbyte.org.uk/hooks/cyberworks/getid.php?url=' . $settings['url'] . '&name=' . $_POST['community_name']);
     $verify = json_decode(file_get_contents($verify));
 
     if (isset($verify->id)) {
@@ -52,11 +61,13 @@ if (isset($_POST['user_name'])) {
         }
 
         $server_SQL_host = $_POST['server_SQL_host'];
-        if(strpos($server_SQL_host,":")) {
+        if (strpos($server_SQL_host, ":")) {
             $SQL_ip = explode(":", $server_SQL_host);
             $settings['db']['host'] = encrypt($SQL_ip['0'], $settings['key']);
             $settings['db']['port'] = encrypt($SQL_ip['1'], $settings['key']);
-        } else $settings['db']['host'] = encrypt($server_SQL_host, $settings['key']);
+        } else {
+            $settings['db']['host'] = encrypt($server_SQL_host, $settings['key']);
+        }
 
         $server_SQL_user = $_POST['server_SQL_user'];
         $server_SQL_pass = $_POST['server_SQL_pass'];
@@ -83,7 +94,7 @@ if (isset($_POST['user_name'])) {
         $settings['language'] = 'en';
         $settings['allowLang'] = true;
         $settings['wanted'] = false;
-        $settings['version'] = '0.3';
+        $settings['version'] = '0.4';
         $settings['staffRanks'] = 5;
         $settings['logging'] = true;
 
@@ -102,14 +113,16 @@ if (isset($_POST['user_name'])) {
         $settings['communityBansTest'] = false;
         $settings['communityBansAPI'] = '';
 
+        $settings['item'] = array(5,10,15,25,50);
+
         $settings['installedLanguage']=array();
         $lang = array('English','en');
         array_push($settings['installedLanguage'], $lang);
 
         $settings['names'] = array('', 'Dave', 'Sam', 'Joe', 'Kerry', 'Connie', 'Jess');
-    	$settings['ranks'] = array('Banned','Player','Member','Moderator','Server Admin','Super Admin');
+        $settings['ranks'] = array('Banned','Player','Member','Moderator','Server Admin','Super Admin');
 
-    	$permissions = include 'config/permissions.php';
+        $permissions = include 'config/permissions.php';
         $userPerms = json_encode($permissions['5']);
 
         $link = mysqli_connect($server_SQL_host,$server_SQL_user,$server_SQL_pass,$server_SQL_name);
@@ -123,30 +136,43 @@ if (isset($_POST['user_name'])) {
         mysqli_query($link, "USE `" . $server_SQL_name . "`;") or die('LINK: ' . mysqli_error($link));
 
         $query = mysqli_query($link, "SHOW TABLES LIKE 'users'") or die('TEST 1: ' . mysqli_error($link));
-        if (mysqli_num_rows($query) == 1) mysqli_query($link, "DROP TABLE `users`") or die('DROP 1: ' . mysqli_error($link));
+        if (mysqli_num_rows($query) == 1) {
+            mysqli_query($link, "DROP TABLE `users`") or die('DROP 1: ' . mysqli_error($link));
+        }
 
         $query = mysqli_query($link, "SHOW TABLES LIKE 'notes'") or die('TEST 2: ' . mysqli_error($link));
-        if (mysqli_num_rows($query) == 1) mysqli_query($link, "DROP TABLE `notes`") or die('DROP 2: ' . mysqli_error($link));
+        if (mysqli_num_rows($query) == 1) {
+            mysqli_query($link, "DROP TABLE `notes`") or die('DROP 2: ' . mysqli_error($link));
+        }
 
         $query = mysqli_query($link, "SHOW TABLES LIKE 'db'") or die('TEST 3: ' . mysqli_error($link));
-        if (mysqli_num_rows($query) == 1) mysqli_query($link, "DROP TABLE `db`") or die('DROP 3: ' . mysqli_error($link));
+        if (mysqli_num_rows($query) == 1) {
+            mysqli_query($link, "DROP TABLE `db`") or die('DROP 3: ' . mysqli_error($link));
+        }
 
         $query = mysqli_query($link, "SHOW TABLES LIKE 'servers'") or die('TEST 4: ' . mysqli_error($link));
-        if (mysqli_num_rows($query) == 1) mysqli_query($link, "DROP TABLE `servers`") or die('DROP 4: ' . mysqli_error($link));
+        if (mysqli_num_rows($query) == 1) {
+            mysqli_query($link, "DROP TABLE `servers`") or die('DROP 4: ' . mysqli_error($link));
+        }
 
         $query = mysqli_query($link, "SHOW TABLES LIKE 'logs'") or die('TEST 5: ' . mysqli_error($link));
-        if (mysqli_num_rows($query) == 1) mysqli_query($link, "DROP TABLE `logs`") or die('DROP 5: ' . mysqli_error($link));
+        if (mysqli_num_rows($query) == 1) {
+            mysqli_query($link, "DROP TABLE `logs`") or die('DROP 5: ' . mysqli_error($link));
+        }
 
         mysqli_query($link, "CREATE TABLE IF NOT EXISTS `users` (
-      `user_id` int(11) NOT NULL primary key COMMENT 'auto incrementing user_id of each user, unique index',
-      `user_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s name, unique',
-      `user_password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s password in salted and hashed format',
-      `user_email` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s email, unique',
+      `user_id` int(11) NOT NULL primary key,
+      `user_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+      `user_password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+      `user_email` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
       `playerid` varchar(17) COLLATE utf8_unicode_ci DEFAULT NULL,
       `user_level` int(1) NOT NULL DEFAULT '1',
       `permissions` text COLLATE utf8_unicode_ci NOT NULL,
       `user_profile` varchar(255) NOT NULL,
-      `items` int(1) NULL
+      `items` int(2) NULL,
+      `twoFactor` VARCHAR(25) NULL,
+      `backup` VARCHAR(255) NULL,
+      `token` VARCHAR(64) NULL
     ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data';") or die('1: ' . mysqli_error($link));
 
         if (isset($_POST['user_pid'])) {
@@ -154,9 +180,9 @@ if (isset($_POST['user_name'])) {
             mysqli_query($link, "INSERT INTO `users` (`user_id`, `user_name`, `user_password_hash`, `user_email`, `playerid`, `user_level`, `permissions`,
 
 `user_profile`) VALUES
-        (1, '" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "', '" . $user_pid . "', 5, '".$userPerms."', '" . $user_pic . "');") or die('2: '. mysqli_error($link));
+        (1, '" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "', '" . $user_pid . "', 5, '" . $userPerms . "', '" . $user_pic . "');") or die('2: ' . mysqli_error($link));
         } else { mysqli_query($link, "INSERT INTO `users` (`user_id`, `user_name`, `user_password_hash`, `user_email`, `user_level`, `permissions`, `user_profile`) VALUES
-        (1, '" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "', 5, '".$userPerms."', '" . $user_pic . "');") or die('2: ' . mysqli_error($link));        }
+        (1, '" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "', 5, '" . $userPerms . "', '" . $user_pic . "');") or die('2: ' . mysqli_error($link)); }
 
         mysqli_query($link, "ALTER TABLE `users`
         MODIFY `user_id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing user_id of each user, unique index',AUTO_INCREMENT=2;") or die('3: ' . mysqli_error($link));
@@ -203,11 +229,12 @@ if (isset($_POST['user_name'])) {
         ('" . $server_name . "', '1', '" . $server_type . "', '" . $server_use_SQ . "', '" . $server_PORT . "', '" . $server_IP . "', '" . $server_RCON . "');") or die
 
 ('8: ' . mysqli_error($link));
-        } else
-            mysqli_query($link, "INSERT INTO `servers` (`name`, `dbid`, `type`, `use_sq`) VALUES
+        } else {
+                    mysqli_query($link, "INSERT INTO `servers` (`name`, `dbid`, `type`, `use_sq`) VALUES
         ('" . $server_name . "', '1', '" . $server_type . "', '" . $server_use_SQ . "');") or die('8: ' . mysqli_error($link));
+        }
 
-    	mysqli_query($link, "CREATE TABLE IF NOT EXISTS `logs` (
+        mysqli_query($link, "CREATE TABLE IF NOT EXISTS `logs` (
         `logid` int(11) NOT NULL AUTO_INCREMENT,
         `date_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         `user` varchar(64) DEFAULT NULL,
@@ -223,7 +250,7 @@ if (isset($_POST['user_name'])) {
         file_put_contents('config/settings.php', '<?php return ' . var_export($settings, true) . ';');
         $settings = include 'config/settings.php';
 
-        header("Location: index.php?setup=1");
+        header("Location: index?setup=1");
     }
 }
 ?>
@@ -232,26 +259,20 @@ if (isset($_POST['user_name'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CyberWorks Server Admin Panel">
+    <meta name="description" content="CyberWorks Server Admin Panel needs to be installed">
     <meta name="keyword" content="CyberWorks, Server, Admin Panel">
 
-    <title>Cyber Works</title>
+    <title>Cyber Works Installer</title>
 
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-
-    <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
-
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/style-responsive.css" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ruda:400,700,900">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
     <!--Copyright CyberByte 2015 http://cyberbyte.org.uk/-->
 </head>
 
 <body>
 <section id="container">
     <header class="header black-bg">
-        <a href="index.php" class="logo"><b>Cyber Works installer</b></a>
+        <a href="http://cyberworks.org.uk" class="logo"><b>Cyber Works installer</b></a>
     </header>
         <section class="wrapper">
                 <div class="row">
@@ -263,45 +284,44 @@ if (isset($_POST['user_name'])) {
                 </div>
 
                 <div class="col-sm-4" style="float: none; margin: 0 auto;">
-                    <form method="post" action="index" name="setupform">
+                    <form method="post" action="index.php" name="setupform">
                         <div class="form-group">
                             <p style="text-align: center;">Use this installer to
                             setup the Cyber Works server admin panel. If you need
                             any help feel free to contact support at
                             <a href="http://cyberbyte.org.uk">http://cyberbyte.org.uk</a>.</p>
-                            <p style="text-align: center;"> If you just need to fix you
+                            <p style="text-align: center;"> If you just need to fix you can use our
                             <a href="gensettings.php">RECOVERY INSTALLER</a>.</p>
                             <br>
                             <label for="community_name">Community Name: </label>
                             <input placeholder="Community Name" id="community_name"
-                                   class="form-control login_input" type="text" name="community_name" <?php if(isset($_POST['community_name'])) echo 'value="'.$_POST['community_name'].'"'?>>
-                                   <label for="community_name">Install URL: (MUST BE AS FOLLOWS)</label>
-                            <input placeholder="http://cyberbyte.org.uk/" id="url"
-                                   class="form-control login_input" type="text" name="url" <?php if(isset($_POST['url'])) echo 'value="'.$_POST['url'].'"'?>>
+                                   class="form-control login_input" type="text" name="community_name" <?php if (isset($_POST['community_name'])) echo 'value="' . $_POST['community_name'] . '"'?>>
                             <br><h4>User Setup</h4>
                             <label for="user_name">Username: </label>
                             <input placeholder="Username" id="user_name"
-                                   class="form-control login_input" type="text" name="user_name" <?php if(isset($_POST['user_name'])) echo 'value="'.$_POST['user_name'].'"'?>>
+                                   class="form-control login_input" type="text" name="user_name" <?php if (isset($_POST['user_name'])) echo 'value="' . $_POST['user_name'] . '"'?>>
 
                             <label for="user_email">Email: </label>
                             <input placeholder="Email" id="user_email" class="form-control login_input"
-                                   type="email" name="user_email" required <?php if(isset($_POST['user_email'])) echo 'value="'.$_POST['user_email'].'"'?>>
+                                   type="email" name="user_email" required <?php if (isset($_POST['user_email'])) echo 'value="' . $_POST['user_email'] . '"'?>>
 
                             <label for="user_password">Password: </label>
                             <input placeholder="Password" id="user_password"
                                    class="form-control login_input" type="password" name="user_password"
-                                   autocomplete="off" required <?php if(isset($_POST['user_password'])) echo 'value="'.$_POST['user_password'].'"'?>>
+                                   autocomplete="off" required <?php if (isset($_POST['user_password'])) echo 'value="' . $_POST['user_password'] . '"'?>>
 
                             <label for="user_pid">Player ID: </label>
                             <input placeholder="Player ID" id="user_pid"
-                                   class="form-control login_input" type="number" name="user_pid" <?php if(isset($_POST['user_pid'])) echo 'value="'.$_POST['user_pid'].'"'?>>
+                                   class="form-control login_input" type="number" name="user_pid" <?php if (isset($_POST['user_pid'])) echo 'value="' . $_POST['user_pid'] . '"'?>>
                             <label for="user_pic">Picture: </label>
 
                             <select id='user_pic' name='user_pic' class=" form-control login_input">
                             <?php
                             for ($icon = 1; $icon < 7; $icon++) {
                                 echo '<option value="' . $icon . '"';
-                                if (isset($_POST['user_pic'])) if ($icon == $_POST['user_pic']) echo ' selected';
+                                if (isset($_POST['user_pic'])) {
+                                    if ($icon == $_POST['user_pic']) echo ' selected';
+                                }
                                 echo '>' . $icon . '</option>';
                             } ?>
                             </select>
@@ -317,29 +337,29 @@ if (isset($_POST['user_name'])) {
                             <label for="server_SQL_host">SQL Host: </label>
                             <input placeholder="SQL Host" id="server_SQL_host"
                                    class="form-control login_input" type="text" name="server_SQL_host"
-                                <?php if(isset($_POST['server_SQL_host'])) echo 'value="'.$_POST['server_SQL_host'].'"'?>>
+                                <?php if (isset($_POST['server_SQL_host'])) echo 'value="' . $_POST['server_SQL_host'] . '"'?>>
 
                             <label for="server_SQL_user">SQL User: </label>
                             <input placeholder="SQL User" id="server_SQL_user"
                                    class="form-control login_input" type="text" name="server_SQL_user"
-                                <?php if(isset($_POST['server_SQL_user'])) echo 'value="'.$_POST['server_SQL_user'].'"'?>>
+                                <?php if (isset($_POST['server_SQL_user'])) echo 'value="' . $_POST['server_SQL_user'] . '"'?>>
 
                             <label for="server_SQL_pass">SQL Password: </label>
                             <input placeholder="SQL Password" id="server_SQL_pass"
                                    class="form-control login_input" type="password" name="server_SQL_pass"
-                                <?php if(isset($_POST['server_SQL_pass'])) echo 'value="'.$_POST['server_SQL_pass'].'"'?>>
+                                <?php if (isset($_POST['server_SQL_pass'])) echo 'value="' . $_POST['server_SQL_pass'] . '"'?>>
 
                             <label for="server_SQL_name">SQL Database: </label>
                             <input placeholder="SQL Database Name" id="server_SQL_name"
                                    class="form-control login_input" type="text" name="server_SQL_name"
-                                <?php if(isset($_POST['server_SQL_name'])) echo 'value="'.$_POST['server_SQL_name'].'"'?>>
+                                <?php if (isset($_POST['server_SQL_name'])) echo 'value="' . $_POST['server_SQL_name'] . '"'?>>
                             <br><br>
 
                             <h4>Server Setup</h4>
                             <label for="server_name">Server name: </label>
                             <input placeholder="Server name" id="server_name"
                                    class="form-control login_input" type="text" name="server_name"
-                                <?php if(isset($_POST['server_name'])) echo 'value="'.$_POST['server_name'].'"'?>>
+                                <?php if (isset($_POST['server_name'])) echo 'value="' . $_POST['server_name'] . '"'?>>
 
                             <label for="server_type">Server type: </label>
                             <select id="server_name" class=" form-control login_input" name="server_type">
@@ -354,19 +374,19 @@ if (isset($_POST['user_name'])) {
                             </select><br>
 
                             <label for="server_port">Server Query Port: </label>
-                            <input placeholder="Server Query Port" id="server_port"
+                            <input placeholder="Server Query Port (Default: 2302)" id="server_port"
                                    class="form-control login_input" type="text" name="server_port"
-                                <?php if(isset($_POST['server_port'])) echo 'value="'.$_POST['server_port'].'"'?>>
+                                <?php if (isset($_POST['server_port'])) echo 'value="' . $_POST['server_port'] . '"'?>>
 
                             <label for="server_IP">Server Query IP: </label>
-                            <input placeholder="Server Query IP (Default: 2302)" id="server_IP"
+                            <input placeholder="Server Query IP" id="server_IP"
                                    class="form-control login_input" type="text" name="server_IP"
-                                <?php if(isset($_POST['server_IP'])) echo 'value="'.$_POST['server_IP'].'"'?>>
+                                <?php if (isset($_POST['server_IP'])) echo 'value="' . $_POST['server_IP'] . '"'?>>
 
                             <label for="server_SQL_pass">RCON Password: </label>
                             <input placeholder="RCON Password" id="server_SQL_pass"
                                    class="form-control login_input" type="password" name="server_RCON_pass"
-                                <?php if(isset($_POST['server_SQL_pass'])) echo 'value="'.$_POST['server_SQL_pass'].'"'?>>
+                                <?php if (isset($_POST['server_SQL_pass'])) echo 'value="' . $_POST['server_SQL_pass'] . '"'?>>
                             <br>
                             <input class="btn btn-lg btn-primary" style="float:right;" type="submit" name="setup"
                                    value="Setup">
@@ -375,9 +395,6 @@ if (isset($_POST['user_name'])) {
                 </div>
         </section>
 </section>
-
-<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/formValidation.min.js"></script>
 
 </body>
 </html>

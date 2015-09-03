@@ -8,16 +8,11 @@
 
     <title>Cyber Works</title>
 
-    <link rel="stylesheet" type="text/css" href="<?php echo $settings['url'] ?>assets/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo $settings['url'] ?>assets/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo $settings['url'] ?>assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="<?php echo $settings['url'] ?>assets/css/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo $settings['url'] ?>assets/css/awesomplete.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ruda:400,700,900">
+    <link rel="stylesheet" type="text/css" href="<?php echo $settings['url'] ?>assets/css/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     
     <script type="text/javascript" src="<?php echo $settings['url'] ?>assets/js/jquery-1.11.3.min.js"></script> 
-    
-    <link href="<?php echo $settings['url'] ?>assets/css/style.css" rel="stylesheet">
-    <link href="<?php echo $settings['url'] ?>assets/css/style-responsive.css" rel="stylesheet">
     
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -25,10 +20,10 @@
     <![endif]-->
     
     <?php
-    if (isset($settings)){
+    if (isset($settings)) {
         foreach ($settings['plugins'] as &$plugin) {
-            if (file_exists("plugins/". $plugin. "/assets/style.css")) {
-                echo '<link rel="stylesheet" type="text/css" href="'. $settings['url'] . 'plugins/' . $plugin . '/assets/style.css">';
+            if (file_exists("plugins/" . $plugin . "/assets/style.css")) {
+                echo '<link rel="stylesheet" type="text/css" href="' . $settings['url'] . 'plugins/' . $plugin . '/assets/style.css">';
             }
         }
     } ?>

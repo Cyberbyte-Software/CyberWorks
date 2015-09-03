@@ -7,14 +7,18 @@ if (isset($search)) {
     $sql = "SELECT `id` FROM `houses` INNER JOIN `players` ON houses.pid=players.playerid WHERE `id` LIKE '" . $search . "' OR `pos` LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%';";
     $result_of_query = $db_link->query($sql);
     $total_records = mysqli_num_rows($result_of_query);
-    if ($pageNum > $total_records) $pageNum = $total_records;
-    $sql = "SELECT `id`,`pid`,`pos`,`name` FROM `houses` INNER JOIN `players` ON houses.pid=players.playerid WHERE `id` LIKE '" . $search . "' OR `pos` LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%' " . $max . " ;";
+    if ($pageNum > $total_records) {
+        $pageNum = $total_records;
+    }
+    $sql = "SELECT `id`,`pid`,`pos`,`name`,`owned` FROM `houses` INNER JOIN `players` ON houses.pid=players.playerid WHERE `id` LIKE '" . $search . "' OR `pos` LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%' " . $max . " ;";
 } else {
     $sql = "SELECT `id` FROM `houses`;";
     $result_of_query = $db_link->query($sql);
     $total_records = mysqli_num_rows($result_of_query);
-    if ($pageNum > $total_records) $pageNum = $total_records;
-    $sql = "SELECT `id`,`pid`,`pos`,`name` FROM `houses` INNER JOIN `players` ON houses.pid=players.playerid " . $max . " ;";
+    if ($pageNum > $total_records) {
+        $pageNum = $total_records;
+    }
+    $sql = "SELECT `id`,`pid`,`pos`,`name`,`owned` FROM `houses` INNER JOIN `players` ON houses.pid=players.playerid " . $max . " ;";
 }
 
 $result_of_query = $db_link->query($sql);
@@ -23,7 +27,6 @@ if ($result_of_query->num_rows > 0) {  ?>
         <div class="col-lg-12">
             <h1 class="page-header">
                 <?php echo $lang['houses']; ?>
-                <small> <?php echo $lang['overview']; ?></small>
             </h1>
         </div>
     </div>
@@ -41,7 +44,10 @@ if ($result_of_query->num_rows > 0) {  ?>
                 <th><i class="fa fa-eye"></i> <?php echo $lang['owner'] ?></th>
                 <th><i class="fa fa-user"></i> <?php echo $lang['position']; ?></th>
                 <th class="hidden-xs"><i class="fa fa-user"></i> <?php echo $lang['owned']; ?></th>
-                <?php if ($_SESSION['permissions']['edit']['houses']) echo '<th>' . $lang['edit'] . '</th>'; ?>
+                <?php if ($_SESSION['permissions']['edit']['houses']) {
+    echo '<th>' . $lang['edit'] . '</th>';
+}
+?>
             </tr>
             </thead>
             <tbody>
@@ -52,7 +58,7 @@ if ($result_of_query->num_rows > 0) {  ?>
                 echo "<td>" . substr($row["pos"], 1, -1) . "</td>";
                 echo "<td class='hidden-xs'>" . yesNo($row["owned"], $lang) . "</td>";
                 if ($_SESSION['permissions']['edit']['houses']) {
-                    echo "<td><a class='btn btn-primary btn-xs' href='".$settings['url']."editHouse/" . $row["id"] . "'>";
+                    echo "<td><a class='btn btn-primary btn-xs' href='" . $settings['url'] . "editHouse/" . $row["id"] . "'>";
                     echo "<i class='fa fa-pencil'></i></a></td>";
                 }
                 echo "</tr>";
@@ -63,4 +69,4 @@ if ($result_of_query->num_rows > 0) {  ?>
     </div>
 
 <?php
-} else echo errorMessage(3,$lang);
+} else echo errorMessage(3, $lang);

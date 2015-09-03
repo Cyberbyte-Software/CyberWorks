@@ -40,12 +40,12 @@ if ($result_of_query->num_rows > 0) {
                 <hr class="hidden-xs">
                 <thead>
                 <tr>
-                    <th class="hidden-xs"><i class="fa fa-eye"></i><?php echo " " . $lang['id']; ?></th>
-                    <th><i class="fa fa-user"></i><?php echo " " . $lang['name']; ?></th>
-                    <th><i class="fa fa-user"></i><?php echo " " . $lang['crimes']; ?></th>
-                    <th class="hidden-xs"><i class="fa fa-user"></i><?php echo " " . $lang['bounty']; ?></th>
-                    <th class="hidden-xs"><i class="fa fa-user"></i><?php echo " " . $lang['active']; ?></th>
-                    <th><?php echo " " . $lang['edit']; ?></th>
+                    <th class="hidden-xs"><i class="fa fa-eye"></i> <?php echo $lang['id']; ?></th>
+                    <th><i class="fa fa-user"></i> <?php echo $lang['name']; ?></th>
+                    <th><i class="fa fa-user"></i> <?php echo $lang['crimes']; ?></th>
+                    <th class="hidden-xs"><i class="fa fa-user"></i> <?php echo $lang['bounty']; ?></th>
+                    <th class="hidden-xs"><i class="fa fa-user"></i> <?php echo $lang['active']; ?></th>
+                    <th> <?php echo $lang['edit'] ?></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -55,14 +55,12 @@ if ($result_of_query->num_rows > 0) {
                     echo "<td class='hidden-xs'>" . $row["wantedID"] . "</td>";
                     echo "<td>" . $row["wantedName"] . "</td>";
                     echo "<td class='hidden-xs'>" . $row["wantedBounty"] . "</td>";
-                    echo "<td class='hidden-xs'>" . yesNo($row["active"],$lang) . "</td>";
+                    echo "<td class='hidden-xs'>" . yesNo($row["active"], $lang) . "</td>";
                     echo "<td><a class='btn btn-primary btn-xs' href='editWanted/" . $row["wantedID"] . "'>";
                     echo "<i class='fa fa-pencil'></i></a></td>";
                     echo "</tr>";
                 };
                 echo "</tbody></table>";
-
-
                 ?>
                 </tbody>
                 <br>
@@ -70,4 +68,4 @@ if ($result_of_query->num_rows > 0) {
         </div>
     </div>
 <?php
-} else  echo errorMessage(3,$lang);
+} else  echo errorMessage(3, $lang);

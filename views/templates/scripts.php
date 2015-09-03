@@ -9,7 +9,7 @@
             </div>
             <section class="task-panel tasks-widget">
                 <div class="panel-heading">
-                    <div class="pull-left"><h5><i class="fa fa-tasks"></i> <?php echo $lang['database'].'s'  ?></h5></div>
+                    <div class="pull-left"><h5><i class="fa fa-tasks"></i> <?php echo $lang['database'] . 's'  ?></h5></div>
                     <br>
                 </div>
                 <div class="panel-body">
@@ -76,19 +76,8 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript" src="<?php echo $settings['url'] ?>assets/js/bootstrap.min.js"></script>
-<script class="include" type="text/javascript" src="<?php echo $settings['url'] ?>assets/js/jquery.dcjqaccordion.2.7.js"></script>
-<script src="<?php echo $settings['url'] ?>assets/js/jquery.sparkline.js"></script>
-<script src="<?php echo $settings['url'] ?>assets/js/formValidation.min.js"></script>
-<script src="<?php echo $settings['url'] ?>assets/js/framework/bootstrap.min.js"></script>
-<?php if (isset($_SESSION['forum_lang'])) echo '<script type="text/javascript" src="'.$settings["url"].'assets/js/language/' . $_SESSION['forum_lang'] . '.js"></script>'; ?>
-
-<script src="<?php echo $settings['url'] ?>assets/js/common-scripts.js"></script>
-
-<script type="text/javascript" src="<?php echo $settings['url'] ?>assets/js/gritter/js/jquery.gritter.js"></script>
-<script type="text/javascript" src="<?php echo $settings['url'] ?>assets/js/gritter-conf.js"></script>
-
+<script async src="<?php echo $settings['url'] ?>assets/js/main.min.js"></script>
+<?php if (isset($_SESSION['forum_lang'])) echo '<script async type="text/javascript" src="' . $settings["url"] . 'assets/js/language/' . $_SESSION['forum_lang'] . '.js"></script>'; ?>
 <script>
     function searchpage() {
         sn = document.getElementById('searchText').value;
@@ -96,7 +85,6 @@
         document.location.href = redirecturl;
     }
 </script>
-
 <script type="text/javascript">
     $('#myTab a').click(function (e) {
         console.log('clicked ' + this);
@@ -107,11 +95,10 @@
         }
     });
 </script>
-
 <?php
 foreach ($settings['plugins'] as &$plugin) {
-    if (file_exists("plugins/". $plugin. "/assets/scripts.js")) {
-        echo '<script type="text/javascript" src="'. $settings['url'] . 'plugins/' . $plugin . '/assets/scripts.js"></script>';
+    if (file_exists("plugins/" . $plugin . "/assets/scripts.js")) {
+        echo '<script type="text/javascript" src="' . $settings['url'] . 'plugins/' . $plugin . '/assets/scripts.js"></script>';
     }
 }
 

@@ -31,7 +31,10 @@
                         <th><i class="fa fa-user"></i><?php echo $lang['name']; ?></th>
                         <th><i class="fa fa-eye"></i><?php echo $lang['playerID']; ?></th>
                         <th><i class="fa fa-user"></i><?php echo $lang['rank']; ?></th>
-                        <?php if ($_SESSION['permissions']['edit']['player']) echo '<th><i class="fa fa-pencil"></i> ' . $lang['edit'] . '</th>'; ?>
+                        <?php if ($_SESSION['permissions']['edit']['player']) {
+    echo '<th><i class="fa fa-pencil"></i> ' . $lang['edit'] . '</th>';
+}
+?>
                     </tr>
                     </thead>
                     <tbody>
@@ -42,20 +45,20 @@
                         echo "<td>" . $row["playerid"] . "</td>";
                         echo "<td>" . $row["coplevel"] . "</td>";
                         if ($_SESSION['permissions']['edit']['player']) {
-                            echo "<td><a class='btn btn-primary btn-xs' href='" . $settings['url'] . "editPlayer/" . uID($row["uid"],$db_link) . "'>";
+                            echo "<td><a class='btn btn-primary btn-xs' href='" . $settings['url'] . "editPlayer/" . uID($row["uid"], $db_link) . "'>";
                             echo "<i class='fa fa-pencil'></i></a></td>";
                         }
                         echo "</tr>";
                     };
                     echo "</tbody></table>";
 
-					$sql = "SELECT * FROM `players` WHERE `coplevel` >= '1';";
-					$result_of_query = $db_link->query($sql);
-					$total_records = mysqli_num_rows($result_of_query);
-					$total_pages = ceil($total_records / $_SESSION['items']);
-					if ($total_pages > 1) {
-						echo "<center><a class='btn btn-primary' href='" . $settings['url'] . "police/1'>" . $lang['first'] . "</a> ";
-						?>
+                    $sql = "SELECT * FROM `players` WHERE `coplevel` >= '1';";
+                    $result_of_query = $db_link->query($sql);
+                    $total_records = mysqli_num_rows($result_of_query);
+                    $total_pages = ceil($total_records / $_SESSION['items']);
+                    if ($total_pages > 1) {
+                        echo "<center><a class='btn btn-primary' href='" . $settings['url'] . "police/1'>" . $lang['first'] . "</a> ";
+                        ?>
 						<div class="btn-group">
 							<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 								<?php echo $lang['page'] . " " ?><span class="caret"></span>
@@ -63,16 +66,16 @@
 
 							<ul class="dropdown-menu scrollable-menu" role="menu">
 								<?php
-								for ($i = 1; $i <= $total_pages; $i++) {
-									?>
+                                for ($i = 1; $i <= $total_pages; $i++) {
+                                    ?>
 									<li><?php echo "<a href='" . $settings['url'] . "police/" . $i . "'>" . $i . "</a> "; ?></li>
 								<?php }; ?>
 							</ul>
 						</div>
 
 						<?php
-						echo "<a class='btn btn-primary' href='" . $settings['url'] . "police/".$total_pages."'>" . $lang['last'] . "</a></center>";
-					}
+                        echo "<a class='btn btn-primary' href='" . $settings['url'] . "police/".$total_pages."'>" . $lang['last'] . "</a></center>";
+                    }
                     ?>
                     <br>
                     </tbody>
@@ -80,4 +83,7 @@
             </div>
         </div>
     <?php
-    } else include("views/errors/noRecords.php");
+    } else {
+        include("views/errors/noRecords.php");
+    }
+    

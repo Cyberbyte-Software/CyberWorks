@@ -1,168 +1,121 @@
 <?php
-if (isset($_SESSION['lang']))
-    $licenseLang = $_SESSION['lang'];
-else
-    $licenseLang = 'en';
 $license = array();
 
-if ($licenseLang == 'en') {
-    // Civ
-    $license['driver'] = 'Driver License';
-    $license['boat'] = 'Boating License';
-    $license['pilot'] = 'Pilot License';
-    $license['gun'] = 'Firearm License';
-    $license['dive'] = 'Diving License';
-    $license['oil'] = 'Oil Processing';
-    $license['heroin'] = 'Processing Heroin';
-    $license['marijuana'] = 'Processing Marijuana';
-    $license['rebel'] = 'Rebel Training';
-    $license['trucking'] = 'Truck License';
-    $license['diamond'] = 'Diamond Processing';
-    $license['salt'] = 'Salt Processing';
-    $license['cocaine'] = 'Cocaine Processing';
-    $license['sand'] = 'Sand Processing';
-    $license['iron'] = 'Iron Processing';
-    $license['copper'] = 'Copper Processing';
-    $license['cement'] = 'Cement Mixing License';
-    $license['home'] = 'Home Owners License';
-	$license['truck'] = 'Truck License';
-	
-    // Cop
-    $license['coastguard'] = 'Coast Guard License';
-    $license['swat'] = 'SWAT License';
-}
-else if ($licenseLang == 'de') {
-    // Civ
-    $license['driver'] = 'Führerschein';
-    $license['boat'] = 'Bootsschein';
-    $license['pilot'] = 'Pilotenschein';
-    $license['gun'] = 'Waffenschein';
-    $license['dive'] = 'Taucherschein';
-    $license['oil'] = 'Ölverarbeitung';
-    $license['heroin'] = 'Heroinherstellung';
-    $license['marijuana'] = 'Marihuanaherstellung';
-    $license['rebel'] = 'Rebellenausbildung';
-    $license['trucking'] = 'LKW-Führerschein';
-    $license['diamond'] = 'Diamantenverarbeitung';
-    $license['salt'] = 'Salzverarbeitung';
-    $license['sand'] = 'Sandverarbeitung';
-    $license['iron'] = 'Eisenverarbeitung';
-    $license['copper'] = 'Kupferverarbeitung';
-    $license['cement'] = 'Zementherstellung';
-    $license['home'] = 'Eigentumsurkunde';
-	$license['truck'] = 'LKW Führerschein';
-	
-    // Cop
-    $license['coastguard'] = 'Küstenwache';
-    $license['swat'] = 'SWAT-Lizenz';
-}
-else if ($licenseLang == 'fr') {
-    // Civ
-    $license['driver'] = 'Permis de Conduire';
-    $license['boat'] = 'Permis Bateau';
-    $license['pilot'] = 'License de Pilote';
-    $license['gun'] = 'Permis de Port d\'Arme';
-    $license['dive'] = 'Permis de Plongée';
-    $license['oil'] = 'Raffinage de du pétrole';
-    $license['heroin'] = 'Traitement d\'Heroine';
-    $license['marijuana'] = 'Traitement de Marijuana';
-    $license['rebel'] = 'Entrainement rebelle';
-    $license['trucking'] = 'Permis Poids Lourds';
-    $license['diamond'] = 'Taillage des Diamands';
-    $license['salt'] = 'Traitement du Sel';
-    $license['sand'] = 'Traitement du Sable';
-    $license['iron'] = 'Fonte du Fer';
-    $license['copper'] = 'Fonte du Cuivre';
-    $license['cement'] = 'Fabrication du Ciment';
-    $license['home'] = 'Droit de Propriété';
-	$license['truck'] = 'Truck License';
-	
-    // Cop
-    $license['coastguard'] = 'Garde-Cotes';
-    $license['swat'] = 'License du SWAT';
-}
-else if ($licenseLang == 'it') {
-    // Civ
-    $license['driver'] = 'Licenza di Guida';
-    $license['boat'] = 'Licenza Nautica';
-    $license['pilot'] = 'Licenza da Pilota';
-    $license['gun'] = 'Porto d\'Armi';
-    $license['dive'] = 'Licenza di Pesca';
-    $license['oil'] = 'Processo Olio';
-    $license['heroin'] = 'Processando Eroina';
-    $license['marijuana'] = 'Processando Marijuana';
-    $license['rebel'] = 'Licenza da Ribelle';
-    $license['trucking'] = 'Licenza Camion';
-    $license['diamond'] = 'Processo Diamanti';
-    $license['salt'] = 'Processo Sale';
-    $license['sand'] = 'Processo Sabbia';
-    $license['iron'] = 'Processo Ferro';
-    $license['copper'] = 'Processo Rame';
-    $license['cement'] = 'Processo Cemento';
-    $license['home'] = 'Licenza possesso Casa';
-	$license['truck'] = 'Truck License';
-	
-    // Cop
-    $license['coastguard'] = 'Licenza Guardia Costiera';
-    $license['swat'] = 'Licenza SWAT';
-}
-else if ($licenseLang == 'por') {
-    // Civ
-    $license['driver'] = 'Licença de Motorista';
-    $license['boat'] = 'Licença de Barco';
-    $license['pilot'] = 'Licença de Piloto';
-    $license['gun'] = 'Licença de Porte de Armas';
-    $license['dive'] = 'Licença de Mergulho';
-    $license['oil'] = 'Refinamento de Petróleo';
-    $license['heroin'] = 'Processando Heroina';
-    $license['marijuana'] = 'Processando Erva';
-    $license['rebel'] = 'Treinamento Rebelde';
-    $license['trucking'] = 'Licença de Caminhão';
-    $license['diamond'] = 'Lapidação de Diamante';
-    $license['salt'] = 'Processamento de Sal';
-    $license['sand'] = 'Processamento de Areia';
-    $license['iron'] = 'Processamento de Ferro';
-    $license['copper'] = 'Processamento de Bronze';
-    $license['cement'] = 'Licença de Cimento';
-    $license['home'] = 'Licença de Casas';
-	$license['truck'] = 'Truck License';
-	
-    // Cop
-    $license['coastguard'] = 'Licença de Guarda Costeira';
-    $license['swat'] = 'Licença do Bope';
-}
+$license['en']['license_civ_driver'] = 'Driver License';
+$license['en']['license_civ_boat'] = 'Boating License';
+$license['en']['license_civ_pilot'] = 'Pilot License';
+$license['en']['license_civ_gun'] = 'Firearm License';
+$license['en']['license_civ_dive'] = 'Diving License';
+$license['en']['license_civ_oil'] = 'Oil Processing';
+$license['en']['license_civ_heroin'] = 'Processing Heroin';
+$license['en']['license_civ_marijuana'] = 'Processing Marijuana';
+$license['en']['license_civ_rebel'] = 'Rebel Training';
+$license['en']['license_civ_trucking'] = 'Truck License';
+$license['en']['license_civ_diamond'] = 'Diamond Processing';
+$license['en']['license_civ_salt'] = 'Salt Processing';
+$license['en']['license_civ_cocaine'] = 'Cocaine Processing';
+$license['en']['license_civ_sand'] = 'Sand Processing';
+$license['en']['license_civ_iron'] = 'Iron Processing';
+$license['en']['license_civ_copper'] = 'Copper Processing';
+$license['en']['license_civ_cement'] = 'Cement Mixing License';
+$license['en']['license_civ_home'] = 'Home Owners License';
+$license['en']['license_civ_truck'] = 'Truck License';
+$license['en']['license_civ_pilot'] = 'Medical Pilot';
+$license['en']['license_cop_cAir'] = 'Cop Pilot';
+$license['en']['license_cop_coastguard'] = 'Coast Guard License';
+$license['en']['license_cop_swat'] = 'SWAT License';
 
+$license['de']['license_civ_driver'] = 'Führerschein';
+$license['de']['license_civ_boat'] = 'Bootsschein';
+$license['de']['license_civ_pilot'] = 'Pilotenschein';
+$license['de']['license_civ_gun'] = 'Waffenschein';
+$license['de']['license_civ_dive'] = 'Taucherschein';
+$license['de']['license_civ_oil'] = 'Ölverarbeitung';
+$license['de']['license_civ_heroin'] = 'Heroinherstellung';
+$license['de']['license_civ_marijuana'] = 'Marihuanaherstellung';
+$license['de']['license_civ_rebel'] = 'Rebellenausbildung';
+$license['de']['license_civ_trucking'] = 'LKW-Führerschein';
+$license['de']['license_civ_diamond'] = 'Diamantenverarbeitung';
+$license['de']['license_civ_salt'] = 'Salzverarbeitung';
+$license['de']['license_civ_sand'] = 'Sandverarbeitung';
+$license['de']['license_civ_iron'] = 'Eisenverarbeitung';
+$license['de']['license_civ_copper'] = 'Kupferverarbeitung';
+$license['de']['license_civ_cement'] = 'Zementherstellung';
+$license['de']['license_civ_home'] = 'Eigentumsurkunde';
+$license['de']['license_civ_truck'] = 'LKW Führerschein';
+$license['de']['license_cop_coastguard'] = 'Küstenwache';
+$license['de']['license_cop_swat'] = 'SWAT-Lizenz';
 
-function licName($lic,$license)
+$license['fr']['license_civ_driver'] = 'Permis de Conduire';
+$license['fr']['license_civ_boat'] = 'Permis Bateau';
+$license['fr']['license_civ_pilot'] = 'License de Pilote';
+$license['fr']['license_civ_gun'] = 'Permis de Port d\'Arme';
+$license['fr']['license_civ_dive'] = 'Permis de Plongée';
+$license['fr']['license_civ_oil'] = 'Raffinage de du pétrole';
+$license['fr']['license_civ_heroin'] = 'Traitement d\'Heroine';
+$license['fr']['license_civ_marijuana'] = 'Traitement de Marijuana';
+$license['fr']['license_civ_rebel'] = 'Entrainement rebelle';
+$license['fr']['license_civ_trucking'] = 'Permis Poids Lourds';
+$license['fr']['license_civ_diamond'] = 'Taillage des Diamands';
+$license['fr']['license_civ_salt'] = 'Traitement du Sel';
+$license['fr']['license_civ_sand'] = 'Traitement du Sable';
+$license['fr']['license_civ_iron'] = 'Fonte du Fer';
+$license['fr']['license_civ_copper'] = 'Fonte du Cuivre';
+$license['fr']['license_civ_cement'] = 'Fabrication du Ciment';
+$license['fr']['license_civ_home'] = 'Droit de Propriété';
+$license['fr']['license_civ_truck'] = 'Truck License';
+$license['fr']['license_cop_coastguard'] = 'Garde-Cotes';
+$license['fr']['license_cop_swat'] = 'License du SWAT';
+
+$license['it']['license_civ_driver'] = 'Licenza di Guida';
+$license['it']['license_civ_boat'] = 'Licenza Nautica';
+$license['it']['license_civ_pilot'] = 'Licenza da Pilota';
+$license['it']['license_civ_gun'] = 'Porto d\'Armi';
+$license['it']['license_civ_dive'] = 'Licenza di Pesca';
+$license['it']['license_civ_oil'] = 'Processo Olio';
+$license['it']['license_civ_heroin'] = 'Processando Eroina';
+$license['it']['license_civ_marijuana'] = 'Processando Marijuana';
+$license['it']['license_civ_rebel'] = 'Licenza da Ribelle';
+$license['it']['license_civ_trucking'] = 'Licenza Camion';
+$license['it']['license_civ_diamond'] = 'Processo Diamanti';
+$license['it']['license_civ_salt'] = 'Processo Sale';
+$license['it']['license_civ_sand'] = 'Processo Sabbia';
+$license['it']['license_civ_iron'] = 'Processo Ferro';
+$license['it']['license_civ_copper'] = 'Processo Rame';
+$license['it']['license_civ_cement'] = 'Processo Cemento';
+$license['it']['license_civ_home'] = 'Licenza possesso Casa';
+$license['it']['license_civ_truck'] = 'Truck License';
+$license['it']['license_cop_coastguard'] = 'Licenza Guardia Costiera';
+$license['it']['license_cop_swat'] = 'Licenza SWAT';
+
+$license['por']['license_civ_driver'] = 'Licença de Motorista';
+$license['por']['license_civ_boat'] = 'Licença de Barco';
+$license['por']['license_civ_pilot'] = 'Licença de Piloto';
+$license['por']['license_civ_gun'] = 'Licença de Porte de Armas';
+$license['por']['license_civ_dive'] = 'Licença de Mergulho';
+$license['por']['license_civ_oil'] = 'Refinamento de Petróleo';
+$license['por']['license_civ_heroin'] = 'Processando Heroina';
+$license['por']['license_civ_marijuana'] = 'Processando Erva';
+$license['por']['license_civ_rebel'] = 'Treinamento Rebelde';
+$license['por']['license_civ_trucking'] = 'Licença de Caminhão';
+$license['por']['license_civ_diamond'] = 'Lapidação de Diamante';
+$license['por']['license_civ_salt'] = 'Processamento de Sal';
+$license['por']['license_civ_sand'] = 'Processamento de Areia';
+$license['por']['license_civ_iron'] = 'Processamento de Ferro';
+$license['por']['license_civ_copper'] = 'Processamento de Bronze';
+$license['por']['license_civ_cement'] = 'Licença de Cimento';
+$license['por']['license_civ_home'] = 'Licença de Casas';
+$license['por']['license_civ_truck'] = 'Truck License';
+$license['por']['license_cop_coastguard'] = 'Licença de Guarda Costeira';
+$license['por']['license_cop_swat'] = 'Licença do Bope';
+
+function licName($lic, $license)
 {
-    // Civ
-    if ($lic == 'license_civ_driver') return $license['driver'];
-    elseif ($lic == 'license_civ_boat') return $license['boat'];
-    elseif ($lic == 'license_civ_pilot') return $license['pilot'];
-    elseif ($lic == 'license_civ_gun') return $license['gun'];
-    elseif ($lic == 'license_civ_dive') return $license['dive'];
-    elseif ($lic == 'license_civ_oil') return $license['oil'];
-    elseif ($lic == 'license_civ_heroin') return $license['heroin'];
-    elseif ($lic == 'license_civ_marijuana') return $license['marijuana'];
-    elseif ($lic == 'license_civ_rebel') return $license['rebel'];
-    elseif ($lic == 'license_civ_trucking') return $license['trucking'];
-    elseif ($lic == 'license_civ_diamond') return $license['diamond'];
-    elseif ($lic == 'license_civ_salt') return $license['salt'];
-    elseif ($lic == 'license_civ_cocaine') return $license['cocaine'];
-    elseif ($lic == 'license_civ_sand') return $license['sand'];
-    elseif ($lic == 'license_civ_iron') return $license['iron'];
-    elseif ($lic == 'license_civ_copper') return $license['copper'];
-    elseif ($lic == 'license_civ_cement') return $license['cement'];
-    elseif ($lic == 'license_civ_home') return $license['home'];
-	elseif ($lic == 'license_civ_air') return $license['pilot'];
-	elseif ($lic == 'license_civ_truck') return $license['truck'];
-	
-    // Medic
-    elseif ($lic == 'license_med_mAir') return $license['pilot'];
-
-    // Cop
-    elseif ($lic == 'license_cop_cAir') return $license['pilot'];
-    elseif ($lic == 'license_cop_coastguard') return $license['coastguard'];
-    elseif ($lic == 'license_cop_swat') return $license['swat'];
-    else return $lic;
+    if (isset($license[$_SESSION['lang']][$lic])) {
+        return $license[$_SESSION['lang']][$lic];
+    } elseif (isset($license['en'][$lic])) {
+        return $license['en'][$lic];
+    } else {
+        return $lic;
+    }
 }
