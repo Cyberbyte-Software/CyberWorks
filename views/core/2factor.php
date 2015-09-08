@@ -64,7 +64,7 @@ if ($_SESSION['2factor'] == 1 || $_SESSION['2factor'] == 5 || $_SESSION['2factor
     if (isset($twoFactor->backup)) echo $lang['new'] . ' ' . $lang['2factor3']; else echo $lang['2factor3'];
     echo '</a>';
     echo '<a href="?revoke" style="margin-left: 5px;" class="btn btn-danger">' . $lang['2factor4'] . '</a>';
-    if (isset($twoFactor->token)) echo '<a href="?revokeToken" style="margin-left: 5px;" class="btn btn-danger">' . $lang['2factorTokenRevoke'] . '</a>';
+    if (isset($twoFactor->token)) echo '<a href="?revokeToken" style="margin-left: 5px;" class="btn btn-danger">' . $lang['2factorRevoke'] . '</a>';
     if (isset($_COOKIE['token'])) echo '<a href="?revokeDevice" style="margin-left: 5px;" class="btn btn-danger">' . $lang['2factorRevokeRememberDevice'];
     else echo '<a href="?remember" style="margin-left: 5px;" class="btn btn-primary">' . $lang['2factorRememberDevice'];
     echo '</a>';

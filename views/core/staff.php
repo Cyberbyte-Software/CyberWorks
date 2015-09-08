@@ -8,8 +8,8 @@ if (isset($search)) {
     $total_records = $db_connection->query($sql);
     $sql = "SELECT * FROM `users` WHERE `user_name` LIKE '" . $search . "' OR `user_email` LIKE '" . $search . "' OR `user_id` LIKE '" . $search . "' OR `playerid` LIKE '" . $search . "'" . $max . " ;";
 } else {
-    $sql = "SELECT count(`user_id`) FROM `users`;";
-    $total_records = $db_connection->query($sql);
+    $sql = "SELECT user_id FROM `users`;";
+    $total_records = $db_connection->query($sql)->num_rows();
     $sql = "SELECT * FROM `users` " . $max . " ;";
 }
 ?>

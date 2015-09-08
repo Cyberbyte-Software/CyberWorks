@@ -42,6 +42,7 @@ if (file_exists('config/settings.php')) {
     }
     require_once("gfunctions.php");
 
+    $db_connection = masterConnect();
     include "classes/update.php";
 
     $url = (parse_url($_SERVER['REQUEST_URI']));
@@ -56,7 +57,6 @@ if (file_exists('config/settings.php')) {
         $query = false;
     }
 
-    $db_connection = masterConnect();
     $currentPage = $url['path'][$settings['base']];
 
     if (isset($_GET["page"])) {
@@ -630,33 +630,36 @@ if (file_exists('config/settings.php')) {
                     $page = "views/core/register.php";
                 }
             }
+
             if ($settings['2factor']) {
-                if ($_SESSION['2factor'] == 0) {
-                    if ($settings['force2factor'] == 'steam') {
-                        if (!$_SESSION['steamsignon']) { 
-                            $_SESSION['2factor'] == 5;
+                if (isset($_SESSION['2factor'])) {
+                    if ($_SESSION['2factor'] == 0) {
+                        if ($settings['force2factor'] == 'steam') {
+                            if (!$_SESSION['steamsignon']) {
+                                $_SESSION['2factor'] == 5;
+                            }
+                        } elseif ($settings['force2factor'] == 'all') { $_SESSION['2factor'] == 5;
+                            $page = 'views/core/2factor.php';
                         }
-                    } elseif ($settings['force2factor'] == 'all') { $_SESSION['2factor'] == 5;
-                        $page = 'views/core/2factor.php';
-                    }
-                } elseif ($_SESSION['2factor'] == 1 || $_SESSION['2factor'] == 3) {
-                    if (isset($_POST['code'])) {
-                        $sql = "SELECT `twoFactor` FROM `users` WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
-                        $user = $db_connection->query($sql)->fetch_object();
-                        if ($gauth->verifyCode($user->twoFactor, $_POST['code'])) {
-                            $_SESSION['2factor'] = 2;
-                        } else {
-                            $sql = "SELECT `backup` FROM `users` WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
+                    } elseif ($_SESSION['2factor'] == 1 || $_SESSION['2factor'] == 3) {
+                        if (isset($_POST['code'])) {
+                            $sql = "SELECT `twoFactor` FROM `users` WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
                             $user = $db_connection->query($sql)->fetch_object();
-                            if ($user->backup == $_POST['code']) {
+                            if ($gauth->verifyCode($user->twoFactor, $_POST['code'])) {
                                 $_SESSION['2factor'] = 2;
                             } else {
-                                $_SESSION['2factor'] = 3;
-                                $page = 'views/core/2factor.php';
+                                $sql = "SELECT `backup` FROM `users` WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
+                                $user = $db_connection->query($sql)->fetch_object();
+                                if ($user->backup == $_POST['code']) {
+                                    $_SESSION['2factor'] = 2;
+                                } else {
+                                    $_SESSION['2factor'] = 3;
+                                    $page = 'views/core/2factor.php';
+                                }
                             }
+                        } else {
+                            $page = 'views/core/2factor.php';
                         }
-                    } else {
-                        $page = 'views/core/2factor.php';
                     }
                 }
             }

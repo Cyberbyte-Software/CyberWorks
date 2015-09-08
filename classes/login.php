@@ -1,9 +1,9 @@
 <?php
 require_once("gfunctions.php");
 /**
-     * Class login
-     * handles the user's login and logout process
-     */
+ * Class login
+ * handles the user's login and logout process
+ */
 class Login
 {
     /**

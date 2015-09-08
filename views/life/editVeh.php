@@ -49,7 +49,9 @@ if (isset($_POST["editType"])) {
 
                 case "veh_edit":
                     $vehSide = $_POST["vehSide"];
+                    $vehType = $_POST["vehType"];
                     $vehPlate = $_POST["vehPlate"];
+                    $vehClass = $_POST["vehClass"];
                     $vehCol = $_POST["vehCol"];
                     $sql = "UPDATE `vehicles` SET `side`='" . $vehSide . "',`type`='" . $vehType . "',`color`='" . $vehCol . "' WHERE `vehicles`.`id` = '" . $vehID . "'";
                     $result_of_query = $db_link->query($sql);
@@ -293,7 +295,7 @@ if ($result_of_query->num_rows > 0) {
                                 <center>
                                     <?php
                                     echo "<h4>" . $lang['class'] . ":   <input id='vehClass' name='vehClass' type='text' value='" . $veh->classname . "' readonly></td><br/>";
-                                    echo "<h4>" . $lang['plate'] . ":    <input id='vehPlate' name='vehPlate' type='number' value='" . $veh->plate . "'readonly></td><br/>";
+                                    echo "<h4>" . $lang['plate'] . ":    <input id='vehPlate' name='vehPlate' type='number' value='" . $veh->plate . "'></td><br/>";
                                     echo "<h4>" . $lang['side'] . ":   ";
                                     echo "<select id='vehSide' name='vehSide'>";
                                     echo '<option value="civ"' . select('civ', $veh->side) . '>' . $lang['civ'] . '</option>';
