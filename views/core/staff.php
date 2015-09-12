@@ -1,5 +1,4 @@
 <?php
-var_dump($_SESSION);
 $max = ' LIMIT ' . ($pageNum - 1) * $_SESSION['items'] . ',' . $_SESSION['items'];
 
 if (isset($search)) {
