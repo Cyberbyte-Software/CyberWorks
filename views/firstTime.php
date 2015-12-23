@@ -34,12 +34,12 @@ RewriteRule . /'.$base . 'index.php [L]
 
 php_value file_get_contents 1';
     file_put_contents('.htaccess',$hta);
-    if (isset($_POST['user_pid'])) $verify = str_replace(" ", "%20", 'http://cyberbyte.org.uk/hooks/cyberworks/getid.php?url=' . $settings['url'] . '&name=' . $_POST['community_name'] . '&pid=' . $_POST['user_pid']);
-    else $verify = str_replace(" ", "%20", 'http://cyberbyte.org.uk/hooks/cyberworks/getid.php?url=' . $settings['url'] . '&name=' . $_POST['community_name']);
-    $verify = json_decode(file_get_contents($verify));
+    //if (isset($_POST['user_pid'])) $verify = str_replace(" ", "%20", 'http://cyberbyte.org.uk/hooks/cyberworks/getid.php?url=' . $settings['url'] . '&name=' . $_POST['community_name'] . '&pid=' . $_POST['user_pid']);
+    //else $verify = str_replace(" ", "%20", 'http://cyberbyte.org.uk/hooks/cyberworks/getid.php?url=' . $settings['url'] . '&name=' . $_POST['community_name']);
+    //$verify = json_decode(file_get_contents($verify));
 
-    if (isset($verify->id)) {
-        $settings['id'] = $verify->id;
+    if (true) {
+        $settings['id'] = 1001;
         $settings['community'] = $_POST['community_name'];
 
         $user_name = $_POST['user_name'];
