@@ -104,9 +104,8 @@ class Login
                     if (password_verify($_POST['user_password'], $result_row->user_password_hash)) {
 
                         if ($result_row->user_level <> 0) {
-                            $verify = json_decode(file_get_contents('http://cyberbyte.org.uk/hooks/cyberworks/messages.php?id=' . $settings['id']));
-                            if (!isset($verify->verify)) {
-                                if ($verify->version > floatval($settings['version'])) $_SESSION['update'] = true;
+                            //$verify = json_decode(file_get_contents('http://cyberbyte.org.uk/hooks/cyberworks/messages.php?id=' . $settings['id']));
+                            //if (!isset($verify->verify)) {
                                 $_SESSION['2factor'] = 0;
                                 if (!empty($result_row->twoFactor)) {
                                     if ($settings['2factor']) $_SESSION['2factor'] = 1; else {
@@ -141,13 +140,13 @@ class Login
 
                                 multiDB();
                                 logAction($_SESSION['user_name'], 'Successful Login (' . $_SERVER['REMOTE_ADDR'] . ')', 2);
-                            } else {
+                            /*} else {
                                 if (isset($verify->message)) {
                                     $this->errors[] = $verify->message;
                                 } else {
                                     $this->errors[] = "Verifcation Failed";
                                 }
-                            }
+                            }*/
                         } else {
                             $this->errors[] = "User is banned.";
                             logAction($_POST['user_name'], 'Login Failed - Banned User (' . $_SERVER['REMOTE_ADDR'] . ')', 3);
