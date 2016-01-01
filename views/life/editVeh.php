@@ -47,11 +47,13 @@ if (isset($_POST["editType"])) {
                     }
                     break;
 
-                case "veh_edit":
+                 case "veh_edit":
                     $vehSide = $_POST["vehSide"];
+					$vehType = $_POST["vehType"];
                     $vehPlate = $_POST["vehPlate"];
                     $vehCol = $_POST["vehCol"];
-                    $sql = "UPDATE `vehicles` SET `side`='" . $vehSide . "',`type`='" . $vehType . "',`color`='" . $vehCol . "' WHERE `vehicles`.`id` = '" . $vehID . "'";
+					$vehClass = $_POST["vehClass"];
+                    $sql = "UPDATE `vehicles` SET `side`='" . $vehSide . "',`classname`='" . $vehClass . "',`type`='" . $vehType . "',`color`='" . $vehCol . "' WHERE `vehicles`.`id` = '" . $vehID . "'";
                     $result_of_query = $db_link->query($sql);
                     message($lang['vehicle'] . ' ' . $lang['edited']);
                     $sql = "SELECT `pid` FROM `vehicles` WHERE `id` ='" . $vehID . "';";
