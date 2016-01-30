@@ -28,12 +28,12 @@ if (isset($_SESSION['permissions']['edit']['licences'])) {
                 if ($lic[$num] == '1') {
                     $lic[$num] = '0';
                     if ($settings['logging']) {
-                        logAction($_SESSION['user_name'], $lang['removed'] . ' ' . uIDname($_POST['player'], $db_link) . ' ' . $lang['licenses'] . ' (' . licName($_POST['id'], $license) . ')', 2);
+                        logAction($_SESSION['user_name'], $lang['removed'] . ' ' . uIDname($_POST['player'], $db_link) . ' ' . $lang['licenses'] . ' ( has removed' . licName($_POST['id'], $license) . ')', 2);
                     }
                 } elseif ($lic[$num] == '0') {
                     $lic[$num] = '1';
                     if ($settings['logging']) {
-                        logAction($_SESSION['user_name'], $lang['added'] . ' ' . uIDname($_POST['player'], $db_link) . ' ' . $lang['licenses'] . ' (' . licName($_POST['id'], $license) . ')', 2);
+                        logAction($_SESSION['user_name'], $lang['added'] . ' ' . uIDname($_POST['player'], $db_link) . ' ' . $lang['licenses'] . ' (has added ' . licName($_POST['id'], $license) . ')', 2);
                     }
                 }
                 $sql = "UPDATE `players` SET `" . $col . "`='$lic' WHERE `uid` = '" . $_POST['player'] . "';";
