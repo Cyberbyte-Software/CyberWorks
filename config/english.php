@@ -259,6 +259,8 @@ $lang['id'] = 'ID';
 $lang['time'] = 'Time';
 $lang['action'] = 'Action';
 $lang['level'] = 'Level';
+$lang['from'] = 'from';
+$lang['to'] = 'to';
 
 /*
 --------------------------
