@@ -1,6 +1,6 @@
 <?php
 error_reporting(0);
-error_reporting(E_ALL); // Turn on for error messages
+//error_reporting(E_ALL); // Turn on for error messages
 
 session_name('CyberWorks');
 session_set_cookie_params(1209600);
