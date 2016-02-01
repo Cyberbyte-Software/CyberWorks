@@ -97,8 +97,8 @@ php_value file_get_contents 1';
         $settings['version'] = '0.4';
         $settings['staffRanks'] = 5;
         $settings['logging'] = true;
-        $settings['2factor'] = true;
-        $settings['gravatar'] = true;
+        $settings['2factor'] = false;
+        $settings['gravatar'] = false;
         $settings['force2factor'] = 'none';
 
         $settings['steamAPI'] = '';
