@@ -30,9 +30,7 @@ if (isset($_POST['user_name'])) {
     $hta = 'RewriteEngine On
 RewriteBase /'.$base . '
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule . /'.$base . 'index.php [L]
-
-php_value file_get_contents 1';
+RewriteRule . /'.$base . 'index.php [L]';
     file_put_contents('.htaccess',$hta);
     //if (isset($_POST['user_pid'])) $verify = str_replace(" ", "%20", 'http://cyberbyte.org.uk/hooks/cyberworks/getid.php?url=' . $settings['url'] . '&name=' . $_POST['community_name'] . '&pid=' . $_POST['user_pid']);
     //else $verify = str_replace(" ", "%20", 'http://cyberbyte.org.uk/hooks/cyberworks/getid.php?url=' . $settings['url'] . '&name=' . $_POST['community_name']);
