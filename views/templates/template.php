@@ -100,12 +100,6 @@
                                 <span><?php echo $lang['navProfile']; ?></span>
                             </a>
                         </li>
-                        <li>
-                            <a href="<?php echo $settings['url'] ?>2factor">
-                                <i class="fa fa-fw fa-mobile"></i>
-                                <span><?php echo $lang['2factor']; ?></span>
-                            </a>
-                        </li>
                     </ul>
                 </li>
             <?php } else { ?>
@@ -180,12 +174,6 @@
                             <a href="<?php echo $settings['url'] ?>settings">
                                 <i class="fa fa-fw fa-wrench"></i>
                                 <span><?php echo $lang['settings'] ?></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $settings['url'] ?>pluginstore">
-                                <i class="fa fa-fw fa-shopping-cart"></i>
-                                <span><?php echo $lang['pluginstore'] ?></span>
                             </a>
                         </li>
                     </ul>

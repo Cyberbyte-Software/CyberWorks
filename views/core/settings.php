@@ -19,17 +19,17 @@ if (isset($_POST['db_host'])) {
             $settings['performance'] = $_POST['performance'];
             $settings['notifications'] = $_POST['notifications'];
             
-            $settings['2factor'] = $_POST['2factor'];
-            $settings['force2factor'] = $_POST['force2factor'];
-            $settings['gravatar'] = $_POST['gravatar'];
+            $settings['2factor'] = false;
+            $settings['gravatar'] = false;
+            $settings['force2factor'] = 'none';
 
             $settings['maxLevels']['cop'] = $_POST['max_cop'];
             $settings['maxLevels']['medic'] = $_POST['max_medic'];
             $settings['maxLevels']['admin'] = $_POST['max_admin'];
             $settings['maxLevels']['donator'] = $_POST['max_donator'];
 
+            
             file_put_contents('config/settings.php', '<?php return ' . var_export($settings, true) . ';');
-            var_dump($settings['allowLang']);
         } else {
             logAction($_SESSION['user_name'], $lang['failedUpdate'] . ' ' . $lang['server'] . ' ' . $lang['settings'], 3);
         }
@@ -164,32 +164,6 @@ if (isset($_POST['db_host'])) {
         <?php echo select(true, $settings['communityBansTest']) . '>' . $lang['yes'] ?></option>
         <option value="false"
         <?php echo select(false, $settings['communityBansTest']) . '>' . $lang['no'] ?></option>
-    </select></div>
-    
-    <div class='form-group'><label for="2factor"><?php echo $lang['use2factor'] ?>: </label>
-        <select name="2factor" id="2factor" class="form-control">
-        <option value="true"
-        <?php echo select(true, $settings['2factor']) . '>' . $lang['yes'] ?></option>
-        <option value="false"
-        <?php echo select(false, $settings['2factor']) . '>' . $lang['no'] ?></option>
-    </select></div>
-    
-    <div class='form-group'><label for="force2factor"><?php echo $lang['force2factor'] ?>: </label>
-        <select name="force2factor" id="force2factor" class="form-control">
-        <option value="none"
-        <?php echo select("none", $settings['force2factor']) . '>' . $lang['none'] ?></option>
-        <option value="steam"
-        <?php echo select("steam", $settings['force2factor']) . '>' . $lang['steam'] ?></option>
-        <option value="all"
-        <?php echo select("all", $settings['force2factor']) . '>' . $lang['all'] ?></option>
-    </select></div>
-    
-    <div class='form-group'><label for="gravatar"><?php echo $lang['useGravatar'] ?>: </label>
-        <select name="gravatar" id="gravatar" class="form-control">
-        <option value="true"
-        <?php echo select(true, $settings['gravatar']) . '>' . $lang['yes'] ?></option>
-        <option value="false"
-        <?php echo select(false, $settings['gravatar']) . '>' . $lang['no'] ?></option>
     </select></div>
 
     <div class='form-group'><div class='input-group'><label for='communityBansAPI'>Community Bans API <?php echo $lang['key'] ?>: </label><input class='form-control pwd' id='communityBansAPI' type='password' name='communityBansAPI' value='<?php echo $settings['communityBansAPI']?>'>

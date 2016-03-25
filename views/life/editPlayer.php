@@ -6,8 +6,7 @@ require_once(realpath($settings['url']) . "config/crimes.php");
 
 $db_link = serverConnect();
 
-function getPlayerSkin($input, $list)
-{
+function getPlayerSkin($input, $list) {
     if ($input !== '[]') {
         $name = after('[`', $input);
         $name = before('`', $name);
@@ -64,15 +63,12 @@ if (isset($_POST["editType"])) {
                     if ($result->num_rows > 0) {
                         $player = $result->fetch_object();
 
-                        if ($coplevel <> $player->coplevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cop'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->coplevel . ") " . $lang['to'] . " (" . $coplevel . ")", 2);
-                        if ($mediclevel <> $player->mediclevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['medic'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->mediclevel . ") " . $lang['to'] . " (" . $mediclevel . ")", 2);
-                        if ($donatorlvl <> $player->donatorlvl) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['donator'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->donatorlvl . ") " . $lang['to'] . " (" . $donatorlvl . ")", 2);
-                        if ($adminlevel <> $player->adminlevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['admin'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->adminlevel. ") " . $lang['to'] . " ('" . $adminlevel . ")", 2);
-                        if ($cash <> $player->cash) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cash'] . " " . $lang['from'] . " '" . $player->cash . "' " . $lang['to'] . " (" . $cash . "''", 2);
-                        if ($bankacc <> $player->bankacc) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " '" . $player->bankacc . "' " . $lang['to'] . " (" . $bankacc . "''", 2);
-                        if ($arrested <> $player->arrested) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " '" . $player->cash . "' " . $lang['to'] . " (" . $cash . "''", 2);
-                        if ($blacklist <> $player->blacklist) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " '" . $player->cash . "' " . $lang['to'] . " (" . $cash . "''", 2); //todo:finish
-
+                        if ($coplevel != $player->coplevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cop'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->coplevel . ") " . $lang['to'] . " (" . $coplevel . ")", 2);
+                        if ($mediclevel != $player->mediclevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['medic'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->mediclevel . ") " . $lang['to'] . " (" . $mediclevel . ")", 2);
+                        if ($donatorlvl != $player->donatorlvl) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['donator'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->donatorlvl . ") " . $lang['to'] . " (" . $donatorlvl . ")", 2);
+                        if ($adminlevel != $player->adminlevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['admin'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->adminlevel . ") " . $lang['to'] . " (" . $adminlevel . ")", 2);
+                        if ($cash != $player->cash) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cash'] . " " . $lang['from'] . " (" . $player->cash . ") " . $lang['to'] . " (" . $cash . ")", 2);
+                        if ($bankacc != $player->bankacc) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " (" . $player->bankacc . ") " . $lang['to'] . " (" . $bankacc . ")", 2);
 
                         $update = "UPDATE `players` SET coplevel = '" . $coplevel . "', mediclevel = '" . $mediclevel . "', donatorlvl = '" . $donatorlvl . "', adminlevel = '" . $adminlevel . "', cash = '" . $cash . "', bankacc = '" . $bankacc . "', arrested = '" . $arrested . "', blacklist = '" . $blacklist . "' WHERE `uid` = '" . $uID . "' ";
                         $result_of_query = $db_link->query($update);
@@ -92,10 +88,11 @@ if (isset($_POST["editType"])) {
                     $result = $db_link->query($sql);
                     if ($result->num_rows > 0) {
                         $player = $result->fetch_object();
-                        if ($coplevel <> $player->coplevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cop'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->coplevel . ") " . $lang['to'] . " (" . $coplevel . ")", 2);
-                        if ($mediclevel <> $player->mediclevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['medic'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->mediclevel . ") " . $lang['to'] . " (" . $mediclevel . ")", 2);
-                        if ($donatorlvl <> $player->donatorlvl) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['donator'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->donatorlvl . ") " . $lang['to'] . " (" . $donatorlvl . ")", 2);
-                        if ($cash <> $player->cash) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cash'] . " " . $lang['from'] . " '" . $player->cash . "' " . $lang['to'] . " (" . $cash . "''", 2);
+                        if ($coplevel != $player->coplevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cop'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->coplevel . ") " . $lang['to'] . " (" . $coplevel . ")", 2);
+                        if ($mediclevel != $player->mediclevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['medic'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->mediclevel . ") " . $lang['to'] . " (" . $mediclevel . ")", 2);
+                        if ($donatorlvl != $player->donatorlvl) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['donator'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->donatorlvl . ") " . $lang['to'] . " (" . $donatorlvl . ")", 2);
+                        if ($cash != $player->cash) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cash'] . " " . $lang['from'] . " (" . $player->cash . ") " . $lang['to'] . " (" . $cash . ")", 2);
+                        if ($bankacc != $player->bankacc) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " (" . $player->bankacc . ") " . $lang['to'] . " (" . $bankacc . ")", 2);
 
                         $update = "UPDATE `players` SET coplevel = '" . $coplevel . "', mediclevel = '" . $mediclevel . "', donatorlvl = '" . $donatorlvl . "', cash = '" . $cash . "', bankacc = '" . $bankacc . "', arrested = '" . $arrested . "' WHERE `uid` = '" . $uID . "' ";
                         $result_of_query = $db_link->query($update);
@@ -107,6 +104,9 @@ if (isset($_POST["editType"])) {
                 } elseif ($_SESSION['user_level'] >= 2) {
                     $coplevel = intval($_POST["player_coplvl"]);
                     $mediclevel = intval($_POST["player_medlvl"]);
+                    if ($coplevel != $player->coplevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cop'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->coplevel . ") " . $lang['to'] . " (" . $coplevel . ")", 2);
+                    if ($mediclevel != $player->mediclevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['medic'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->mediclevel . ") " . $lang['to'] . " (" . $mediclevel . ")", 2);
+                                            
                     $update = "UPDATE `players` SET coplevel = '" . $coplevel . "', mediclevel = '" . $mediclevel . "' WHERE `uid` = '" . $uID . "' ";
                     $result_of_query = $db_link->query($update);
                     logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['levels'], 2);

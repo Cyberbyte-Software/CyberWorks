@@ -88,9 +88,9 @@ if ($result_of_query->num_rows > 0) {
             echo "<h4>" . $lang['plate'] . ": " . $veh->plate . "</h4>";
 
             if ($veh->alive == false) {
-                echo "<h4><span class='label label-danger'>" . $lang["not"] . " " . $lang["alive"] . "</span> ";
+                echo "<h4><span class='label label-danger'>" . $lang["not"] . " " . $lang["alive"] . "</span></h4>";
             } else {
-                echo "<h4><span class='label label-success'>" . $lang["alive"] . "</span> ";
+                echo "<h4><span class='label label-success'>" . $lang["alive"] . "</span></h4> ";
             }
 
             if ($veh->active == false) {

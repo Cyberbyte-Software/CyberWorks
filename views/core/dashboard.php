@@ -56,4 +56,4 @@
   </div>
 </div>
 
-<?php include("views/templates/news.php");
+<?php0

@@ -24,7 +24,12 @@ if (file_exists('config/settings.php')) {
     require_once("classes/googleAuth.php");
     $gauth = new PHPGangsta_GoogleAuthenticator();
 
-    include_once('config/english.php');
+    if ($settings['language'] == 'en') {
+        include_once('config/english.php');        
+    } else if ($settings['language'] == 'de') {
+        include_once('config/german.php');        
+    }
+
     foreach ($settings['plugins'] as &$plugin) {
         if (file_exists("plugins/" . $plugin . "/lang/lang.php")) {
             include("plugins/" . $plugin . "/lang/lang.php");

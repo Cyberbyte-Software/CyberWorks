@@ -20,6 +20,7 @@ if (isset($_SESSION['permissions']['edit']['player'])) {
             if ($result->num_rows > 0) {
                 $switch = $result->fetch_object();
                 if ($switch == '1') {
+                    
                     $sql = "UPDATE `players` SET `arrested`='0' WHERE `uid` = '" . $_POST['player'] . "';";
                 } elseif ($switch == '0') {
                     $sql = "UPDATE `players` SET `arrested`='1' WHERE `uid` = '" . $_POST['player'] . "';";

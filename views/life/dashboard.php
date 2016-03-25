@@ -126,6 +126,6 @@ if ($db_link->connect_error) {
         </div>
     </div>
     
-    <?php include("views/templates/news.php");
+    <?php
     }
 }
