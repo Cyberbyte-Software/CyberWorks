@@ -14,7 +14,7 @@ if ($result_of_query->num_rows > 0) {
             if (isset($_POST['ban'])) $staffRank = 0; else $staffRank = $_POST['staffRank'];
 	    $userPerms = json_encode($permissions[$staffRank]);
 	
-            $sql = "UPDATE `users` SET `user_name`='" . $staffName . "',`user_email`='" . $staffEmail . "',`playerid`='" . $staffPID . "',`user_level`='" . $staffRank . "' WHERE `user_id` ='" . $uId . "';";
+            $sql = "UPDATE `users` SET `user_name`='" . $staffName . "',`user_email`='" . $staffEmail . "',`playerid`='" . $staffPID . "',`user_level`='" . $staffRank . "', `permissions`='" . $userPerms . "' WHERE `user_id` ='" . $uId . "';";
             $result_of_query = $db_connection->query($sql);
             message(ucfirst($_POST['staffName']) . ' ' . $lang['updated']);
         } else message($lang['expired']);
