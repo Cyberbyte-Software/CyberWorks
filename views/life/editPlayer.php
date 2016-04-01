@@ -442,16 +442,16 @@ if ($result->num_rows > 0) {
                                 }
                                 
                                 while ($row = mysqli_fetch_assoc($result_of_query)) {
-									echo "<tr>";
-									echo "<td>" . carName($row["classname"]) . "</td>";
-									echo "<td class='hidden-xs'> " . carType($row["type"], $lang) . "</td>";
-									echo "<td class='hidden-xs'> " . $row["plate"] . "</td>";
-									if ($_SESSION['permissions']['edit']['vehicles']) {
-										echo "<td><a class='btn btn-primary btn-xs' href='" . $settings['url'] . "editVeh/" . $row["id"] . "'>";
-										echo "<i class='fa fa-pencil'></i></a></td>";
-									}
-									echo "</tr>";
-								}
+					echo "<tr>";
+					echo "<td>" . carName($row["classname"]) . "</td>";
+					echo "<td class='hidden-xs'> " . carType($row["type"], $lang) . "</td>";
+					echo "<td class='hidden-xs'> " . $row["plate"] . "</td>";
+					if ($_SESSION['permissions']['edit']['vehicles']) {
+						echo "<td><a class='btn btn-primary btn-xs' href='" . $settings['url'] . "editVeh/" . $row["id"] . "'>";
+						echo "<i class='fa fa-pencil'></i></a></td>";
+					}
+					echo "</tr>";
+				}
 								
                                 echo '</tr></tbody></table>';
                                 echo '<a style="float: right; padding-right:15px;" href="' . $settings['url'] . 'vehicles/' . $player->playerid . '"><h4>' . $lang['more'] . ' <i class="fa fa-arrow-circle-right"></i></h4></a>';
