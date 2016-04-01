@@ -94,9 +94,9 @@ if ($result_of_query->num_rows > 0) {
             }
 
             if ($veh->active == false) {
-                echo " <span class='label label-danger'>" . $lang["not"] . " " . $lang["active"] . "</span></h4>";
+                echo " <h4><span class='label label-danger'>" . $lang["not"] . " " . $lang["active"] . "</span></h4>";
             } else {
-                echo " <span class='label label-success'>" . $lang["active"] . "</span></h4>";
+                echo " <h4><span class='label label-success'>" . $lang["active"] . "</span></h4>";
             }
             if ($_SESSION['permissions']['edit']['vehicles']) {
                 echo '
@@ -222,7 +222,7 @@ if ($result_of_query->num_rows > 0) {
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title"><span
-                            class="glyphicon glyphicon-pencil"></span><?php echo " " . $lang['DELETE'] . " " . $lang['vehicle']; ?>
+                            class="glyphicon glyphicon-pencil"></span><?php echo " " . $lang['delete'] . " " . $lang['vehicle']; ?>
                     </h4>
                 </div>
                 <?php  echo '<form method="post" action="' . $settings['url'] . 'editVeh/' . $vehID . '">' ?>
