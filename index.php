@@ -226,20 +226,16 @@ if (file_exists('config/settings.php')) {
                     } elseif ($currentPage == 'medic') {
                         if ($_SESSION['permissions']['view']['player']) {
                             if ($query) {
-                                $start_from = ($url['path'][$settings['base'] + 1] - 1) * results_per_page;
-                            } else {
-                                $start_from = 0;
+                                $search = $url['path'][$settings['base'] + 1];
                             }
                             logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
-                            $page = "views/life/medics.php";
+                            $page = "views/life/medics.php";                           
                         }
 
                     } elseif ($currentPage == 'police') {
                         if ($_SESSION['permissions']['view']['player']) {
                             if ($query) {
-                                $start_from = ($url['path'][$settings['base'] + 1] - 1) * results_per_page;
-                            } else {
-                                $start_from = 0;
+                                $search = $url['path'][$settings['base'] + 1];
                             }
                             logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
                             $page = "views/life/police.php";
