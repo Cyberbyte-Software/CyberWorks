@@ -77,4 +77,4 @@ if ($result_of_query->num_rows > 0) {  ?>
     </table>
 </div>
 <?php
-} else echo errorMessage(37, $lang);
+} else echo errorMessage(32, $lang);

@@ -720,49 +720,50 @@ if ($result->num_rows > 0) {
                         <button class="btn btn-primary" type="submit"><?php echo $lang['subChange']; ?></button>
                     </div>
                 </form>
-                <script>
-                $( document ).ready(function() {
-                    <?php if ($_SESSION['permissions']['edit']['licences']) { ?>
-                    $(".license").click(function () {
-                        $(this).toggleClass('btn-success btn-theme01');
-                        $.post( "<?php echo $settings['url'] ?>hooks/license.php", { id: this.id, player: "<?php echo $uID ?>"} );
-                    });
-                    <?php } if ($_SESSION['permissions']['edit']['player']) { ?>
-                    $(".arrest").click(function () {
-                        $(this).toggleClass('btn-success btn-theme01');
-                        $.post( "<?php echo $settings['url'] ?>hooks/arrest.php", { id: this.id, player: "<?php echo $uID ?>"} );
-                    });
-                    <?php } if ($_SESSION['permissions']['edit']['wanted']) { ?>
-                    $(".wanted").click(function () {
-                        $(this).toggleClass('btn-success btn-theme01');
-                        $.post( "<?php echo $settings['url'] ?>hooks/wanted.php", { id: this.id, player: "<?php echo $uID ?>"} );
-                    });
-                    <?php } if (($_SESSION['permissions']['view']['steam'] || $player->playerid == $_SESSION['playerid']) && $settings['vacTest']) { ?>
-                    $.ajax({
-                        url: "https://steamrep.com/api/beta3/reputation/<?php echo  $player->playerid ?>?json=1&extended=1",
-                        dataType: 'json',
-                        success: function(data) {
-                            if(data['steamrep']['vacban'] == "1") {
-                                $('#vacBan').html('<h4><span class="label label-danger" style="margin-left:3px; line-height:2;">VAC BANNED</span></h4>');
-                            }
-                        }
-                    });
-                    <?php } if ($_SESSION['permissions']['view']['steam'] && $settings['vacTest']) { ?>
-                    $.ajax({
-                        url: "http://bans.itsyuka.tk/api/bans/player/id/6e96f18ddaaa2dadcc32482b2d6a0593/format/json/key/<?php echo $settings['communityBansAPI'] ?>",
-                        dataType: 'json',
-                        success: function(data) {
-                            if(data['level'] == '2') {
-                                $('#communityBanned').html('<h4><span class="label label-danger" style="margin-left:3px; line-height:2;">Community Banned</span></h4>');
-                            }
-                        }
-                    });
-                    <?php }?>
-                });
-                </script>
             <?php } else "<h1>" . errorMessage(5, $lang) . "/<h1>"; ?>
         </div>
     </div>
 </div>
+
+<script>
+$( document ).ready(function() {
+    <?php if ($_SESSION['permissions']['edit']['licences']) { ?>
+    $(".license").click(function () {
+        $(this).toggleClass('btn-success btn-theme01');
+        $.post( "<?php echo $settings['url'] ?>hooks/license.php", { id: this.id, player: "<?php echo $uID ?>"} );
+    });
+    <?php } if ($_SESSION['permissions']['edit']['player']) { ?>
+    $(".arrest").click(function () {
+        $(this).toggleClass('btn-success btn-theme01');
+        $.post( "<?php echo $settings['url'] ?>hooks/arrest.php", { id: this.id, player: "<?php echo $uID ?>"} );
+    });
+    <?php } if ($_SESSION['permissions']['edit']['wanted']) { ?>
+    $(".wanted").click(function () {
+        $(this).toggleClass('btn-success btn-theme01');
+        $.post( "<?php echo $settings['url'] ?>hooks/wanted.php", { id: this.id, player: "<?php echo $uID ?>"} );
+    });
+    <?php } if (($_SESSION['permissions']['view']['steam'] || $player->playerid == $_SESSION['playerid']) && $settings['vacTest']) { ?>
+    $.ajax({
+        url: "https://steamrep.com/api/beta3/reputation/<?php echo  $player->playerid ?>?json=1&extended=1",
+        dataType: 'json',
+        success: function(data) {
+            if(data['steamrep']['vacban'] == "1") {
+                $('#vacBan').html('<h4><span class="label label-danger" style="margin-left:3px; line-height:2;">VAC BANNED</span></h4>');
+            }
+        }
+    });
+    <?php } if ($_SESSION['permissions']['view']['steam'] && $settings['vacTest']) { ?>
+    $.ajax({
+        url: "http://bans.itsyuka.tk/api/bans/player/id/6e96f18ddaaa2dadcc32482b2d6a0593/format/json/key/<?php echo $settings['communityBansAPI'] ?>",
+        dataType: 'json',
+        success: function(data) {
+            if(data['level'] == '2') {
+                $('#communityBanned').html('<h4><span class="label label-danger" style="margin-left:3px; line-height:2;">Community Banned</span></h4>');
+            }
+        }
+    });
+    <?php }?>
+});
+</script>
 
 <?php } else echo "<h1>" . errorMessage(36, $lang) . "</h1>";
