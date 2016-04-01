@@ -40,11 +40,7 @@ if (isset($_POST["editType"])) {
                     $sql = "DELETE FROM `vehicles` WHERE `vehicles`.`id` = '" . $vehID . "'";
                     $result_of_query = $db_link->query($sql);
                     message($lang['vehicle'] . ' ' . $lang['deleted']);
-                    $sql = "SELECT `pid`,`classname` FROM `vehicles` WHERE `id` ='" . $vehID . "';";
-                    $result_of_query = $db_link->query($sql);
-                    while ($row = mysqli_fetch_assoc($result_of_query)) {
-                        logAction($_SESSION['user_name'], $lang['deleted'] . ' ' . nameID($row["pid"], $db_link) . '\'s ' . carName($row["classname"]) . '(' . $vehID . ')', 2);
-                    }
+                    logAction($_SESSION['user_name'], $lang['deleted'] . ' ' . nameID($row["pid"], $db_link) . '\'s ' . carName($row["classname"]) . '(' . $vehID . ')', 2);
                     break;
 
                 case "veh_edit":
