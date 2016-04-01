@@ -173,7 +173,7 @@ if ($result_of_query->num_rows > 0) {
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><span class="glyphicon glyphicon-pencil"></span> <?php echo $lang['DELETE'] . " " . $lang['house'] ?>
+                <h4 class="modal-title"><span class="glyphicon glyphicon-pencil"></span> <?php echo $lang['delete'] . " " . $lang['house'] ?>
                 </h4>
             </div>
             <form method="post" action="<?php echo $settings['url'] . "editHouse/" . $hID ?>" role="form">

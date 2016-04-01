@@ -120,7 +120,7 @@ class Login
                                     }
                                 }
                                 $_SESSION['sudo'] = time();
-                                $_SESSION['message'] = $verify;
+                                //$_SESSION['message'] = $verify;
                                 $_SESSION['user_name'] = $result_row->user_name;
                                 $_SESSION['user_level'] = $result_row->user_level;
                                 $_SESSION['user_profile'] = $result_row->user_profile;
