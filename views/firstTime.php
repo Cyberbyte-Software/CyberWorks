@@ -77,9 +77,9 @@ RewriteRule . /'.$base . 'index.php [L]';
     $settings['db']['name'] = $encrypted_SQL_name;
 
     $settings['maxLevels']['cop'] = 7;
-    $settings['maxLevels']['medic'] = 3;
-    $settings['maxLevels']['admin'] = 3;
-    $settings['maxLevels']['donator'] = 8;
+    $settings['maxLevels']['medic'] = 5;
+    $settings['maxLevels']['admin'] = 5;
+    $settings['maxLevels']['donator'] = 5;
 
     $settings['items'] = 15;
     $settings['notifications'] = true;

@@ -10,14 +10,14 @@ if (isset($_POST['db_host'])) {
             $settings['community'] = $_POST['community'];
 
             $settings['refesh'] = $_POST['refresh'];
-            $settings['allowLang'] = $_POST['allowLang'];
-            $settings['wanted'] = $_POST['wanted'];
-            $settings['news'] = $_POST['news'];
-            $settings['register'] = $_POST['register'];
-            $settings['steamlogin'] = $_POST['steamlogin'];
-            $settings['vacTest'] = $_POST['vacTest'];
-            $settings['performance'] = $_POST['performance'];
-            $settings['notifications'] = $_POST['notifications'];
+            $settings['allowLang'] = filter_var($_POST['allowLang'], FILTER_VALIDATE_BOOLEAN);
+            $settings['wanted'] = filter_var($_POST['wanted'], FILTER_VALIDATE_BOOLEAN);
+            $settings['news'] = filter_var($_POST['news'], FILTER_VALIDATE_BOOLEAN);
+            $settings['register'] =  filter_var($_POST['register'], FILTER_VALIDATE_BOOLEAN);
+            $settings['steamlogin'] =  filter_var($_POST['steamlogin'], FILTER_VALIDATE_BOOLEAN);
+            $settings['vacTest'] = filter_var($_POST['vacTest'], FILTER_VALIDATE_BOOLEAN);
+            $settings['performance'] =  filter_var($_POST['performace'], FILTER_VALIDATE_BOOLEAN);
+            $settings['notifications'] =  filter_var($_POST['notifications'], FILTER_VALIDATE_BOOLEAN);
             
             $settings['2factor'] = false;
             $settings['gravatar'] = false;
