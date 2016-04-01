@@ -111,8 +111,9 @@ $license['por']['license_cop_swat'] = 'Licença do Bope';
 
 function licName($lic, $license)
 {
-    if (isset($license[$_SESSION['lang']][$lic])) {
-        return $license[$_SESSION['lang']][$lic];
+    $settings = require_once 'settings.php';
+    if (isset($license[$settings['language']][$lic])) {
+        return $license[$settings['language']][$lic];
     } elseif (isset($license['en'][$lic])) {
         return $license['en'][$lic];
     } else {
