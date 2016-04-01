@@ -2,11 +2,11 @@
 $max = 'LIMIT ' . ($pageNum - 1) * $_SESSION['items'] . ',' . $_SESSION['items'];
 
 if (isset($search)) {
-    $sql = "SELECT * FROM `users` WHERE `user_name` LIKE '" . $search . "' OR `user_email` LIKE '" . $search . "' OR `user_id` LIKE '" . $search . "' OR `playerid` LIKE '" . $search . "';";
+    $sql = "SELECT * FROM `users` WHERE `user_name` LIKE '%" . $search . "%' OR `user_email` LIKE '" . $search . "' OR `user_id` LIKE '" . $search . "' OR `playerid` LIKE '%" . $search . "%';";
     $result_of_query = $db_connection->query($sql);
     $total_records = mysqli_num_rows($result_of_query);
     if ($pageNum > $total_records) $pageNum = $total_records;
-    $sql = "SELECT * FROM `users` WHERE `user_name` LIKE '" . $search . "' OR `user_email` LIKE '" . $search . "' OR `user_id` LIKE '" . $search . "' OR `playerid` LIKE '" . $search . "'" . $max . " ;";
+    $sql = "SELECT * FROM `users` WHERE `user_name` LIKE '%" . $search . "%' OR `user_email` LIKE '" . $search . "' OR `user_id` LIKE '" . $search . "' OR `playerid` LIKE '%" . $search . "%'" . $max . " ;";
     logAction($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['users'], 1);
 } else {
     $sql = "SELECT `user_name` FROM `users`;";

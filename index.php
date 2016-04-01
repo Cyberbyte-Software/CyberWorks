@@ -229,10 +229,17 @@ if (file_exists('config/settings.php')) {
                                 $search = $url['path'][$settings['base'] + 1];
                             }
                             logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
-                            $page = "views/life/medics.php";                           
+                            $page = "views/life/medics.php";
                         }
-
-                    } elseif ($currentPage == 'police') {
+                    } elseif ($currentPage == 'admins') {
+                        if ($_SESSION['permissions']['view']['player']) {
+                            if ($query) {
+                                $search = $url['path'][$settings['base'] + 1];
+                            }
+                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                            $page = "views/life/admins.php";
+                        }
+                    }  elseif ($currentPage == 'police') {
                         if ($_SESSION['permissions']['view']['player']) {
                             if ($query) {
                                 $search = $url['path'][$settings['base'] + 1];
