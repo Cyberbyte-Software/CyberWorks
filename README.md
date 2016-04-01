@@ -12,6 +12,7 @@ We also want to thank all of you which support us.
 ## Credits
 erdknuffel aka jastend for giving me some ideas and fixes for the original Life-Control.
 Provokan for his continued support and ideas.
+BoGuu for several pull requests and fixes.
 ###Translations
 We would like to thank the following users for their translations
  - menko008 - Dutch
