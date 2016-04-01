@@ -83,9 +83,9 @@ if ($result_of_query->num_rows > 0) {
                 <h4> <?php echo $lang['bank'] . ": " . $gang->bank; ?> </h4>
                 <?php
                 if ($gang->active == 0) {
-                    echo "<button type='button' class='gangActive btn btn-danger'>" . $lang["not"] . " " . $lang["active"] . "</button> ";
+                    echo "<h4><button type='button' class='gangActive btn btn-danger'>" . $lang["not"] . " " . $lang["active"] . "</button></h4> ";
                 } else {
-                    echo "<button type='button' class='gangActive btn btn-success'>" . $lang["active"] . "</button> ";
+                    echo "<h4><button type='button' class='gangActive btn btn-success'>" . $lang["active"] . "</button></h4> ";
                 }
                 if ($_SESSION['permissions']['edit']['gangs']) {
                     echo '<a data-toggle="modal" href="#edit_gang" class="btn btn-primary btn-xs" style="float: right; margin-right:3px;">';
@@ -173,7 +173,7 @@ if ($result_of_query->num_rows > 0) {
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">
                     <span
-                        class="glyphicon glyphicon-pencil"></span><?php echo " " . $lang['DELETE'] . " " . $lang['gang']; ?>
+                        class="glyphicon glyphicon-pencil"></span><?php echo " " . $lang['delete'] . " " . $lang['gang']; ?>
                 </h4>
             </div>
             <form method="post" action="<?php echo $settings['url'] . 'editGang/' . $gID; ?>" role="form">
