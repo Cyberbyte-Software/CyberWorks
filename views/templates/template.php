@@ -13,7 +13,7 @@
     </b></a>
 
     <a class="logosmall pull-right hidden-xs">
-        <b>Copyright &copy; 2015 Cyber Works <?php if (isset($settings['version'])) {
+        <b>Copyright &copy; 2016 Cyber Works <?php if (isset($settings['version'])) {
     echo $settings['version'];
 }
 ?> by Cyberbyte Studios</b></a>

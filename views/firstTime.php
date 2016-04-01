@@ -88,7 +88,7 @@ RewriteRule . /'.$base . 'index.php [L]';
     $settings['language'] = 'en';
     $settings['allowLang'] = true;
     $settings['wanted'] = false;
-    $settings['version'] = '0.4';
+    $settings['version'] = '0.5';
     $settings['staffRanks'] = 5;
     $settings['logging'] = true;
     $settings['2factor'] = false;
