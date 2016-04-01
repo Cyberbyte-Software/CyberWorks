@@ -1,10 +1,6 @@
 <?php include("views/templates/head.php"); ?>
 <body>
 <header class="header black-bg">
-    <div class="sidebar-toggle-box">
-        <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
-    </div>
-
     <a href="<?php echo $settings['url'] ?>dashboard" class="logo"><b>Cyber Works
             <?php if ($debug) {
     echo '- Debug Mode';
@@ -88,19 +84,11 @@
 						</ul>
 					</li>
 				<?php } if (isset($_SESSION['user_email'])) { ?>
-            <li class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <i class="fa fa-user"></i>
+                <li>
+                    <a href="<?php echo $settings['url'] ?>profile">
+                        <i class="fa fa-fw fa-user"></i>
                         <span><?php echo $lang['navProfile']; ?></span>
                     </a>
-                    <ul class="dropdown-menu extended tasks-bar">
-                        <li>
-                            <a href="<?php echo $settings['url'] ?>profile">
-                                <i class="fa fa-fw fa-user"></i>
-                                <span><?php echo $lang['navProfile']; ?></span>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
             <?php } else { ?>
             <li>
