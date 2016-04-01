@@ -16,7 +16,7 @@ if (isset($_POST['db_host'])) {
             $settings['register'] =  filter_var($_POST['register'], FILTER_VALIDATE_BOOLEAN);
             $settings['steamlogin'] =  filter_var($_POST['steamlogin'], FILTER_VALIDATE_BOOLEAN);
             $settings['vacTest'] = filter_var($_POST['vacTest'], FILTER_VALIDATE_BOOLEAN);
-            $settings['performance'] =  filter_var($_POST['performace'], FILTER_VALIDATE_BOOLEAN);
+            $settings['performance'] =  filter_var($_POST['performance'], FILTER_VALIDATE_BOOLEAN);
             $settings['notifications'] =  filter_var($_POST['notifications'], FILTER_VALIDATE_BOOLEAN);
             
             $settings['2factor'] = false;
