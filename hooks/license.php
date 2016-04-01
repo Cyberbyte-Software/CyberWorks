@@ -3,7 +3,7 @@ session_name('CyberWorks');
 session_set_cookie_params(1209600);
 session_start();
 
-include_once('config/english.php');
+include_once('../config/english.php');
 foreach ($settings['plugins'] as &$plugin) {
     if (file_exists("plugins/" . $plugin . "/lang/lang.php")) {
         include("plugins/" . $plugin . "/lang/lang.php");
