@@ -24,8 +24,10 @@ if (isset($_POST['user_password'])) {
         message($lang['expired']);
     }
 }
-?>
 
+$sql = "SELECT * FROM `users` WHERE `user_name` ='" . $_SESSION['user_name'] . "';";
+$profile = $db_connection->query($sql)->fetch_object();
+?>
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
@@ -35,64 +37,98 @@ if (isset($_POST['user_password'])) {
     </div>
 </div>
 
-<h2 class="form-login-heading"><?php echo $_SESSION['user_name']; ?></h2>
-<?php
-$sql = "SELECT * FROM `users` WHERE `user_name` ='" . $_SESSION['user_name'] . "';";
-$profile = $db_connection->query($sql)->fetch_object();
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title"><?php echo $_SESSION['user_name']; ?></h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div  style="padding-top:4%;" class="col-md-3 col-lg-3 " align="center">
+                <?php if(!isset($_SESSION['profile_link'])) {
+                    if(isset($_SESSION['user_email']) && $settings['gravatar']) { ?>
+                        <a href="<?php echo $settings['url'] . 'profile' ?>"> <img alt="User Pic" src="<?php get_gravatar($_SESSION['user_email'],64,'retro')  ?>" class="img-circle img-responsive"></a>
+                    <?php } else {?>
+                        <a href="<?php echo $settings['url'] . 'profile' ?>"> <img alt="User Pic" src="<?php echo $settings['url'] . 'assets/img/profile/' . $_SESSION['user_profile'] . '.jpg' ?>" class="img-circle img-responsive"></a>
+                    <?php } ?>
+                <?php } else { ?>
+                    <img alt="User Pic" src="<?php echo $settings['url'] . 'assets/img/profile/' . $_SESSION['user_profile'] . '.jpg' ?>" class="img-circle img-responsive">
+                <?php } ?>
+            </div>
 
-if (!isset($_SESSION['profile_link'])) {
-    if (isset($_SESSION['user_email']) && $settings['gravatar']) {
-        echo '<a href="' . $settings['url'] . 'profile">';
-        echo '<img src="' . get_gravatar($_SESSION['user_email'],64,'retro') . '" class="img-circle" width="60" height="60"></a>'.$lang['gravatarProfile'];
-    } else {
-        echo '<a href="' . $settings['url'] . 'profile">';
-        echo '<img src="' . $settings['url'] . 'assets/img/profile/' . $_SESSION['user_profile'] . '.jpg"';
-        echo 'class="img-circle" width="60" height="60"></a>'.$lang['themeProfile'];
-    }
-} else {
-    echo '<a href="' . $_SESSION['profile_link'] . '" target="_blank">';
-    echo '<img src="' . $_SESSION['user_profile'] . '"';
-    echo 'class="img-circle" width="64" height="64"></a>'.$lang['steamProfile'];
-}
+            <div class=" col-md-9 col-lg-9 ">
+                <table class="table table-user-information">
+                    <tbody>
+                    <tr>
+                        <td><?php echo $lang['rank'] ?>:</td>
+                        <td><?php echo $settings['ranks'][$profile->user_level] . " (" . $profile->user_level . ")" ?></td>
+                    </tr>
+                    <form method="post" action="profile" name="profileEdit" id="profileEdit">
+                        <?php echo formtoken::getField(); ?>
+                        <tr>
+                            <td><?php echo $lang['playerID'] ?>:</td>
+                            <td><input class='form-control' id='player_id' type='number' name='player_id' value='<?php echo $profile->playerid ?>'></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo $lang['emailAdd'] ?>:</td>
+                            <td><input class='form-control' id='email' type='email' name='email' value='<?php echo $profile->user_email ?>'></td>
+                        </tr>
+                        <tr>
+                            <td>Profile Picture</td>
+                            <td>
+                                <select id='user_pic' name='user_pic' class='form-control'>";
+                                    <?php
+                                    for ($icon = 1; $icon < 6; $icon++) {
+                                        echo '<option value="' . $icon . '" ' . select($icon, $profile->user_profile) . '>' . $settings['names'][$icon] . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><?php echo $lang['current'] . " " . $lang['password'] ?></td>
+                            <td>
+                                <input type="password" id="current_password" name="current_password" class="form-control" autocorrect="off" autocapitalize="off" autocomplete="off">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><?php echo "New " . $lang['password'] ?></td>
+                            <td>
+                                <input type="password" id="user_password" name="user_password" class="form-control" autocorrect="off" autocapitalize="off" autocomplete="off">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><?php echo $lang['repeat'] . " New " . $lang['password'] ?></td>
+                            <td>
+                                <input type="password" id="user_password_again" name="user_password_again" autocorrect="off" class="form-control" autocapitalize="off" autocomplete="off">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input class='btn btn-sm btn-success pull-right' type='submit'  name='edit' value='<?php echo $lang['subChange']?>'>
+                            </td>
+                        </tr>
+                    </form>
+                    </tbody>
+                </table>
+                <span class="pull-right">
+                     <?php
+                     $sql = "SELECT `uid`,`playerid` FROM `players` WHERE `playerid` = '" . $profile->playerid . "' ";
+                     $result = $db_connection->query($sql);
 
-echo '<br><form method="post" action="profile" name="profileEdit" id="profileEdit">';
-echo formtoken::getField();
-$userPid = $profile->playerid;
-echo "<div class='form-group'>" . $lang['emailAdd'] . ": <input class='form-control' id='email' type='email' name='email' value='" . $profile->user_email . "'></div>";
-echo "<h5>" . $lang['rank'] . ": <b>" . $settings['ranks'][$profile->user_level] . "</b> (" . $profile->user_level . ")</h5>";
-echo "<div class='form-group'>" . $lang['picture'] . ": ";
+                     if ($result->num_rows > 0) {
+                         ?> <a class="btn btn-sm btn-primary" href="<?php echo $settings['url'] . 'editPlayer/' . $result->fetch_object()->uid ?> ">  My Player</a> <?php
+                     }
+                     ?>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
 
-echo "<select id='user_pic' name='user_pic' class='form-control'>";
-for ($icon = 1; $icon < 6; $icon++) {
-    echo '<option value="' . $icon . '" ' . select($icon, $profile->user_profile) . '>' . $settings['names'][$icon] . '</option>';
-}
-echo "</select></div>";
+    </div>
 
-echo "<div class='form-group'>" . $lang['playerID'] . ": <input class='form-control' id='player_id' type='number' name='player_id' value='" . $profile->playerid . "'>";
-echo "<p id='steam'></p>";
-$sql = "SELECT `uid`,`playerid` FROM `players` WHERE `playerid` = '" . $profile->playerid . "' ";
-$result = $db_connection->query($sql);
-
-if ($result->num_rows > 0) {
-    echo '<a href="' . $settings['url'] . 'editPlayer/' . $result->fetch_object()->uid . '">  View</a>';
-}
-echo "</div><br>";
-
-echo "<div class='form-group'><label for='current_password'>" . $lang['current'] . " " . $lang['password'] . "</label>: ";
-echo '<input type="password" id="current_password" name="current_password" class="form-control"
-                       autocorrect="off" autocapitalize="off" autocomplete="off"></div>';
-
-echo "<div class='form-group'><label for='user_password'>" . $lang['password'] . "</label>: ";
-echo '<input type="password" id="user_password" name="user_password" class="form-control"
-                       autocorrect="off" autocapitalize="off" autocomplete="off"></div>';
-
-echo "<div class='form-group'><label for='user_password_again'>" . $lang['repeat'] . " " . $lang['password'] . "</label>: ";
-echo '<input type="password" id="user_password_again" name="user_password_again" autocorrect="off" class="form-control"
-                       autocapitalize="off" autocomplete="off"></div>';
-
-echo "<input class='btn btn-sm btn-primary' type='submit'  name='edit' value='" . $lang['subChange'] . "'> ";
-echo "</form>";
-?>
+</div>
 <script>
     $(document).ready(function () {
         $('#profileEdit')
@@ -110,7 +146,7 @@ echo "</form>";
                             notEmpty: {
                             }
                             <?php if (isset($settings['mailgunAPI'])) { ?>,
-                                remote: {
+                            remote: {
                                 type: 'GET',
                                 url: 'https://api.mailgun.net/v2/address/validate?callback=?',
                                 crossDomain: true,
@@ -121,7 +157,7 @@ echo "</form>";
                                 dataType: 'jsonp',
                                 validKey: 'is_valid',
                                 message: 'The email is not valid'
-                                }
+                            }
                             <?php } ?>
                         }
                     },
@@ -196,25 +232,25 @@ echo "</form>";
                     document.getElementById("steam").innerHTML = '<?php echo $lang['steamFound']; ?>' + ' <a href="' + data.result.url + '" target="_blank">' + data.result.name + '</a>';
                 }
                 if (data.field === 'email' && data.validator === 'remote') {
-                var response = data.result;  // response is the result returned by MailGun API
-                if (response.did_you_mean) {
-                    // Update the message
-                    data.element                    // The field element
-                        .data('fv.messages')        // The message container
-                        .find('[data-fv-validator="remote"][data-fv-for="email"]')
-                        .html('Did you mean ' + response.did_you_mean + '?')
-                        .show();
+                    var response = data.result;  // response is the result returned by MailGun API
+                    if (response.did_you_mean) {
+                        // Update the message
+                        data.element                    // The field element
+                            .data('fv.messages')        // The message container
+                            .find('[data-fv-validator="remote"][data-fv-for="email"]')
+                            .html('Did you mean ' + response.did_you_mean + '?')
+                            .show();
                     }
                 }
             })
             .on('err.validator.fv', function(e, data) {
-            if (data.field === 'email' && data.validator === 'remote') {
-                // We need to reset the error message
-                data.element                // The field element
-                    .data('fv.messages')    // The message container
-                    .find('[data-fv-validator="remote"][data-fv-for="email"]')
-                    .html('The email is not valid')
-                    .show();
+                if (data.field === 'email' && data.validator === 'remote') {
+                    // We need to reset the error message
+                    data.element                // The field element
+                        .data('fv.messages')    // The message container
+                        .find('[data-fv-validator="remote"][data-fv-for="email"]')
+                        .html('The email is not valid')
+                        .show();
                 }
             });
     });
