@@ -102,7 +102,6 @@ class Login
                     // the hash of that user's password
                     //var_dump(password_hash($_POST['user_password'], PASSWORD_DEFAULT));
                     if (password_verify($_POST['user_password'], $result_row->user_password_hash)) {
-
                         if ($result_row->user_level <> 0) {
                             //$verify = json_decode(file_get_contents('http://cyberbyte.org.uk/hooks/cyberworks/messages.php?id=' . $settings['id']));
                             //if (!isset($verify->verify)) {
