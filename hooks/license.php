@@ -3,18 +3,13 @@ session_name('CyberWorks');
 session_set_cookie_params(1209600);
 session_start();
 
-include_once('../config/english.php');
-foreach ($settings['plugins'] as &$plugin) {
-    if (file_exists("plugins/" . $plugin . "/lang/lang.php")) {
-        include("plugins/" . $plugin . "/lang/lang.php");
-    }
-}
+include_once( __DIR__ . '/../config/english.php');
 
 if (isset($_SESSION['permissions']['edit']['licences'])) {
     if ($_SESSION['permissions']['edit']['licences'] && isset($_POST['player']) && isset($_POST['id'])) {
-        require('../gfunctions.php');
-        require('../config/license.php');
-        $settings = require('../config/settings.php');
+        require_once( __DIR__ . '/../gfunctions.php');
+        require_once( __DIR__ . '/../config/license.php');
+        $settings = require( __DIR__ . '/../config/settings.php');
         if (isset($_SESSION['dbid'])) {
             $db_link = serverConnect($_SESSION['dbid']);
     
