@@ -27,6 +27,5 @@
             }
         }
     } ?>
-
     <!--Copyright CyberByte 2015 http://cyberbyte.org.uk/-->
 </head>

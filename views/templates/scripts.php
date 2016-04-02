@@ -96,6 +96,59 @@
     });
 </script>
 <?php
+if ($page == 'views/life/dashboard.php' && $settings['lifeVersion'] == 4) {
+    ?>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', {'packages':['corechart']});
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Callback that creates and populates a data table,
+        // instantiates the pie chart, passes in the data and
+        // draws it.
+        function drawChart() {
+
+            // Create the data table.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Date');
+            data.addColumn('number', 'New Players');
+            data.addRows([
+                <?php
+                    $sql = "SELECT DATE(`players`.`insert_time`) AS `date`, COUNT(`players`.`uid`) AS `count` FROM `players` GROUP BY `date` ORDER BY `date`";
+                    $result_of_query = $db_link->query($sql);
+                    $total_records = mysqli_num_rows($result_of_query);
+                    $i = 1;
+                    while ($row = mysqli_fetch_assoc($result_of_query)) {
+                        if ($i < $total_records) {
+                            echo "['" . $row["date"] . "', " . $row["count"] . "],";
+                        } else {
+                            echo "['" . $row["date"] . "', " . $row["count"] . "]";
+                        }
+                        $i++;
+                    };
+                ?>
+            ]);
+
+            // Set chart options
+            var options = {
+                'title':'',
+                'width':document.getElementById('player_data_chart').offsetWidth,
+                'height':document.getElementById('player_data_chart').offsetheight
+            };
+
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.BarChart(document.getElementById('player_data_chart'));
+            chart.draw(data, options);
+        }
+    </script>
+    <?php
+}
+?>
+<?php
 foreach ($settings['plugins'] as &$plugin) {
     if (file_exists("plugins/" . $plugin . "/assets/scripts.js")) {
         echo '<script type="text/javascript" src="' . $settings['url'] . 'plugins/' . $plugin . '/assets/scripts.js"></script>';
