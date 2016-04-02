@@ -71,4 +71,4 @@ if ($result_of_query->num_rows > 0) {
             ?>
     </div>
     <?php
-}
+} else echo '<h3>' . errorMessage(36, $lang) . '</h3>';
