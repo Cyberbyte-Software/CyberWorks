@@ -320,11 +320,13 @@ function clean($input, $type)
 {
     if ($type == 'string') {
         return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_STRING);
-    } elseif ($type == 'int') {$input = filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_NUMBER_INT); if ($input < 0) {
-        return 0;
-    } else {
-        return $input;
-    }
+    } elseif ($type == 'int') {
+        $input = filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_NUMBER_INT);
+        if ($input < 0) {
+            return 0;
+        } else {
+            return $input;
+        }
     } elseif ($type == 'url') {
         return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_URL);
     } elseif ($type == 'email') {

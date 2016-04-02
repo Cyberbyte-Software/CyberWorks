@@ -87,6 +87,7 @@ RewriteRule . /'.$base . 'index.php [L]';
     $settings['sql_phone'] = false;
     $settings['language'] = 'en';
     $settings['allowLang'] = true;
+    $settings['lifeVersion'] = 4;
     $settings['wanted'] = false;
     $settings['version'] = '0.5';
     $settings['staffRanks'] = 5;

@@ -10,6 +10,8 @@ if (isset($_POST['db_host'])) {
             $settings['community'] = $_POST['community'];
 
             $settings['refesh'] = $_POST['refresh'];
+            $settings['lifeVersion'] = intval($_POST['lifeVersion']);
+
             $settings['allowLang'] = filter_var($_POST['allowLang'], FILTER_VALIDATE_BOOLEAN);
             $settings['wanted'] = filter_var($_POST['wanted'], FILTER_VALIDATE_BOOLEAN);
             $settings['news'] = filter_var($_POST['news'], FILTER_VALIDATE_BOOLEAN);
@@ -136,11 +138,27 @@ if (isset($_POST['db_host'])) {
             <?php echo select(false, $settings['wanted']) . '>' . $lang['no'] ?></option>
         </select></div>
 
+    <div class='form-group'>
+        <label for="lifeVersion">Altis Life Version: </label>
+        <select name="lifeVersion" id="lifeVersion" class="form-control">
+            <option value="3" <?php echo select('3', $settings['lifeVersion']) ?> >3.X.X.X</option>
+            <option value="4" <?php echo select('4', $settings['lifeVersion']) ?> >4.X</option>
+        </select></div>
     <h3>API's</h3>
-    <div class='form-group'><div class='input-group'><label for='steamAPI'>Steam API <?php echo $lang['key'] ?>: </label><input class='form-control pwd' id='steamAPI' type='password' name='steamAPI' value='<?php echo $settings['steamAPI']?>'>
-    <span class='input-group-btn'><button style='margin-top: 21px;' class='btn btn-default reveal' type='button'><i class='fa fa-eye-slash'></i></button></span></div>
-
-    <div class='form-group'><label for='steamDomain'>Steam Domain: </label><input class='form-control' id='steamDomain' type='text' name='steamDomain' value='<?php echo $settings['steamdomain']?>'></div>
+    <div class='form-group'>
+        <div class='input-group'>
+            <label for='steamAPI'>Steam API <?php echo $lang['key'] ?>: </label>
+            <input class='form-control pwd' id='steamAPI' type='password' name='steamAPI' value='<?php echo $settings['steamAPI']?>'>
+            <span class='input-group-btn'>
+                <button style='margin-top: 21px;' class='btn btn-default reveal' type='button'><i class='fa fa-eye-slash'></i></button>
+            </span>
+        </div>
+    </div>
+    
+    <div class='form-group'>
+        <label for='steamDomain'>Steam Domain: </label>
+        <input class='form-control' id='steamDomain' type='text' name='steamDomain' value='<?php echo $settings['steamdomain']?>'>
+    </div>
 
     <div class='form-group'><label for="steamlogin"><?php echo $lang['steamlogin'] ?>: </label>
         <select name="steamlogin" id="steamlogin" class="form-control">
