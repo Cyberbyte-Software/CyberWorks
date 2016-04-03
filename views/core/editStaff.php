@@ -4,6 +4,8 @@ $result_of_query = $db_connection->query($sql);
 
 if ($result_of_query->num_rows > 0) {
     $user = $result_of_query->fetch_object();
+	
+	if($_SESSION['user_level'] >= $user->user_level) {
 
     if (isset($_POST["staffName"])) {
         if (formtoken::validateToken($_POST)) {
@@ -11,16 +13,20 @@ if ($result_of_query->num_rows > 0) {
             $staffEmail = $_POST['staffEmail'];
             $staffPID = $_POST['staffPID'];
             $permissions = include 'config/permissions.php';
-
             if (isset($_POST['ban'])) {
 				if ($user->user_level == 5 && $_SESSION['user_level'] < 5) { $staffRank = 5; } else { $staffRank = 0; }
 			} else {
-				if ($_POST['staffRank'] == 5 && $_SESSION['user_level'] < 5) { $staffRank = 4; } else { $staffRank = $_POST['staffRank']; }
+				if ($_POST['staffRank'] > $_SESSION['user_level'] || $user->user_level > $_SESSION['user_level']) { $staffRank = $user->user_level; } else { $staffRank = $_POST['staffRank']; }
 			}
 	    	$userPerms = json_encode($permissions[$staffRank]);
 	
             $sql = "UPDATE `users` SET `user_name`='" . $staffName . "',`user_email`='" . $staffEmail . "',`playerid`='" . $staffPID . "',`user_level`='" . $staffRank . "', `permissions`='" . $userPerms . "' WHERE `user_id` ='" . $uId . "';";
             $result_of_query = $db_connection->query($sql);
+			if ($user->user_level != $_POST['staffRank']) logAction($_SESSION['user_name'], $lang['edited'] . " " . $_POST['staffName'] . "\'s " . $lang['staff'] . " " . $lang['rank'] . " " . $lang['from'] . " (" . $settings['ranks'][$user->user_level] . ") " . $lang['to'] . " (" . $settings['ranks'][$_POST['staffRank']] . ")", 2);
+			if ($user->user_name != $_POST['staffName']) logAction($_SESSION['user_name'], $lang['edited'] . " " . $user->user_name . "\'s " . strtolower($lang['name']) . " " . $lang['to'] . " " . $_POST['staffName'] . "", 2);
+			if ($user->playerid != $_POST['staffPID']) logAction($_SESSION['user_name'], $lang['edited'] . " " . $_POST['staffName'] . "\'s " . $lang['player'] . " " . $lang['id'] . " " . $lang['from'] . " (" . $user->playerid . ") " . $lang['to'] . " (" . $_POST['staffPID'] . ")", 2);
+			if ($user->user_email != $_POST['staffEmail']) logAction($_SESSION['user_name'], $lang['edited'] . " " . $user->user_name . "\'s " . strtolower($lang['email']) . " " . $lang['from'] . " (" . $user->user_email . ") " . $lang['to'] . " (" . $_POST['staffEmail'] . ")", 2);
+			
             message(ucfirst($_POST['staffName']) . ' ' . $lang['updated']);
         } else message($lang['expired']);
     }
@@ -98,12 +104,13 @@ if ($result_of_query->num_rows > 0) {
                 echo "<center>";
                 echo "<h4>" . $lang['name'] . ":  <input id='staffName' class='form-control' name='staffName' type='text' value='" . $user->user_name . "'></h4>";
                 echo "<h4>" . $lang['emailAdd'] . ": <input id='staffEmail' class='form-control' name='staffEmail' type='text' value='" . $user->user_email . "'></h4>";
-                echo "<h4>" . $lang['rank'] . ": ";
-                echo "<select id='staffRank' class='form-control' name='staffRank'>";
-
-                for ($lvl = 0; $lvl <= $settings['staffRanks']; $lvl++) {
-                    echo '<option value="' . $lvl . '"' . select($lvl, $user->user_level) . '>' . $settings['ranks'][$lvl] . '</option>';
-                }
+				echo "<h4>" . $lang['rank'] . ": ";
+				echo "<select id='staffRank' class='form-control' name='staffRank'>";
+				
+				for ($lvl = 0; $lvl <= $_SESSION['user_level']; $lvl++) {
+					echo '<option value="' . $lvl . '"' . select($lvl, $user->user_level) . '>' . $settings['ranks'][$lvl] . '</option>';
+				}
+				
                 echo "</select></h4>";
                 echo "<h4>" . $lang['playerID'] . ":  <input id='staffPID' class='form-control' name='staffPID' type='text' value='" . $user->playerid . "'></h4>";
                 echo "</center>";
@@ -1096,6 +1103,10 @@ if ($result_of_query->num_rows > 0) {
     </div>
     <?php } ?>
 <?php
+} else {
+	echo '<h3>' . errorMessage(5, $lang) . '</h3>';
+}
+
 } else {
     echo errorMessage(3, $lang);
 }

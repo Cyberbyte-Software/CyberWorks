@@ -13,9 +13,8 @@ if (isset($search)) {
     $result_of_query = $db_connection->query($sql);
     $total_records = mysqli_num_rows($result_of_query);
     if ($pageNum > $total_records) $pageNum = $total_records;
-    $sql = "SELECT * FROM `users` " . $max . " ;";
+    $sql = "SELECT * FROM `users` ORDER BY `user_level` DESC " . $max . " ;";
 }
-
 $result_of_query = $db_connection->query($sql);
 if ($result_of_query->num_rows > 0) {
     ?>
@@ -60,10 +59,12 @@ if ($result_of_query->num_rows > 0) {
                     echo " (" . $row["user_level"] . ")";
                 }
                 echo "</td><td class='hidden-xs'>" . $row["playerid"] . "</td>";
-                if ($_SESSION['permissions']['edit']['staff']) {
+                if ($_SESSION['permissions']['edit']['staff'] && $_SESSION['user_level'] >= $row["user_level"]) {
                     echo "<td><a class='btn btn-primary btn-xs' href='" . $settings['url'] . "editStaff/" . $row["user_id"] . "'>";
                     echo "<i class='fa fa-pencil'></i></a></td>";
-                }
+                } else {
+					echo "<td></td>";
+				}
                 echo "</tr>";
             };
             echo "</tbody></table>";
