@@ -11,18 +11,11 @@ if ($result_of_query->num_rows > 0) {
             $staffEmail = $_POST['staffEmail'];
             $staffPID = $_POST['staffPID'];
             $permissions = include 'config/permissions.php';
+
             if (isset($_POST['ban'])) {
-				$staffRank = 0;
+				if ($user->user_level == 5 && $_SESSION['user_level'] < 5) { $staffRank = 5; } else { $staffRank = 0; }
 			} else {
-				if ($user->user_level == 5) {
-					$staffRank = $_POST['staffRank'];
-				} else {
-					if ($_POST['staffRank'] == 5) {
-						$staffRank = 4;
-					} else {
-						$staffRank = $_POST['staffRank'];
-					}
-				}
+				if ($_POST['staffRank'] == 5 && $_SESSION['user_level'] < 5) { $staffRank = 4; } else { $staffRank = $_POST['staffRank']; }
 			}
 	    	$userPerms = json_encode($permissions[$staffRank]);
 	
