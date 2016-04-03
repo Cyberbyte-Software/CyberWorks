@@ -61,7 +61,7 @@ if (isset($registration)) {
             <div class="form-group">
                 <p><?php echo $lang['picture']?>:</p>
                 <select class=" form-control" name="profile_pic">
-                    <?php for ($icon = 1; $icon <= 7; $icon++) {
+                    <?php for ($icon = 1; $icon <= 6; $icon++) {
                         echo '<option value="' . $icon . '" ';
                         if (isset($_POST['user_name'])) if ($icon == $_POST['user_name']) echo 'selected';
                         echo '>' . $settings['names'][$icon] . '</option>';
