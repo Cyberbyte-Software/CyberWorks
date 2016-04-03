@@ -26,7 +26,7 @@ if (isset($registration)) {
             </div>
             <div class="form-group">
                 <p><?php echo $lang['player'] . " " . $lang['id'] ?>:</p>
-                <input id="player_id" class="form-control" placeholder="<?php echo $lang['playerid'] ?>" type="number" name="player_id">
+                <input id="player_id" class="form-control" placeholder="<?php echo $lang['playerID'] ?>" type="number" name="player_id">
                 <p id='steam'></p>
             </div>
             <div class="form-group">
@@ -50,7 +50,7 @@ if (isset($registration)) {
             <div class="form-group">
                 <p><?php echo $lang['level'] ?>:</p>
                 <select class="form-control" name="user_lvl">
-                    <?php for ($rank = 1; $rank <= $settings['staffRanks']; $rank++) {
+                    <?php for ($rank = 1; $rank <= $_SESSION['user_level']; $rank++) {
                         echo '<option value="' . $rank . '"';
                         if (isset($_POST['user_lvl'])) if ($rank == $_POST['user_lvl']) echo 'selected';
                         echo '>' . $settings['ranks'][$rank] . '</option>';
@@ -61,7 +61,7 @@ if (isset($registration)) {
             <div class="form-group">
                 <p><?php echo $lang['picture']?>:</p>
                 <select class=" form-control" name="profile_pic">
-                    <?php for ($icon = 1; $icon <= 6; $icon++) {
+                    <?php for ($icon = 1; $icon <= 7; $icon++) {
                         echo '<option value="' . $icon . '" ';
                         if (isset($_POST['user_name'])) if ($icon == $_POST['user_name']) echo 'selected';
                         echo '>' . $settings['names'][$icon] . '</option>';
