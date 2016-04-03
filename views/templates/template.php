@@ -150,14 +150,6 @@
                                 <span><?php echo $lang['edit'] . ' ' . $lang['databases'] ?></span>
                             </a>
                         </li>
-                        <?php if ($settings['logging']) { ?>
-                        <li>
-                            <a href="<?php echo $settings['url'] ?>logs">
-                                <i class="fa fa-fw fa-th-list"></i>
-                                <span><?php echo $lang['logs'] ?></span>
-                            </a>
-                        </li>
-                        <?php } ?>
                         <li>
                             <a href="<?php echo $settings['url'] ?>settings">
                                 <i class="fa fa-fw fa-wrench"></i>
@@ -165,6 +157,14 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+				
+			<?php } if ($_SESSION['permissions']['view']['logs'] && $settings['logging']) { ?>
+                <li>
+                    <a href="<?php echo $settings['url'] ?>logs">
+                        <i class="fa fa-fw fa-list"></i>
+                        <span><?php echo $lang['logs']; ?></span>
+                    </a>
                 </li>
             <?php } if ($_SESSION['multiDB']) { ?>
             <li>
