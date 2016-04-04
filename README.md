@@ -32,4 +32,4 @@ If you ever need any help please open a ticket at our new support center or on G
 ## Updating
 You should just be able to replace the existing files, no settings should be overwritten.
 
-Your server will need a few basic Apache Modules enabled such as `rewrite mcrypt` and `mysql` and we reccomend is run on Linux. IIS is not supported.
+Your server will require a few basic Apache Modules enabled such as `rewrite mcrypt` and `mysql`. We recommend it is run on Linux. IIS is not supported.
