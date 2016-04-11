@@ -1,11 +1,8 @@
 <?php
-if ($settings['url'] == "/") {
-    require_once("config/carNames.php");
-    require_once("config/images.php");
-} else {
-    require_once(realpath($settings['url']) . "config/carNames.php");
-    require_once(realpath($settings['url']) . "config/images.php");
-}
+
+require("config/carNames.php");
+require_once("config/images.php");
+
 
 $db_link = serverConnect();
 
@@ -20,41 +17,47 @@ if (isset($_POST["editType"])) {
                     message($lang['vehicle'] . ' ' . $lang['edited']);
                     $sql = "SELECT `pid`,`classname` FROM `vehicles` WHERE `id` ='" . $vehID . "';";
                     $result_of_query = $db_link->query($sql);
-                    while ($row = mysqli_fetch_assoc($result_of_query)) {
-                        logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($row["pid"], $db_link) . '\'s ' . carName($row["classname"]) . '(' . $vehID . ')', 1);
-                    }
+                    $vehTemp = $result_of_query->fetch_object();
+                    logAction($_SESSION['user_name'], $lang['edited'] . ' a ' . carName($vehTemp->classname) . ' (' . $vehID . ') ' . $lang['inventory'] . ' belonging to '.  nameID($vehTemp->pid, $db_link), 1);
                     break;
 
                 case "veh_store":
                     $sql = "UPDATE `vehicles` SET `alive`='1',`active`='0' WHERE `vehicles`.`id` = '" . $vehID . "'";
                     $result_of_query = $db_link->query($sql);
-                    message($lang['vehicle'] . ' ' . $lang['editstoreded']);
+                    message($lang['vehicle'] . ' stored');
                     $sql = "SELECT `pid`,`classname` FROM `vehicles` WHERE `id` ='" . $vehID . "';";
                     $result_of_query = $db_link->query($sql);
-                    while ($row = mysqli_fetch_assoc($result_of_query)) {
-                        logAction($_SESSION['user_name'], $lang['stored'] . ' ' . nameID($row["pid"], $db_link) . '\'s ' . carName($row["classname"]) . '(' . $vehID . ')', 1);
-                    }
+                    $vehTemp = $result_of_query->fetch_object();
+                    logAction($_SESSION['user_name'], $lang['stored'] . ' ' . nameID($vehTemp->pid, $db_link) . ' ' . carName($vehTemp->classname) . '(' . $vehID . ')', 1);
+
                     break;
 
                 case "veh_del":
+                    $sql = "SELECT `pid`, `classname`  FROM `vehicles` WHERE `id` ='" . $vehID . "';";
+                    $result_of_query = $db_link->query($sql);
+                    $vehTemp = $result_of_query->fetch_object();
+                    logAction($_SESSION['user_name'], $lang['deleted'] . ' ' . nameID($vehTemp->pid, $db_link) . ' ' . carName($vehTemp->classname) . '(' . $vehID . ')', 2);
+
                     $sql = "DELETE FROM `vehicles` WHERE `vehicles`.`id` = '" . $vehID . "'";
                     $result_of_query = $db_link->query($sql);
                     message($lang['vehicle'] . ' ' . $lang['deleted']);
-                    logAction($_SESSION['user_name'], $lang['deleted'] . ' ' . nameID($row["pid"], $db_link) . '\'s ' . carName($row["classname"]) . '(' . $vehID . ')', 2);
                     break;
 
                 case "veh_edit":
                     $vehSide = $_POST["vehSide"];
                     $vehPlate = $_POST["vehPlate"];
                     $vehCol = $_POST["vehCol"];
+                    $vehType = $_POST["vehType"];
+
                     $sql = "UPDATE `vehicles` SET `side`='" . $vehSide . "',`type`='" . $vehType . "',`color`='" . $vehCol . "' WHERE `vehicles`.`id` = '" . $vehID . "'";
                     $result_of_query = $db_link->query($sql);
+
                     message($lang['vehicle'] . ' ' . $lang['edited']);
-                    $sql = "SELECT `pid` FROM `vehicles` WHERE `id` ='" . $vehID . "';";
+
+                    $sql = "SELECT `pid`, `classname` FROM `vehicles` WHERE `id` ='" . $vehID . "';";
                     $result_of_query = $db_link->query($sql);
-                    while ($row = mysqli_fetch_assoc($result_of_query)) {
-                        logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($row["pid"], $db_link) . '\'s ' . carName($vehClass) . '(' . $vehID . ')', 1);
-                    }
+                    $vehTemp = $result_of_query->fetch_object();
+                    logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($vehTemp->pid, $db_link) . ' ' . carName($vehTemp->classname) . '(' . $vehID . ')', 1);
                     break;
             }
         } else {
