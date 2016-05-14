@@ -52,7 +52,7 @@ if (isset($_POST["editType"])) {
                 if ($_SESSION['user_level'] >= 4) {
                     $coplevel = clean(intval($_POST["player_coplvl"]), 'int');
                     $mediclevel = clean(intval($_POST["player_medlvl"]), 'int');
-                    $donatorlvl = clean(intval($_POST["player_donlvl"]), 'int');
+                    $donorlevel = clean(intval($_POST["player_donlvl"]), 'int');
                     $adminlevel = clean(intval($_POST["player_adminlvl"]), 'int');
                     $cash = clean(intval($_POST["player_cash"]), 'int');
                     $bankacc = clean(intval($_POST["player_bank"]), 'int');
@@ -65,12 +65,12 @@ if (isset($_POST["editType"])) {
 
                         if ($coplevel != $player->coplevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cop'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->coplevel . ") " . $lang['to'] . " (" . $coplevel . ")", 2);
                         if ($mediclevel != $player->mediclevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['medic'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->mediclevel . ") " . $lang['to'] . " (" . $mediclevel . ")", 2);
-                        if ($donatorlvl != $player->donatorlvl) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['donator'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->donatorlvl . ") " . $lang['to'] . " (" . $donatorlvl . ")", 2);
+                        if ($donorlevel != $player->donorlevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['donator'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->donorlevel . ") " . $lang['to'] . " (" . $donorlevel . ")", 2);
                         if ($adminlevel != $player->adminlevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['admin'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->adminlevel . ") " . $lang['to'] . " (" . $adminlevel . ")", 2);
                         if ($cash != $player->cash) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cash'] . " " . $lang['from'] . " (" . $player->cash . ") " . $lang['to'] . " (" . $cash . ")", 2);
                         if ($bankacc != $player->bankacc) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " (" . $player->bankacc . ") " . $lang['to'] . " (" . $bankacc . ")", 2);
 
-                        $update = "UPDATE `players` SET coplevel = '" . $coplevel . "', mediclevel = '" . $mediclevel . "', donatorlvl = '" . $donatorlvl . "', adminlevel = '" . $adminlevel . "', cash = '" . $cash . "', bankacc = '" . $bankacc . "', arrested = '" . $arrested . "', blacklist = '" . $blacklist . "' WHERE `uid` = '" . $uID . "' ";
+                        $update = "UPDATE `players` SET coplevel = '" . $coplevel . "', mediclevel = '" . $mediclevel . "', donorlevel = '" . $donorlevel . "', adminlevel = '" . $adminlevel . "', cash = '" . $cash . "', bankacc = '" . $bankacc . "', arrested = '" . $arrested . "', blacklist = '" . $blacklist . "' WHERE `uid` = '" . $uID . "' ";
                         $result_of_query = $db_link->query($update);
                         message($lang['edited'] . ' ' . nameID($player->playerid, $db_link));
                     } else {
@@ -79,7 +79,7 @@ if (isset($_POST["editType"])) {
                 } elseif ($_SESSION['user_level'] >= 3) {
                     $coplevel = intval($_POST["player_coplvl"]);
                     $mediclevel = intval($_POST["player_medlvl"]);
-                    $donatorlvl = intval($_POST["player_donlvl"]);
+                    $donorlevel = intval($_POST["player_donlvl"]);
                     $cash = intval($_POST["player_cash"]);
                     $bankacc = intval($_POST["player_bank"]);
                     $arrested = intval($_POST["player_arrest"]);
@@ -90,11 +90,11 @@ if (isset($_POST["editType"])) {
                         $player = $result->fetch_object();
                         if ($coplevel != $player->coplevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cop'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->coplevel . ") " . $lang['to'] . " (" . $coplevel . ")", 2);
                         if ($mediclevel != $player->mediclevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['medic'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->mediclevel . ") " . $lang['to'] . " (" . $mediclevel . ")", 2);
-                        if ($donatorlvl != $player->donatorlvl) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['donator'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->donatorlvl . ") " . $lang['to'] . " (" . $donatorlvl . ")", 2);
+                        if ($donorlevel != $player->donorlevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['donator'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->donorlevel . ") " . $lang['to'] . " (" . $donorlevel . ")", 2);
                         if ($cash != $player->cash) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cash'] . " " . $lang['from'] . " (" . $player->cash . ") " . $lang['to'] . " (" . $cash . ")", 2);
                         if ($bankacc != $player->bankacc) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " (" . $player->bankacc . ") " . $lang['to'] . " (" . $bankacc . ")", 2);
 
-                        $update = "UPDATE `players` SET coplevel = '" . $coplevel . "', mediclevel = '" . $mediclevel . "', donatorlvl = '" . $donatorlvl . "', cash = '" . $cash . "', bankacc = '" . $bankacc . "', arrested = '" . $arrested . "' WHERE `uid` = '" . $uID . "' ";
+                        $update = "UPDATE `players` SET coplevel = '" . $coplevel . "', mediclevel = '" . $mediclevel . "', donorlevel = '" . $donorlevel . "', cash = '" . $cash . "', bankacc = '" . $bankacc . "', arrested = '" . $arrested . "' WHERE `uid` = '" . $uID . "' ";
                         $result_of_query = $db_link->query($update);
                         logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['levels'], 2);
                         message($lang['edited'] . ' ' . nameID($player->playerid, $db_link));
@@ -229,7 +229,7 @@ if ($result->num_rows > 0) {
         <div class="col-md-2 col-sm-2 box0">
             <div class="box1">
                 <span class="fa fa-3x fa-usd"></span>
-                <h3> <?php echo $lang['donator'] . ": " . $player->donatorlvl; ?> </h3>
+                <h3> <?php echo $lang['donator'] . ": " . $player->donorlevel; ?> </h3>
             </div>
         </div>
         <div class="col-md-2 col-sm-2 box0">
@@ -719,7 +719,7 @@ if ($result->num_rows > 0) {
                                             for ($lvl = 0;
                                                     $lvl <= $settings['maxLevels']['donator'];
                                                     $lvl++) {
-                                                echo '<option value="' . $lvl . '"' . select($lvl, $player->donatorlvl) . '>' . $lvl . '</option>';
+                                                echo '<option value="' . $lvl . '"' . select($lvl, $player->donorlevel) . '>' . $lvl . '</option>';
                                             }
                                             echo "</select>";
                                         }
