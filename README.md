@@ -1,6 +1,8 @@
 # CyberWorks 0.5
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Cyberbyte-Studios/CyberWorks/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Cyberbyte-Studios/CyberWorks/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/Cyberbyte-Studios/CyberWorks/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Cyberbyte-Studios/CyberWorks/build-status/master) [![Code Climate](https://codeclimate.com/github/Cyberbyte-Studios/CyberWorks/badges/gpa.svg)](https://codeclimate.com/github/Cyberbyte-Studios/CyberWorks) ![Developer](https://img.shields.io/badge/Developer-CyberByte%20Studios-blue.svg)
 
+Please use https://cyberbyte.org.uk/ for support
+
 Welcome to CyberWorks our server administration panel.
 This version is a large rewrite of the original Life Control with a completely new database system.
 CyberWorks is developed and maintained by Cyberbyte Studios.
