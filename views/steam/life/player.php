@@ -104,7 +104,7 @@ if ($result->num_rows > 0) {
             <div class="box1">
                 <span class="fa fa-3x fa-usd"></span>
 
-                <h3> <?php echo $lang['donator'] . ": " . $player->donatorlvl; ?> </h3>
+                <h3> <?php echo $lang['donator'] . ": " . $player->donorlevel; ?> </h3>
             </div>
         </div>
         <div class="col-md-2 col-sm-2 box0">
