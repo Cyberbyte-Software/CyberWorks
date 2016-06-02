@@ -250,7 +250,7 @@ RewriteRule . /'.$base . 'index.php [L]';
     file_put_contents('config/settings.php', '<?php return ' . var_export($settings, true) . ';');
     $settings = include 'config/settings.php';
 
-    header("Location: index?setup=1");
+    header("Location: index.php?setup=1");
 }
 ?>
 <!DOCTYPE html>
