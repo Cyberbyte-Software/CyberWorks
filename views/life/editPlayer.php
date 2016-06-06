@@ -511,7 +511,7 @@ if ($result->num_rows > 0) {
                             if ($result_of_query->num_rows > 0) {
                                 echo "<h3>" . $lang['crimes'] . "</h3>";
                                 while ($row = mysqli_fetch_assoc($result_of_query)) {
-                                    if ($row['wantedCrimes'] !== "'[]'") {
+                                    if ($row['wantedCrimes'] !== "[]") {
                                         $return = stripArray($row['wantedCrimes'], 3);
                                         foreach ($return as $value) {
                                             echo "<button type='button' id=" . $value . " class='wanted btn btn-xs btn-theme01' style='margin-bottom: 3px;'>" . crimeName($value) . "</button> ";
