@@ -188,7 +188,7 @@ if ($db_link->connect_error) {
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <?php
-                                    $sql = "SELECT `name` FROM `players` ORDER BY `insert_time` DESC LIMIT 1;";
+                                    $sql = "SELECT `name` FROM `players` ORDER BY `uid` DESC LIMIT 1;";
                                     $result_of_query = $db_link->query($sql);
                                     while ($row = mysqli_fetch_assoc($result_of_query)) {
                                         echo "<h1>" . $row["name"] . "</h1>";
