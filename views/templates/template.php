@@ -175,7 +175,7 @@
             </li>
             <?php } ?>
             <li>
-                <a href="<?php echo $settings['url'] ?>index?logout"><i class="fa fa-fw fa-power-off"></i> <?php echo $lang['navLogOut']; ?></a>
+                <a href="<?php echo $settings['url'] ?>?logout"><i class="fa fa-fw fa-power-off"></i> <?php echo $lang['navLogOut']; ?></a>
             </li>
             <?php if ($debug) {
     include("views/debug/nav.php");
