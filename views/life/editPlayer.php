@@ -70,7 +70,7 @@ if (isset($_POST["editType"])) {
                         if ($cash != $player->cash) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cash'] . " " . $lang['from'] . " (" . $player->cash . ") " . $lang['to'] . " (" . $cash . ")", 2);
                         if ($bankacc != $player->bankacc) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " (" . $player->bankacc . ") " . $lang['to'] . " (" . $bankacc . ")", 2);
 
-                        $update = "UPDATE `players` SET coplevel = '" . $coplevel . "', mediclevel = '" . $mediclevel . "', donorlevel = '" . $donorlevel . "', adminlevel = '" . $adminlevel . "', cash = '" . $cash . "', bankacc = '" . $bankacc . "', arrested = '" . $arrested . "', blacklist = '" . $blacklist . "' WHERE `uid` = '" . $uID . "' ";
+                        $update = "UPDATE `players` SET coplevel = '" . $coplevel . "', mediclevel = '" . $mediclevel . "', donatorlvl = '" . $donorlevel . "', adminlevel = '" . $adminlevel . "', cash = '" . $cash . "', bankacc = '" . $bankacc . "', arrested = '" . $arrested . "', blacklist = '" . $blacklist . "' WHERE `uid` = '" . $uID . "' ";
                         $result_of_query = $db_link->query($update);
                         message($lang['edited'] . ' ' . nameID($player->playerid, $db_link));
                     } else {
@@ -94,7 +94,7 @@ if (isset($_POST["editType"])) {
                         if ($cash != $player->cash) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cash'] . " " . $lang['from'] . " (" . $player->cash . ") " . $lang['to'] . " (" . $cash . ")", 2);
                         if ($bankacc != $player->bankacc) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " (" . $player->bankacc . ") " . $lang['to'] . " (" . $bankacc . ")", 2);
 
-                        $update = "UPDATE `players` SET coplevel = '" . $coplevel . "', mediclevel = '" . $mediclevel . "', donorlevel = '" . $donorlevel . "', cash = '" . $cash . "', bankacc = '" . $bankacc . "', arrested = '" . $arrested . "' WHERE `uid` = '" . $uID . "' ";
+                        $update = "UPDATE `players` SET coplevel = '" . $coplevel . "', mediclevel = '" . $mediclevel . "', donatorlvl = '" . $donorlevel . "', cash = '" . $cash . "', bankacc = '" . $bankacc . "', arrested = '" . $arrested . "' WHERE `uid` = '" . $uID . "' ";
                         $result_of_query = $db_link->query($update);
                         logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['levels'], 2);
                         message($lang['edited'] . ' ' . nameID($player->playerid, $db_link));
