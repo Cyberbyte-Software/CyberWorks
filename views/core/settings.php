@@ -10,8 +10,14 @@ if (isset($_POST['db_host'])) {
             $settings['community'] = $_POST['community'];
 
             $settings['refesh'] = $_POST['refresh'];
+            if ($_POST['lifeVersion'] == 4.2) {
+                $settings['donorFormat'] = 'donorlevel';
+            } else {
+                $settings['donorFormat'] = 'donatorlvl';
+            }
             $settings['lifeVersion'] = intval($_POST['lifeVersion']);
-
+            $settings['lifeVersionDisplay'] = $_POST['lifeVersion'];
+            
             $settings['allowLang'] = filter_var($_POST['allowLang'], FILTER_VALIDATE_BOOLEAN);
             $settings['wanted'] = filter_var($_POST['wanted'], FILTER_VALIDATE_BOOLEAN);
             $settings['news'] = filter_var($_POST['news'], FILTER_VALIDATE_BOOLEAN);
@@ -141,8 +147,9 @@ if (isset($_POST['db_host'])) {
     <div class='form-group'>
         <label for="lifeVersion">Altis Life Version: </label>
         <select name="lifeVersion" id="lifeVersion" class="form-control">
-            <option value="3" <?php echo select('3', $settings['lifeVersion']) ?> >3.X.X.X</option>
-            <option value="4" <?php echo select('4', $settings['lifeVersion']) ?> >4.X</option>
+            <option value="3" <?php echo select('3', $settings['lifeVersionDisplay']) ?> >3.X.X.X</option>
+            <option value="4" <?php echo select('4', $settings['lifeVersionDisplay']) ?> >4.4</option>
+            <option value="4.2" <?php echo select('4.2', $settings['lifeVersionDisplay']) ?> >4.4r2+</option>
         </select></div>
     <h3>API's</h3>
     <div class='form-group'>
