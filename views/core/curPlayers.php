@@ -12,7 +12,8 @@ if ($result_of_query->num_rows == 1) { ?>
 </div>
 <script>
 function kick(id) {
-    $.post( "<?php echo $settings['url'] ?>hooks/rcon_kick.php", { id: id, sid: "<?php echo $sid ?>"} );
+    var command = 'kick ' + id;
+    $.post( "<?php echo $settings['url'] ?>hooks/rcon_command.php", {  sid: "<?php echo $sid ?>", command: command} );
     getPlayers();
 }
 function say() {
