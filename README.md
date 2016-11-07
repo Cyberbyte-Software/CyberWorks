@@ -1,8 +1,8 @@
 # CyberWorks 0.5
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Cyberbyte-Studios/CyberWorks/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Cyberbyte-Studios/CyberWorks/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/Cyberbyte-Studios/CyberWorks/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Cyberbyte-Studios/CyberWorks/build-status/master) [![Code Climate](https://codeclimate.com/github/Cyberbyte-Studios/CyberWorks/badges/gpa.svg)](https://codeclimate.com/github/Cyberbyte-Studios/CyberWorks) ![Developer](https://img.shields.io/badge/Developer-CyberByte%20Studios-blue.svg)
 
-### Download from https://cyberbyte.org.uk/files/file/1-cyberworks/
-Please use https://cyberbyte.org.uk/support for support
+### Read this: https://armarpglife.com/forums/topic/101-a-new-era-for-cyberworks/ or https://armarpglife.com/forums/topic/101-a-new-era-for-cyberworks/
+#### Looking for maintainers, please contact [sam@cyberbyte.org.uk](mailto:sam@cyberbyte.org.uk) and [cameron@cyberbyte.org.uk](mailto:cameron@cyberbyte.org.uk) if you are intrested.
 
 Welcome to CyberWorks our server administration panel.
 This version is a large rewrite of the original Life Control with a completely new database system.
