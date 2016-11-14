@@ -1,27 +1,27 @@
 <?php
 $db_link = serverConnect();
-
+ 
 $max = 'LIMIT ' . ($pageNum - 1) * $_SESSION['items'] . ',' . $_SESSION['items'];
-
+ 
 if (isset($search)) {
     $sql = "SELECT `uid` FROM `players` WHERE `uid` LIKE '" . $search . "' OR `name` LIKE '%" . $search . "%' OR `playerid` LIKE '" . $search . "';";
     $result_of_query = $db_link->query($sql);
     $total_records = mysqli_num_rows($result_of_query);
     if ($pageNum > $total_records) $pageNum = $total_records;
-    $sql = "SELECT `playerid`,`name`,`bankacc`,`cash`,`coplevel`,`mediclevel`,`adminlevel`,`uid` FROM `players` WHERE `uid` LIKE '" . $search . "' OR `name` LIKE '%" . $search . "%' OR `playerid` LIKE '" . $search . "'" . $max . " ;";
+    $sql = "SELECT `pid`,`name`,`bankacc`,`cash`,`coplevel`,`mediclevel`,`adminlevel`,`uid` FROM `players` WHERE `uid` LIKE '" . $search . "' OR `name` LIKE '%" . $search . "%' OR `playerid` LIKE '" . $search . "'" . $max . " ;";
     logAction($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['players'], 1);
 } else {
     $sql = "SELECT `uid` FROM `players`;";
     $result_of_query = $db_link->query($sql);
     $total_records = mysqli_num_rows($result_of_query);
     if ($pageNum > $total_records) $pageNum = $total_records;
-    $sql = "SELECT `playerid`,`name`,`bankacc`,`cash`,`coplevel`,`mediclevel`,`adminlevel`,`uid` FROM `players` " . $max . " ;";
+    $sql = "SELECT `pid`,`name`,`bankacc`,`cash`,`coplevel`,`mediclevel`,`adminlevel`,`uid` FROM `players` " . $max . " ;";
 }
-
+ 
 $result_of_query = $db_link->query($sql);
 if ($result_of_query->num_rows > 0) {
     while ($row = mysqli_fetch_assoc($result_of_query)) {
-            $pids[] = $row['playerid'];
+            $pids[] = $row['pid'];
         }
         $pids = implode(',', $pids);
     if ($settings['steamAPI'] && $_SESSION['permissions']['view']['steam'] && !$settings['performance'] && $settings['vacTest']) {
@@ -32,7 +32,7 @@ if ($result_of_query->num_rows > 0) {
     } else {
         $steamPlayers = 0;
     }
-
+ 
     $result_of_query = $db_link->query($sql);
     ?>
     <h1 class="page-header">
@@ -69,7 +69,7 @@ if ($result_of_query->num_rows > 0) {
                 <tbody>
                 <?php
                 while ($row = mysqli_fetch_assoc($result_of_query)) {
-                    $playersID = $row["playerid"];
+                    $playersID = $row["pid"];
                     echo "<tr>";
                     echo "<td>" . $row["name"] . "</td>";
                     echo "<td>" . $playersID . "</td>";
@@ -92,7 +92,7 @@ if ($result_of_query->num_rows > 0) {
                                 if ($bans[$player]->VACBanned == true) {
                                     echo "<td><a href='http://steamcommunity.com/profiles/" . $row["playerid"] . "' ";
                                     echo "class='btn btn-danger btn-xs hidden-xs' target='_blank'><i class='fa fa-steam'></i></a>";
-
+ 
                                 } else {
                                     echo "<td><a href='http://steamcommunity.com/profiles/" . $row["playerid"] . "' ";
                                     echo "class='btn btn-primary btn-xs hidden-xs' target='_blank'><i class='fa fa-steam'></i></a>"; }
