@@ -149,7 +149,7 @@ if (isset($_POST['db_host'])) {
         <select name="lifeVersion" id="lifeVersion" class="form-control">
             <option value="3" <?php echo select('3', $settings['lifeVersionDisplay']) ?> >3.X.X.X</option>
             <option value="4" <?php echo select('4', $settings['lifeVersionDisplay']) ?> >4.0->4.4</option>
-            <option value="4.2" <?php echo select('4.2', $settings['lifeVersionDisplay']) ?> >4.4r2+</option>
+            <option value="4.2" <?php echo select('4.2', $settings['lifeVersionDisplay']) ?> >4.4r2->4.4r4</option>
         </select></div>
     <h3>API's</h3>
     <div class='form-group'>
