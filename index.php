@@ -17,7 +17,7 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
 
 if (file_exists('config/settings.php')) {
     $settings = require_once 'config/settings.php';
-    $playerIdColumn = $settings[''];
+    $playerIdColumn = $settings['playerColumn'];
 
     require_once("classes/login.php");
     $login = new Login();
