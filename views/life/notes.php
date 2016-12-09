@@ -13,25 +13,25 @@ $max = 'LIMIT ' . ($page - 1) * $_SESSION['items'] . ',' . $_SESSION['items'];
 
 if (isset($search)) {
     logAction($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['vehicles'], 1);
-    $sql = "SELECT `playerid` FROM `players` WHERE `name` LIKE '%" . $search . "%' ";
+    $sql = "SELECT $playerIdColumn FROM `players` WHERE `name` LIKE '%$search%' ";
     $result_of_query = $db_link->query($sql);
     if ($result_of_query->num_rows > 0) {
         while ($row = mysqli_fetch_row($result_of_query)) {
             $samepID[] = $row;
         }
         $samepID = array_reduce($samepID, 'array_merge', array());
-        $sql = "SELECT * FROM `vehicles` WHERE `pid` LIKE '" . $search . "' OR `classname` LIKE '%" . $search . "%' OR `pid` IN (" . implode(',', $samepID) . ") OR `plate` LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%';";
+        $sql = "SELECT * FROM `vehicles` WHERE `pid` LIKE '$search' OR `classname` LIKE '%$search%' OR `pid` IN (" . implode(',', $samepID) . ") OR `plate` LIKE '$search' OR `inventory` LIKE '%$search%';";
         $result_of_query = $db_link->query($sql);
         $total_records = mysqli_num_rows($result_of_query);
-        $sql = "SELECT * FROM `vehicles` WHERE `pid` LIKE '" . $search . "' OR `classname` LIKE '%" . $search . "%' OR `pid` IN (" . implode(',', $samepID) . ") OR `plate` LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%'" . $max . " ;";
+        $sql = "SELECT * FROM `vehicles` WHERE `pid` LIKE '$search' OR `classname` LIKE '%$search%' OR `pid` IN (" . implode(',', $samepID) . ") OR `plate` LIKE '$search' OR `inventory` LIKE '%$search %' $max;";
     } else {
-        $sql = "SELECT * FROM `vehicles` WHERE `pid` LIKE '" . $search . "' OR `classname` LIKE '%" . $search . "%' OR `plate` LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%';";
+        $sql = "SELECT * FROM `vehicles` WHERE `pid` LIKE '$search' OR `classname` LIKE '%$search%' OR `plate` LIKE '$search' OR `inventory` LIKE '%$search%';";
         $result_of_query = $db_link->query($sql);
         $total_records = mysqli_num_rows($result_of_query);
-        $sql = "SELECT * FROM `vehicles` WHERE `pid` LIKE '" . $search . "' OR `classname` LIKE '%" . $search . "%' OR `plate` LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%'" . $max . " ;";
+        $sql = "SELECT * FROM `vehicles` WHERE `pid` LIKE '$search' OR `classname` LIKE '%$search%' OR `plate` LIKE '$search' OR `inventory` LIKE '%$search%' $max;";
     }
 } else {
-        $sql = "SELECT * FROM `vehicles` " . $max . " ;";
+        $sql = "SELECT * FROM `vehicles` $max;";
 }
 $result_of_query = $db_link->query($sql);
 ?>

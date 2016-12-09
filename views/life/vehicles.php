@@ -7,17 +7,17 @@ $max = 'LIMIT ' . ($pageNum - 1) * $_SESSION['items'] . ',' . $_SESSION['items']
 if (isset($search)) {
     logAction($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['vehicles'], 1);
 
-    $sql = "SELECT `id` FROM `vehicles` INNER JOIN `players` ON vehicles.pid=players.playerid WHERE `pid` LIKE '" . $search . "' OR `classname` LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%' OR `plate` LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%';";
+    $sql = "SELECT `id` FROM `vehicles` INNER JOIN `players` ON vehicles.pid=players.$playerIdColumn WHERE `pid` LIKE '$search' OR `classname` LIKE '%$search%' OR `name` LIKE '%$search%' OR `plate` LIKE '$search' OR `inventory` LIKE '%$search%' OR `name` LIKE '%$search%';";
     $result_of_query = $db_link->query($sql);
     $total_records = mysqli_num_rows($result_of_query);
     if ($pageNum > $total_records) $pageNum = $total_records;
-    $sql = "SELECT vehicles.id,vehicles.pid,vehicles.classname,vehicles.active,vehicles.type,vehicles.plate,vehicles.alive,vehicles.active,players.name FROM `vehicles` INNER JOIN `players` ON vehicles.pid=players.playerid WHERE `pid` LIKE '" . $search . "' OR vehicles.classname LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%' OR vehicles.plate LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%' " . $max . " ;";
+    $sql = "SELECT vehicles.id,vehicles.pid,vehicles.classname,vehicles.active,vehicles.type,vehicles.plate,vehicles.alive,vehicles.active,players.name FROM `vehicles` INNER JOIN `players` ON vehicles.pid=players.$playerIdColumn WHERE `pid` LIKE '$search' OR vehicles.classname LIKE '%$search%' OR `name` LIKE '%$search%' OR vehicles.plate LIKE '$search' OR `inventory` LIKE '%$search%' OR `name` LIKE '%$search %' $max;";
 } else {
-    $sql = "SELECT `id` FROM `vehicles` INNER JOIN `players` ON vehicles.pid=players.playerid;";
+    $sql = "SELECT `id` FROM `vehicles` INNER JOIN `players` ON vehicles.pid=players.$playerIdColumn;";
     $result_of_query = $db_link->query($sql);
     $total_records = mysqli_num_rows($result_of_query);
     if ($pageNum > $total_records) $pageNum = $total_records;
-    $sql = "SELECT vehicles.id,vehicles.pid,vehicles.classname,vehicles.active,vehicles.type,vehicles.plate,vehicles.alive,vehicles.active,players.name FROM `vehicles` INNER JOIN `players` ON vehicles.pid=players.playerid " . $max . " ;";
+    $sql = "SELECT vehicles.id,vehicles.pid,vehicles.classname,vehicles.active,vehicles.type,vehicles.plate,vehicles.alive,vehicles.active,players.name FROM `vehicles` INNER JOIN `players` ON vehicles.pid=players.$playerIdColumn $max;";
 }
 $result_of_query = $db_link->query($sql);
 if ($result_of_query->num_rows > 0) {  ?>

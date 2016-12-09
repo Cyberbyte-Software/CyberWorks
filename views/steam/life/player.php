@@ -12,23 +12,7 @@ if ($settings['url'] == "/") {
 
 $db_link = serverConnect();
 
-function getPlayerSkin($input, $list)
-{
-    if ($input !== '"[]"') {
-        $name = after('"[`', $input);
-        $name = before('`', $name);
-
-        if (in_array($name, $list)) {
-            return $name;
-        } else {
-            return "Default";
-        }
-    } else {
-        return "Default";
-    }
-}
-
-$sql = "SELECT * FROM `players` WHERE `playerid` = '" . $_SESSION['playerid'] . "'";
+$sql = "SELECT *, $playerIdColumn as playerid FROM `players` WHERE $playerIdColumn = '" . $_SESSION['playerid'] . "'";
 $result = $db_link->query($sql);
 if ($result->num_rows > 0) {
     $player = $result->fetch_object();
@@ -53,7 +37,7 @@ if ($result->num_rows > 0) {
                 $alias = str_replace('"[`', "", $player->aliases);
                 $alias = str_replace('`]"', "", $alias);
 
-                echo '<center><img alt="' . $alias . '" src="' . $settings['url'] . 'assets/img/uniform/' . getPlayerSkin($player->civ_gear, $playerSkins) . '.jpg">';
+                echo '<center><img alt="' . $alias . '" src="'. skinImage($player->civ_gear) .'">';
                 echo "<h4>" . $lang['aliases'] . ": " . $alias . "</h4>";
                 echo "<h4>" . $lang['uid'] . ": " . $player->uid . "</h4>";
                 echo "<h4>" . $lang['playerID'] . ": " . $player->playerid . "</h4>";
@@ -277,10 +261,12 @@ if ($result->num_rows > 0) {
                                     </tbody>
                                 </table>
                                 <?php echo '<a class="fa fa-caret-right fa-2x" style="float: right; padding-right:15px;" href="' . $settings['url'] . 'houses/' . $player->playerid . '"> More</a>';
-                            } else  echo errorMessage(31, $lang);
-                        < / div >
-                    < / div >
-                < ? php } ?>
+                            } else {
+                              echo errorMessage(31, $lang);
+                            } ?>
+                        </div>
+                    </div>
+                <?php } ?>
 
                 <?php if ($player->playerid == $_SESSION['playerid']) { ?>
                     <div class="tab-pane fade" id="veh">

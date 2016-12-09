@@ -41,7 +41,7 @@ if ($db_link->connect_error) {
                     </thead>
                     <tbody>
                     <?php
-                    $sql = "SELECT `name`,`coplevel`,`playerid` FROM `players` WHERE `coplevel` >= '1' ORDER BY `coplevel` DESC LIMIT 10";
+                    $sql = "SELECT `name`,`coplevel`, $playerIdColumn as playerid FROM `players` WHERE `coplevel` >= '1' ORDER BY `coplevel` DESC LIMIT 10";
                     $result_of_query = $db_link->query($sql);
                     while ($row = mysqli_fetch_assoc($result_of_query)) {
                         $playersID = $row["playerid"];
@@ -111,7 +111,7 @@ if ($db_link->connect_error) {
                         <tbody>
 
                         <?php
-                        $sql = "SELECT `name`,`mediclevel`,`playerid` FROM `players` WHERE `mediclevel` >= '1' ORDER BY `mediclevel` DESC LIMIT 10";
+                        $sql = "SELECT `name`,`mediclevel`, $playerIdColumn as playerid FROM `players` WHERE `mediclevel` >= '1' ORDER BY `mediclevel` DESC LIMIT 10";
                         $result_of_query = $db_link->query($sql);
                         while ($row = mysqli_fetch_assoc($result_of_query)) {
                             $playersID = $row["playerid"];
@@ -152,7 +152,7 @@ if ($db_link->connect_error) {
                     </thead>
                     <tbody>
                     <?php
-                    $sql = "SELECT `name`,`adminlevel`,`playerid` FROM `players` WHERE `adminlevel` >= '1' ORDER BY `adminlevel` DESC LIMIT 10";
+                    $sql = "SELECT `name`,`adminlevel`, $playerIdColumn as playerid FROM `players` WHERE `adminlevel` >= '1' ORDER BY `adminlevel` DESC LIMIT 10";
                     $result_of_query = $db_link->query($sql);
                     while ($row = mysqli_fetch_assoc($result_of_query)) {
                         $playersID = $row["playerid"];
@@ -303,7 +303,7 @@ if ($db_link->connect_error) {
                                         </thead>
                                         <tbody>
                                         <?php
-                                        $sql = "SELECT `name`,`coplevel`,`playerid` FROM `players` WHERE `coplevel` >= '1' ORDER BY `coplevel` DESC LIMIT 10";
+                                        $sql = "SELECT `name`,`coplevel`, $playerIdColumn as playerid FROM `players` WHERE `coplevel` >= '1' ORDER BY `coplevel` DESC LIMIT 10";
                                         $result_of_query = $db_link->query($sql);
                                         while ($row = mysqli_fetch_assoc($result_of_query)) {
                                             $playersID = $row["playerid"];
@@ -337,7 +337,7 @@ if ($db_link->connect_error) {
                                         </thead>
                                         <tbody>
                                         <?php
-                                        $sql = "SELECT `name`,`mediclevel`,`playerid` FROM `players` WHERE `mediclevel` >= '1' ORDER BY `mediclevel` DESC LIMIT 10";
+                                        $sql = "SELECT `name`,`mediclevel`, $playerIdColumn as playerid FROM `players` WHERE `mediclevel` >= '1' ORDER BY `mediclevel` DESC LIMIT 10";
                                         $result_of_query = $db_link->query($sql);
                                         while ($row = mysqli_fetch_assoc($result_of_query)) {
                                             $playersID = $row["playerid"];
@@ -400,7 +400,7 @@ if ($db_link->connect_error) {
                                         </thead>
                                         <tbody>
                                         <?php
-                                        $sql = "SELECT `name`,`adminlevel`,`playerid` FROM `players` WHERE `adminlevel` >= '1' ORDER BY `adminlevel` DESC LIMIT 10";
+                                        $sql = "SELECT `name`,`adminlevel`, $playerIdColumn as playerid FROM `players` WHERE `adminlevel` >= '1' ORDER BY `adminlevel` DESC LIMIT 10";
                                         $result_of_query = $db_link->query($sql);
                                         while ($row = mysqli_fetch_assoc($result_of_query)) {
                                             $playersID = $row["playerid"];

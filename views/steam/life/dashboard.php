@@ -28,7 +28,7 @@ function getPlayerSkin($input, $list)
     }
 }
 
-$sql = "SELECT * FROM `players` WHERE `playerid` = '" . $_SESSION['playerid'] . "'";
+$sql = "SELECT *, $playerIdColumn as playerid FROM `players` WHERE $playerIdColumn = '" . $_SESSION['playerid'] . "'";
 $result = $db_link->query($sql);
 if ($result->num_rows > 0) {
     $player = $result->fetch_object();
