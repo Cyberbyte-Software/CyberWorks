@@ -46,7 +46,7 @@ $profile = $db_connection->query($sql)->fetch_object();
             <div  style="padding-top:4%;" class="col-md-3 col-lg-3 " align="center">
                 <?php if(!isset($_SESSION['profile_link'])) {
                     if(isset($_SESSION['user_email']) && $settings['gravatar']) { ?>
-                        <a href="<?php echo $settings['url'] . 'profile' ?>"> <img alt="User Pic" src="<?php get_gravatar($_SESSION['user_email'],64,'retro')  ?>" class="img-circle img-responsive"></a>
+                        <a href="<?php echo $settings['url'] . 'profile' ?>"> <img alt="User Pic" src="<?php getGravatar($_SESSION['user_email'],64,'retro')  ?>" class="img-circle img-responsive"></a>
                     <?php } else {?>
                         <a href="<?php echo $settings['url'] . 'profile' ?>"> <img alt="User Pic" src="<?php echo $settings['url'] . 'assets/img/profile/' . $_SESSION['user_profile'] . '.jpg' ?>" class="img-circle img-responsive"></a>
                     <?php } ?>
@@ -111,16 +111,6 @@ $profile = $db_connection->query($sql)->fetch_object();
                     </form>
                     </tbody>
                 </table>
-                <span class="pull-right">
-                     <?php
-                     $sql = "SELECT `uid`,`playerid` FROM `players` WHERE `playerid` = '" . $profile->playerid . "' ";
-                     $result = $db_connection->query($sql);
-
-                     if ($result->num_rows > 0) {
-                         ?> <a class="btn btn-sm btn-primary" href="<?php echo $settings['url'] . 'editPlayer/' . $result->fetch_object()->uid ?> ">  My Player</a> <?php
-                     }
-                     ?>
-                </span>
             </div>
         </div>
     </div>

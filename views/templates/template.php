@@ -22,7 +22,7 @@
                 <?php if (!isset($_SESSION['profile_link'])) {
                     if (isset($_SESSION['user_email']) && $settings['gravatar']) {
                         echo '<a href="' . $settings['url'] . 'profile">';
-                        echo '<img src="' . get_gravatar($_SESSION['user_email'],64,'retro') . '" class="img-circle" width="60" height="60"></a></p>';
+                        echo '<img src="' . getGravatar($_SESSION['user_email'],64,'retro') . '" class="img-circle" width="60" height="60"></a></p>';
                     } else {
                         echo '<a href="' . $settings['url'] . 'profile">';
                         echo '<img src="' . $settings['url'] . 'assets/img/profile/' . $_SESSION['user_profile'] . '.jpg"';

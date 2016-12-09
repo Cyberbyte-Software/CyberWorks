@@ -5,7 +5,7 @@ $max = ' LIMIT ' . ($pageNum - 1) * $_SESSION['items'] . ',' . $_SESSION['items'
 
 if (isset($search)) {
     logAction($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['gangs'], 1);
-    $sql = "SELECT `playerid` FROM `players` WHERE `name` LIKE '%" . $search . "%' ";
+    $sql = "SELECT $playerIdColumn as playerid FROM `players` WHERE `name` LIKE '%" . $search . "%' ";
     $result_of_query = $db_link->query($sql);
     if ($result_of_query->num_rows > 0) {
         while ($row = mysqli_fetch_row($result_of_query)) {

@@ -4,13 +4,13 @@ $max = 'LIMIT ' . ($pageNum - 1) * $_SESSION['items'] . ',' . $_SESSION['items']
 
 if (isset($search)) {
     logAction($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['vehicles'], 1);
-    $sql = "SELECT `id` FROM `houses` INNER JOIN `players` ON houses.pid=players.playerid WHERE `pid` LIKE '" . $search . "' OR `pos` LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%';";
+    $sql = "SELECT `id` FROM `houses` INNER JOIN `players` ON houses.pid=players.$playerIdColumn WHERE `pid` LIKE '$search' OR `pos` LIKE '$search' OR `inventory` LIKE '%$search%' OR `name` LIKE '%$search%';";
     $result_of_query = $db_link->query($sql);
     $total_records = mysqli_num_rows($result_of_query);
     if ($pageNum > $total_records) {
         $pageNum = $total_records;
     }
-    $sql = "SELECT `id`,`pid`,`pos`,`name`,`owned` FROM `houses` INNER JOIN `players` ON houses.pid=players.playerid WHERE `pid` LIKE '" . $search . "' OR `pos` LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%' " . $max . " ;";
+    $sql = "SELECT `id`,`pid`,`pos`,`name`,`owned` FROM `houses` INNER JOIN `players` ON houses.pid=players.$playerIdColumn WHERE `pid` LIKE '$search ' OR `pos` LIKE '$search' OR `inventory` LIKE '%$search%' OR `name` LIKE '%$search%' $max;";
 } else {
     $sql = "SELECT `id` FROM `houses`;";
     $result_of_query = $db_link->query($sql);
@@ -18,7 +18,7 @@ if (isset($search)) {
     if ($pageNum > $total_records) {
         $pageNum = $total_records;
     }
-    $sql = "SELECT `id`,`pid`,`pos`,`name`,`owned` FROM `houses` INNER JOIN `players` ON houses.pid=players.playerid " . $max . " ;";
+    $sql = "SELECT `id`,`pid`,`pos`,`name`,`owned` FROM `houses` INNER JOIN `players` ON houses.pid=players.$playerIdColumn $max;";
 }
 
 $result_of_query = $db_link->query($sql);

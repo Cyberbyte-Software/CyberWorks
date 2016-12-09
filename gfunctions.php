@@ -35,7 +35,7 @@ function serverConnect($dbid = NULL)
     $settings = require('config/settings.php');
     $db_connection = masterConnect();
 
-    $sql = "SELECT `sql_host`,`sql_name`,`sql_pass`,`sql_user` FROM `db` WHERE `dbid` = '" . $dbid . "';";
+    $sql = "SELECT `sql_host`, `sql_name`, `sql_pass`, `sql_user` FROM `db` WHERE `dbid` = '$dbid';";
     $server = $db_connection->query($sql);
 
     if ($server->num_rows === 1) {
@@ -100,7 +100,8 @@ function select($val, $row)
 
 function nameID($pId, $db_link)
 {
-    $sql = "SELECT `name` FROM `players` WHERE `playerid` LIKE '" . $pId . "' ";
+    global $playerIdColumn;
+    $sql = "SELECT `name` FROM `players` WHERE `$playerIdColumn` LIKE '$pId';";
     $result_of_query = $db_link->query($sql);
 
     if ($result_of_query->num_rows > 0) {
@@ -114,7 +115,8 @@ function nameID($pId, $db_link)
 
 function uID($pId, $db_link)
 {
-    $sql = "SELECT `uid` FROM `players` WHERE `playerid` = '" . $pId . "' ";
+    global $playerIdColumn;
+    $sql = "SELECT `uid` FROM `players` WHERE `$playerIdColumn` = '$pId';";
     $result_of_query = $db_link->query($sql);
     if ($result_of_query->num_rows > 0) {
         while ($row = mysqli_fetch_assoc($result_of_query)) {
@@ -127,7 +129,7 @@ function uID($pId, $db_link)
 
 function uIDname($uID, $db_link)
 {
-    $sql = "SELECT `name` FROM `players` WHERE `uid` = '" . $uID . "' ";
+    $sql = "SELECT `name` FROM `players` WHERE `uid` = '$uID';";
     $result_of_query = $db_link->query($sql);
     if ($result_of_query->num_rows > 0) {
         while ($row = mysqli_fetch_assoc($result_of_query)) {
@@ -140,7 +142,8 @@ function uIDname($uID, $db_link)
 
 function IDname($name, $db_link)
 {
-    $sql = "SELECT `name`,`playerid` FROM `players` WHERE `name` LIKE '%" . $name . "%' ";
+    global $playerIdColumn;
+    $sql = "SELECT `name`, $playerIdColumn as playerid FROM `players` WHERE `name` LIKE '%$name%';";
     $result_of_query = $db_link->query($sql);
 
     if ($result_of_query->num_rows > 0) {
@@ -161,7 +164,7 @@ function logAction($user, $action, $level)
 
     if ($settings['logging']) {
         $db_connection = masterConnect();
-        $sql = "INSERT INTO `logs` (`user`, `action`, `level`) VALUES ('" . $user . "', '" . $action . "', '" . $level . "');";
+        $sql = "INSERT INTO `logs` (`user`, `action`, `level`) VALUES ('$user', '$action', '$level');";
         $db_connection->query($sql);
     }
 }
@@ -285,35 +288,30 @@ function tokenGen($length)
 
 function stripArray($input, $type)
 {
-    $array = array();
-
     switch ($type) {
         case 0:
             $array = explode("],[", $input);
-            $array = str_replace('"[[', "", $array);
-            $array = str_replace(']]"', "", $array);
-            $array = str_replace('`', "", $array);
-            break;
+            $array = str_replace('"[[', '', $array);
+            $array = str_replace(']]"', '', $array);
+            return str_replace('`', '', $array);
         case 1:
             $array = explode(",", $input);
-            $array = str_replace('"[', "", $array);
-            $array = str_replace(']"', "", $array);
-            $array = str_replace('`', "", $array);
-            break;
+            $array = str_replace('"[', '', $array);
+            $array = str_replace(']"', '', $array);
+            return str_replace('`', '', $array);
         case 2:
             $array = explode(",", $input);
-            $array = str_replace('"[', "", $array);
-            $array = str_replace(']"', "", $array);
-            $array = str_replace('`', "", $array);
-            break;
+            $array = str_replace('"[', '', $array);
+            $array = str_replace(']"', '', $array);
+            return str_replace('`', '', $array);
         case 3:
-            $input = str_replace('[`', "", $input);
-            $input = str_replace('`]', "", $input);
-            $array = explode("`,`", $input);
+            $input = str_replace('[`', '', $input);
+            $input = str_replace('`]', '', $input);
+            return explode("`,`", $input);
             break;
+        default:
+            return [];
     }
-
-    return $array;
 }
 
 function clean($input, $type)
@@ -324,21 +322,19 @@ function clean($input, $type)
         $input = filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_NUMBER_INT);
         if ($input < 0) {
             return 0;
-        } else {
-            return $input;
         }
+        return $input;
     } elseif ($type == 'url') {
         return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_URL);
     } elseif ($type == 'email') {
         return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_EMAIL);
     } elseif ($type == 'boolean') {
         return ($input === 'true');
-    } elseif ($type == 'intbool') {
-        if ($input == 1 || $input == 0) return $input;
-    } else {
-        return 0;
+    } elseif ($type == 'intbool' && ($input == 1 || $input == 0)) {
+            return $input;
     }
-    }
+    return '';
+}
 
 /**
  * @param string $this
@@ -356,35 +352,11 @@ function before($this, $inthat)
 function after($this, $inthat)
 {
     if (!is_bool(strpos($inthat, $this))) {
-            return substr($inthat, strpos($inthat, $this) + strlen($this));
+        return substr($inthat, strpos($inthat, $this) + strlen($this));
     }
 }
 
-function communityBanned($GUID)
-{
-    $settings = require('config/settings.php');
-    $data = json_decode(file_get_contents("http://bans.itsyuka.tk/api/bans/player/id/" . $GUID . "/format/json/key/" . $settings['communityBansAPI']), true);
-
-    if ($data['level'] >= 1) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-/**
- * Get either a Gravatar URL or complete image tag for a specified email address.
- *
- * @param string $email The email address
- * @param string $s Size in pixels, defaults to 80px [ 1 - 2048 ]
- * @param string $d Default imageset to use [ 404 | mm | identicon | monsterid | wavatar ]
- * @param string $r Maximum rating (inclusive) [ g | pg | r | x ]
- * @param boole $img True to return a complete IMG tag False for just the URL
- * @param array $atts Optional, additional key/value attributes to include in the IMG tag
- * @return String containing either just a URL or a complete image tag
- * @source http://gravatar.com/site/implement/images/php/
- */
-function get_gravatar( $email, $s = 80, $d = 'mm', $r = 'x', $img = false, $atts = array() ) {
+function getGravatar($email, $s = 80, $d = 'mm', $r = 'x', $img = false, $atts = array() ) {
     $url = 'https://www.gravatar.com/avatar/';
     $url .= md5( strtolower( trim( $email ) ) );
     $url .= "?s=$s&d=$d&r=$r";

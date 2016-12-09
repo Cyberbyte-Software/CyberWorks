@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  php:
+    image: php:5-apache
+    ports:
+      - 80:80
+    volumes:
+      - .:/var/www/html
+
+  database:
+    image: mariadb
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: cyberworks
+      MYSQL_USER: cyberworks
+      MYSQL_PASSWORD: cyberworks
+      MYSQL_ROOT_PASSWORD: cyberworks
+
+volumes:
+  mysql:
+    driver: "local"
