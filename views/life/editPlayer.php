@@ -53,7 +53,7 @@ if (isset($_POST["editType"])) {
                         if ($cash != $player->cash) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cash'] . " " . $lang['from'] . " (" . $player->cash . ") " . $lang['to'] . " (" . $cash . ")", 2);
                         if ($bankacc != $player->bankacc) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " (" . $player->bankacc . ") " . $lang['to'] . " (" . $bankacc . ")", 2);
 
-                        $update = "UPDATE `players` SET coplevel = '$coplevel', mediclevel = '$mediclevel', " . $settings['donorFormat'] . "= 'donorlevel', adminlevel = '$adminlevel', cash = '$cash', bankacc = '$bankacc' WHERE `uid` = '$uID';";
+                        $update = "UPDATE `players` SET coplevel = '$coplevel', mediclevel = '$mediclevel', " . $settings['donorFormat'] . "= '$donorlevel', adminlevel = '$adminlevel', cash = '$cash', bankacc = '$bankacc' WHERE `uid` = '$uID';";
                         $result_of_query = $db_link->query($update);
                         message($lang['edited'] . ' ' . nameID($player->playerid, $db_link));
                     } else {

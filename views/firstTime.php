@@ -97,7 +97,7 @@ RewriteRule . /'.$base . 'index.php [L]';
     $settings['2factor'] = false;
     $settings['gravatar'] = false;
     $settings['force2factor'] = 'none';
-    $settings['playerColumn'] = 'playerid';
+    $settings['playerColumn'] = 'pid';
 
     $settings['steamAPI'] = '';
     $settings['vacTest'] = false;
