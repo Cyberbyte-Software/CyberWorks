@@ -2,7 +2,7 @@
 
 function skinImage($uniform)
 {
-    $playerSkin = $this->getPlayerSkin(stripArray($uniform, 3));
+    $playerSkin = getPlayerSkin(stripArray($uniform, 3));
     return "assets/img/uniform/$playerSkin.jpg";
 }
 

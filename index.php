@@ -1,6 +1,6 @@
 <?php
 error_reporting(0);
-error_reporting(E_ALL); // Turn on for error messages
+//error_reporting(E_ALL); // Turn on for error messages
 
 session_name('CyberWorks');
 session_set_cookie_params(1209600);
@@ -17,7 +17,12 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
 
 if (file_exists('config/settings.php')) {
     $settings = require_once 'config/settings.php';
-    $playerIdColumn = $settings['playerColumn'];
+
+    if (isset($settings['playerColumn'])) {
+        $playerIdColumn = $settings['playerColumn'];
+    } else {
+        $playerIdColumn = 'playerid';
+    }
 
     require_once("classes/login.php");
     $login = new Login();
@@ -108,7 +113,7 @@ if (file_exists('config/settings.php')) {
 
             if (isset($_GET['items'])) {
                 if (in_array($_GET['items'],$settings['item'])) {
-                    $sql = "UPDATE `users` SET `items` = " . $_GET['items'] . " WHERE `user_id` = '" . $_SESSION['user_id'] . "' ";
+                    $sql = "UPDATE `users` SET `items` = " . $_GET['items'] . " WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
                     $db_connection->query($sql);
                     $_SESSION['items'] = intval($_GET['items']);
                 }

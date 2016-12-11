@@ -2,9 +2,9 @@ version: '2'
 
 services:
   php:
-    image: php:5-apache
+    build: .
     ports:
-      - 80:80
+      - 80
     volumes:
       - .:/var/www/html
 
