@@ -336,23 +336,15 @@ function clean($input, $type)
     return '';
 }
 
-/**
- * @param string $this
- * @param string|null $inthat
- */
-function before($this, $inthat)
+function before($needle, $haystack)
 {
-    return substr($inthat, 0, strpos($inthat, $this));
+    return substr($haystack, 0, strpos($haystack, $needle));
 }
 
-
-/**
- * @param string $this
- */
-function after($this, $inthat)
+function after($needle, $haystack)
 {
-    if (!is_bool(strpos($inthat, $this))) {
-        return substr($inthat, strpos($inthat, $this) + strlen($this));
+    if (!is_bool(strpos($haystack, $needle))) {
+        return substr($haystack, strpos($haystack, $needle) + strlen($needle));
     }
 }
 
