@@ -9,14 +9,14 @@
             </div>
             <section class="task-panel tasks-widget">
                 <div class="panel-heading">
-                    <div class="pull-left"><h5><i class="fa fa-tasks"></i> <?php echo $lang['database'] . 's'  ?></h5></div>
+                    <div class="pull-left"><h5><i class="fa fa-tasks"></i> <?php echo $lang['database'].'s'  ?></h5></div>
                     <br>
                 </div>
                 <div class="panel-body">
                     <div class="task-content">
                         <ul id="sortable" class="task-list ui-sortable">
                             <?php
-                            $sql = "SELECT `sid`,`dbid`,`type`,`name` FROM `servers`;";
+                            $sql = 'SELECT `sid`,`dbid`,`type`,`name` FROM `servers`;';
                             $result_of_query = $db_connection->query($sql);
 
                             if ($result_of_query->num_rows > 1) {
@@ -43,6 +43,7 @@
                                             </div>
                                         </li>
                                     <?php
+
                                     } elseif ($row['type'] == 'waste') {
                                         ?>
                                         <li class="list-danger">
@@ -64,6 +65,7 @@
                                                 </div>
                                         </li>
                                     <?php
+
                                     }
                                 }
                                 echo '</select>';
@@ -77,11 +79,13 @@
     </div>
 </div>
 <script async src="<?php echo $settings['url'] ?>assets/js/main.min.js"></script>
-<?php if (isset($_SESSION['forum_lang'])) echo '<script async type="text/javascript" src="' . $settings["url"] . 'assets/js/language/' . $_SESSION['forum_lang'] . '.js"></script>'; ?>
+<?php if (isset($_SESSION['forum_lang'])) {
+                                echo '<script async type="text/javascript" src="'.$settings['url'].'assets/js/language/'.$_SESSION['forum_lang'].'.js"></script>';
+                            } ?>
 <script>
     function searchpage() {
         sn = document.getElementById('searchText').value;
-        redirecturl = '<?php echo $settings["url"] . $currentPage?>/' + sn;
+        redirecturl = '<?php echo $settings['url'].$currentPage?>/' + sn;
         document.location.href = redirecturl;
     }
 </script>
@@ -96,8 +100,8 @@
     });
 </script>
 <?php
-if ($page == 'views/life/dashboard.php' && $settings['lifeVersion'] == 4) {
-    ?>
+if ($page == 'views/life/dashboard.php' && $settings['lifeVersion'] == 4 || $settings['lifeVersion'] == 5) {
+                                ?>
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -118,19 +122,18 @@ if ($page == 'views/life/dashboard.php' && $settings['lifeVersion'] == 4) {
             data.addColumn('number', 'New Players');
             data.addRows([
                 <?php
-                    $sql = "SELECT DATE(`players`.`insert_time`) AS `date`, COUNT(`players`.`uid`) AS `count` FROM `players` GROUP BY `date` ORDER BY `date`";
-                    $result_of_query = $db_link->query($sql);
-                    $total_records = mysqli_num_rows($result_of_query);
-                    $i = 1;
-                    while ($row = mysqli_fetch_assoc($result_of_query)) {
-                        if ($i < $total_records) {
-                            echo "['" . $row["date"] . "', " . $row["count"] . "],";
-                        } else {
-                            echo "['" . $row["date"] . "', " . $row["count"] . "]";
-                        }
-                        $i++;
-                    };
-                ?>
+                    $sql = 'SELECT DATE(`players`.`insert_time`) AS `date`, COUNT(`players`.`uid`) AS `count` FROM `players` GROUP BY `date` ORDER BY `date`';
+                                $result_of_query = $db_link->query($sql);
+                                $total_records = mysqli_num_rows($result_of_query);
+                                $i = 1;
+                                while ($row = mysqli_fetch_assoc($result_of_query)) {
+                                    if ($i < $total_records) {
+                                        echo "['".$row['date']."', ".$row['count'].'],';
+                                    } else {
+                                        echo "['".$row['date']."', ".$row['count'].']';
+                                    }
+                                    ++$i;
+                                } ?>
             ]);
 
             // Set chart options
@@ -146,12 +149,12 @@ if ($page == 'views/life/dashboard.php' && $settings['lifeVersion'] == 4) {
         }
     </script>
     <?php
-}
+
+                            }
 ?>
 <?php
 foreach ($settings['plugins'] as &$plugin) {
-    if (file_exists("plugins/" . $plugin . "/assets/scripts.js")) {
-        echo '<script type="text/javascript" src="' . $settings['url'] . 'plugins/' . $plugin . '/assets/scripts.js"></script>';
+    if (file_exists('plugins/'.$plugin.'/assets/scripts.js')) {
+        echo '<script type="text/javascript" src="'.$settings['url'].'plugins/'.$plugin.'/assets/scripts.js"></script>';
     }
 }
-
