@@ -393,7 +393,7 @@ RewriteRule . /'.$base.'index.php [L]';
                                 <option value="3">3.X.X.X</option>
                                 <option value="4">4.0->4.4</option>
                                 <option value="4.2">4.4r2->4.4r4</option>
-                                <option value="5" >5.0</option>
+                                <option value="5.0" >5.0</option>
                             </select>
 
                             <label for="server_type">Server type: </label>
