@@ -88,7 +88,7 @@ RewriteRule . /'.$base.'index.php [L]';
         $settings['language'] = 'en';
         $settings['allowLang'] = true;
         $settings['lifeVersion'] = (int) $_POST['lifeVersion'];
-        $settings['lifeVersionDisplay'] = '4.2';
+        $settings['lifeVersionDisplay'] = $_POST['lifeVersion'];
         $settings['donorFormat'] = 'donorlevel';
         $settings['wanted'] = false;
         $settings['version'] = '0.5';
