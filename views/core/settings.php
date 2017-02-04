@@ -10,7 +10,7 @@ if (isset($_POST['db_host'])) {
             $settings['community'] = $_POST['community'];
 
             $settings['refesh'] = $_POST['refresh'];
-            if ($_POST['lifeVersion'] == 4.2) {
+            if ($_POST['lifeVersion'] >= 4.2) {
                 $settings['donorFormat'] = 'donorlevel';
             } else {
                 $settings['donorFormat'] = 'donatorlvl';
