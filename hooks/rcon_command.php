@@ -8,9 +8,8 @@ session_start();
 if (isset($_POST['sid']) && isset($_POST['command']) && isset($_SESSION['user_level'])) {
     if ($_SESSION['user_level'] > 3) {
         $db_connection = masterConnect();
-        $sid = clean((isset($_POST['sid'])) ? $_POST['sid'] : 0, "int");
-        $rid = clean((isset($_POST['id'])) ? $_POST['id'] : 0, "int");
-        $cmd = clean((isset($_POST['command'])) ? $_POST['command'] : 0, "string");
+        $sid = clean($_POST['sid'], "int");
+        $cmd = clean($_POST['command'], "string");
 
         $sql = "SELECT * FROM `servers` WHERE `use_sq` = 1 AND `sid` = " . $sid . ";";
         $result_of_query = $db_connection->query($sql);

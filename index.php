@@ -34,6 +34,8 @@ if (file_exists('config/settings.php')) {
         include_once('config/english.php');        
     } else if ($settings['language'] == 'de') {
         include_once('config/german.php');        
+    } else if ($settings['language'] == 'fr') {
+        include_once('config/french.php');
     }
 
     foreach ($settings['plugins'] as &$plugin) {

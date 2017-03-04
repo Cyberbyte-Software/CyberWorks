@@ -3,7 +3,7 @@ require "../classes/rcon.php";
 require "../gfunctions.php";
 
 if (isset($_GET['sid'])) {
-    $sid = clean((isset($_GET['sid'])) ? $_GET['sid'] : 0, "int");
+    $sid = clean($_GET['sid'], "int");
     $db_connection = masterConnect();
     $sql = "SELECT `sq_ip`,`sq_port`,`rcon_pass` FROM `servers` WHERE `use_sq` = 1 AND `sid` = " . $sid . ";";
     $result_of_query = $db_connection->query($sql);
