@@ -123,8 +123,10 @@ RewriteRule . /'.$base.'index.php [L]';
         $settings['installedLanguage'] = array();
         $langEn = array('English', 'en');
         $langDe = array('German', 'de');
+        $langFr = array('Français', 'fr');
         array_push($settings['installedLanguage'], $langEn);
         array_push($settings['installedLanguage'], $langDe);
+        array_push($settings['installedLanguage'], $langFr);
 
         $settings['names'] = array('', 'Dave', 'Sam', 'Joe', 'Kerry', 'Connie', 'Jess');
         $settings['ranks'] = array('Banned', 'Player', 'Member', 'Moderator', 'Server Admin', 'Super Admin');

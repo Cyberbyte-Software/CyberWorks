@@ -138,7 +138,7 @@ if (isset($_POST['db_host'])) {
     </select></div>
     <?php echo "<div class='form-group'><label for='refresh'>".$lang['refresh'].": </label><input class='form-control' id='refresh' type='number' name='refresh' value='".$settings['refresh']."'></div>"; ?>
 </div>
-<div class="col-md-6">
+<form class="col-md-6">
     <h3>Altis Life</h3>
     <?php
     echo "<div class='form-group'><label for='max_cop'>".$lang['max'].' '.$lang['cop'].' '.$lang['level'].": </label><input class='form-control' id='max_cop' type='number' name='max_cop' value='".$settings['maxLevels']['cop']."'></div>";
