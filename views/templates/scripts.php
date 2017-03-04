@@ -91,10 +91,8 @@
 </script>
 <script type="text/javascript">
     $('#myTab a').click(function (e) {
-        console.log('clicked ' + this);
         if ($(this).parent('li').hasClass('active')) {
             var target_pane = $(this).attr('href');
-            console.log('pane: ' + target_pane);
             $(target_pane).toggle(!$(target_pane).is(":visible"));
         }
     });

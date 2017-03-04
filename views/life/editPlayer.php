@@ -160,7 +160,7 @@ if ($result->num_rows > 0) {
     $alias = str_replace('`]"', '', $alias);
 
     echo '<center><img alt="'.$alias.'" src="'.$settings['url'].skinImage($player->civ_gear).'">';
-    echo "<h5 style='word-wrap: break-word; '> <a href='http://playerindex.de/check.aspx?id=".$pGID."' class='btn btn-xs btn-warning' target='_blank' role='button'>Check Playerindex Ban </a></h5>";
+    echo "<h5 style='word-wrap: break-word; '> <a href='http://webinterface.playerindex.de/default.aspx?id=".$pGID."' class='btn btn-xs btn-warning' target='_blank' role='button'>Check Playerindex Ban </a></h5>";
     if ($_SESSION['permissions']['view']['steam'] && $settings['vacTest']) {
         echo '<div id="vacBan"></div>';
     }
@@ -229,7 +229,7 @@ if ($result->num_rows > 0) {
       <div class="col-md-2 col-sm-2 box0">
         <div class="box1">
           <span class="fa fa-3x fa-usd"></span>
-          <h3> <?php echo $lang['donator'].': '.$player->$settings['donorFormat']; ?> </h3>
+          <h3> <?php $playerDonorLevel = $settings['donorFormat'];echo $lang['donator'].': '.$player->$playerDonorLevel; ?> </h3>
         </div>
       </div>
       <div class="col-md-2 col-sm-2 box0">
