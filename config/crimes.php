@@ -31,6 +31,35 @@ $crime['en']['5'] = 'Driving Stolen Vehicle';
 $crime['en']['6'] = 'Hit and Run';
 $crime['en']['7'] = 'Attempted Murder';
 
+$crime['fr']['187V'] = 'Homicide involontaire';
+$crime['fr']['187'] = 'Homicide';
+$crime['fr']['901'] = 'Evasion de prison';
+$crime['fr']['215'] = 'Tentative de vol de voiture';
+$crime['fr']['213'] = 'Utilisation d\'explosifs illegaux';
+$crime['fr']['211'] = 'Vol';
+$crime['fr']['207'] = 'Kidnapping';
+$crime['fr']['207A'] = 'Tentative de kidnapping';
+$crime['fr']['390'] = 'Intoxication publique';
+$crime['fr']['487'] = 'Vol majeur';
+$crime['fr']['488'] = 'Vol mineur';
+$crime['fr']['480'] = 'Fuite';
+$crime['fr']['481'] = 'Possession de drogue';
+$crime['fr']['482'] = 'Intention de distribution';
+$crime['fr']['483'] = 'Traffic de drogue';
+$crime['fr']['459'] = 'Cambriolage';
+$crime['fr']['666'] = 'Evasion fiscale';
+$crime['fr']['667'] = 'Terrorisme';
+$crime['fr']['668'] = 'Braconnage';
+$crime['fr']['919'] = 'Vol d\'organes';
+$crime['fr']['919A'] = 'Tentative de vol d\'organes';
+$crime['fr']['1'] = 'Conduite sans feux';
+$crime['fr']['2'] = 'Conduite sans permis';
+$crime['fr']['3'] = 'Excès de vitesse';
+$crime['fr']['4'] = 'Conduite dangereuse';
+$crime['fr']['5'] = 'Conduite d\'un véhicule volé';
+$crime['fr']['6'] = 'Fuite';
+$crime['fr']['7'] = 'Tentative de meurtre';
+
 if (isset($crime[$_SESSION['lang']][$crimeName])) {
     return $crime[$_SESSION['lang']][$crimeName];
 } elseif (isset($crime['en'][$crimeName])) {

@@ -160,7 +160,7 @@ if ($result->num_rows > 0) {
                 $alias = str_replace('`]"', '', $alias);
 
                 echo '<center><img alt="'.$alias.'" src="'.$settings['url'].skinImage($player->civ_gear).'">';
-                echo "<h5 style='word-wrap: break-word; '> <a href='http://playerindex.de/check.aspx?id=".$pGID."' class='btn btn-xs btn-warning' target='_blank' role='button'>Check Playerindex Ban </a></h5>";
+                echo "<h5 style='word-wrap: break-word; '> <a href='http://webinterface.playerindex.de/default.aspx?id=".$pGID."' class='btn btn-xs btn-warning' target='_blank' role='button'>Check Playerindex Ban </a></h5>";
                 if ($_SESSION['permissions']['view']['steam'] && $settings['vacTest']) {
                     echo '<div id="vacBan"></div>';
                 }

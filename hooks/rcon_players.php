@@ -11,21 +11,10 @@ if (isset($_GET['sid'])) {
         $server = $result_of_query->fetch_object();
         try
         {
-            $answer = rcon(decrypt($server->sq_ip), decrypt($server->sq_port), decrypt($server->rcon_pass), "Players");
-            $k = strrpos($answer, "---");
-            $l = strrpos($answer, "(");
-            $out = substr($answer, $k + 4, $l - $k - 5);
-            $array = preg_split('/$\R?^/m', $out);
-            $playersr = array();
+            $rcon = new \Nizarii\ARC(decrypt($server->sq_ip), decrypt($server->rcon_pass), (int)decrypt($server->sq_port));
+            $answer = $rcon->getPlayersArray();
 
-            if ($array[0] == '(0 players in total')  $array = array();
-
-            for ($i = 0; $i < count($array); $i++)
-            {
-                $playersr[$i] = array_values(array_diff(explode(' ', $array[$i]), array(null)));
-            }
-
-            echo json_encode($playersr);
+            echo json_encode($answer);
 
         }
         catch (Exception $e)

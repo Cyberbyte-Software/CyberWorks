@@ -98,7 +98,7 @@ if (isset($_POST['server_name']) && isset($_POST['server_type']) && isset($_POST
                     echo '<div class="form-group"><label for="server_dbid">Database: </label>';
                     echo '<select id="server_dbid" name="server_dbid" class="form-control login_input">';
                     while ($row = mysqli_fetch_assoc($result_of_query)) {
-                        echo '<option value="' . $row['dbid'] . '">' . decrypt($row['sql_name'], $settings['key']) . '</option>';
+                        echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
                     }
                     echo '</select></div>';
                 } else {

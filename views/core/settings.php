@@ -218,7 +218,7 @@ if (isset($_POST['db_host'])) {
 
     <br><input class='btn btn-primary' type='submit'  name='edit' value='<?php echo $lang['subChange'] ?>'>
 </div>
-</form>
+</div>
 
 <script>
 $(document).ready(function() {

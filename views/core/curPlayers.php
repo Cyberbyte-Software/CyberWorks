@@ -31,7 +31,6 @@ function getPlayers() {
         url: "<?php echo $settings['url'] . 'hooks/rcon_players.php?sid=' . $sid ?>",
         dataType: 'json',
         complete: function(data) {
-            console.log(data);
             var txt = '';
             if (data['responseText'] !== '') {
             if (data['responseText'] !== '[]') {
@@ -42,7 +41,7 @@ function getPlayers() {
                 }
                 txt += '</td><td>'+item['1'].replace(":2304","")+'</td><td>'+item['2']+'</td>';
                 txt += '<td>'+item['3']+'</td><td><button class="btn btn-danger btn-xs fa fa-exclamation-triangle" onclick="kick(this.id)" id="';
-                txt += item['0']+'"></button><a style="margin-left: 3px;" href="<?php echo $settings['url'] ?>players/'+item['4']+'" class="btn btn-info btn-xs fa fa-search"></button></td></tr>';
+                txt += item['0']+'"></button><a style="margin-left: 3px;" href="<?php echo $settings['url'] ?>players/'+item['4'].replace("(Lobby)", "")+'" class="btn btn-info btn-xs fa fa-search"></button></td></tr>';
             });
             } else txt = "<center><h2><?php echo $lang['noPlayers'] ?></h2></center>";
             } else txt = "<center><h2><?php echo $lang['cannotConnect'] ?></h2></center>";
